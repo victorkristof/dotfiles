@@ -33,6 +33,7 @@ set mouse=a                 " Enable the mouse
 set cursorline              " Show a visual line under the cursor's current line 
 set splitbelow              " Open split below
 set splitright              " Open split right
+set foldcolumn=2            " Display column on the left that shows folds
 " Informative status line
 set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
 
