@@ -1,5 +1,5 @@
 " Victor Kristof
-
+                                                                               
 " COLORS {{{
 
 " colorscheme solarized        " Eyes-friendly colorscheme
@@ -12,15 +12,14 @@ syntax on                    " Enable syntax highlighting
 set tabstop=4               " Number of visual spaces per tab
 set softtabstop=4           " Number of spaces in tab when editing
 set expandtab               " Tab are spaces
-set autoindent              " Indent when moving to the next line while writing code
-set shiftwidth=4            " When using the >> or << commands, shift lines by 4 spaces
-set textwidth=120           " Break lines when line length increases
+set autoindent              " Indent when moving to the next line while writing
+set shiftwidth=4            " Indent lines by 4 spaces
 " Make backspaces more powerfull
 set backspace=indent,eol,start
 " Add blank line above cursor
-nnoremap J o<ESC>
+nnoremap <CR> o<ESC>
 " Add blank line below cursor
-nnoremap <C-j> O<ESC>
+nnoremap J O<ESC>
 
 " }}}
 " UI CONFIG {{{
@@ -35,12 +34,31 @@ set lazyredraw              " Redraw only when needed (faster macros)
 set ttyfast                 " Faster redraw
 set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
-set cursorline              " Show a visual line under the cursor's current line 
+set cursorline              " Show a visual line under the cursor current line 
 set splitbelow              " Open split below
 set splitright              " Open split right
 set foldcolumn=2            " Display column on the left that shows folds
+set laststatus=2            " Always display statusline
+set wrap linebreak nolist   " Softwrap text longer than window width
+" set textwidth=120           " Break lines when line length increases
+" Display a vertical line at width 80 and 120
+set colorcolumn=80,120
+" Display a vertical line at width 80 and color background after width 120
+" let &colorcolumn="80,".join(range(120,999),",")
+" Highlight text over 80 characters
+highlight OverLengthSoft ctermfg=166 guibg=#592929
+match OverLengthSoft /\%80v.\+/
+" Highlight text over 120 characters
+highlight OverLengthHard ctermfg=124 guibg=#592929
+2match OverLengthHard /\%120v.\+/
+" Set color of column on the right
+highlight ColorColumn ctermbg=231 guibg=#2c2d27
 " Informative status line
-set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+" Increase size of buffer window
+nnoremap + <C-w>+
+" Decrease size of buffer window
+nnoremap _ <C-w>-
 
 " }}}
 " SEARCHING {{{
@@ -49,7 +67,7 @@ set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
 " Turn off search highlight
-nnoremap <silent> <Leader><Space> :nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " }}}
 " FOLDING {{{
 
@@ -58,13 +76,13 @@ set foldlevelstart=10       " Open most folds by default
 set foldnestmax=10          " Maximum nested folds
 set foldmethod=indent       " Fold based on indent
 set modelines=1             " Tells vim to check the last line for a modeline
-set foldignore=             " Set foldignore to nothing to fold Python methods starting with a comment (#)
+set foldignore=             " Set foldignore to nothing to fold Python methods starting with a comment (#) and a longer text and it get too long.
 " Space toggles folds
 nnoremap <Space> za 
 " Space creates folds in visual mode
 vnoremap <Space> zf         
 " Toggles all folds in file
-nnoremap - :call ToggleAllFolds()<CR>
+nnoremap  - :call ToggleAllFolds()<CR>:echo<CR>
 
 " }}}
 " MOVEMENT {{{
@@ -78,15 +96,16 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-" Go to beginning of line
-nnoremap 1 0
-" Go to end of line
-nnoremap 0 $
 " Move vertically by visual line
 nnoremap j gj
 nnoremap k gk
 " Highlight last inserted text
 nnoremap gV `[v`]
+" Facilitate navigation between buffers
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
 
 " }}}
 " LEADER SHORTCUTS {{{
