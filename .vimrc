@@ -17,6 +17,10 @@ set shiftwidth=4            " When using the >> or << commands, shift lines by 4
 set textwidth=120           " Break lines when line length increases
 " Make backspaces more powerfull
 set backspace=indent,eol,start
+" Add blank line above cursor
+nnoremap J o<ESC>
+" Add blank line below cursor
+nnoremap <C-j> O<ESC>
 
 " }}}
 " UI CONFIG {{{
@@ -28,6 +32,7 @@ set cursorline              " Highlight current line
 filetype indent on          " Load filetype-specific indent files
 set wildmenu                " Visual autocomplete for command menu
 set lazyredraw              " Redraw only when needed (faster macros)
+set ttyfast                 " Faster redraw
 set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
 set cursorline              " Show a visual line under the cursor's current line 
@@ -58,6 +63,8 @@ set foldignore=             " Set foldignore to nothing to fold Python methods s
 nnoremap <Space> za 
 " Space creates folds in visual mode
 vnoremap <Space> zf         
+" Toggles all folds in file
+nnoremap - :call ToggleAllFolds()<CR>
 
 " }}}
 " MOVEMENT {{{
@@ -71,7 +78,10 @@ inoremap <Up> <NOP>
 inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
-
+" Go to beginning of line
+nnoremap 1 0
+" Go to end of line
+nnoremap 0 $
 " Move vertically by visual line
 nnoremap j gj
 nnoremap k gk
@@ -105,9 +115,6 @@ vnoremap . :norm.<CR>
 set nocompatible            " Ditch vi
 " jk is <Esc>
 inoremap jk <Esc> 
-" Allows to enter new line without entering insert mode
-nnoremap <Enter> o<ESC>
-nnoremap <S-Enter> O<ESC>
 
 " }}}
 " CTRLP SETTINGS {{{
@@ -131,7 +138,9 @@ nnoremap <S-Enter> O<ESC>
 augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
-    " Remove the background of the first column (useful for certain colorscheme)
+    " Remove the background of the fold column
+    autocmd VimEnter * highlight clear FoldColumn
+    " Remove the background of the sign column
     autocmd VimEnter * highlight clear SignColumn
     " Remove all useless white spaces
     autocmd BufWritePre *.py,*.md,*.txt :call <SID>StripTrailingWhitespaces()
@@ -158,6 +167,15 @@ function! <SID>StripTrailingWhitespaces()
     %s/\s\+$//e
     let @/=_s
     call cursor(l, c)
+endfunction
+
+" Toggles all folds in file
+function! ToggleAllFolds()
+    if(&foldlevel>0)
+        set foldlevel=0
+    else
+        set foldlevel=99
+    endif
 endfunction
 
 " }}}
