@@ -1,3 +1,67 @@
+" Victor Kristof
+
+" Colors {{{
+
+" colorscheme solarized        " Eyes-friendly colorscheme
+" let python_highlight_all=1   " Enable all Python syntax highlighting features
+syntax on                    " Enable syntax highlighting
+
+
+" }}}
+" Spaces and Tabs {{{
+
+set tabstop=4               " Number of visual spaces per tab
+set softtabstop=4           " Number of spaces in tab when editing
+set expandtab               " Tab are spaces
+set autoindent              " Indent when moving to the next line while writing code
+set shiftwidth=4            " When using the >> or << commands, shift lines by 4 spaces
+set textwidth=120           " Break lines when line length increases
+" Make backspaces more powerfull
+set backspace=indent,eol,start
+
+" }}}
+" UI Config {{{
+
+set number                  " Show line numbers
+set relativenumber          " Enable relative numbers
+set showcmd                 " Show command in bottom bar
+set cursorline              " Highlight current line
+filetype indent on          " Load filetype-specific indent files
+set wildmenu                " Visual autocomplete for command menu
+set lazyredraw              " Redraw only when needed (faster macros)
+set showmatch               " Highlight matching parenthesis
+set mouse=a                 " Enable the mouse
+set cursorline              " Show a visual line under the cursor's current line 
+set splitbelow              " Open split below
+set splitright              " Open split right
+" Informative status line
+set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+
+" }}}
+" Searching {{{
+
+set incsearch               " Search as you type
+set hlsearch                " Highlight matches
+set ignorecase              " Ignore case by default
+" Turn off search highlight
+nnoremap <silent> <Leader><Space> :nohlsearch<CR>
+" }}}
+" Folding {{{
+
+set foldenable              " Enable folding
+set foldlevelstart=10       " Open most folds by default
+set foldnestmax=10          " Maximum nested folds
+set foldmethod=indent       " Fold based on indent
+set modelines=1             " Tells vim to check the last line for a modeline
+set foldignore=             " Set foldignore to nothing to fold Python methods starting with a comment (#)
+" Space toggles folds
+nnoremap <Space> za 
+" Space creates folds in visual mode
+vnoremap <Space> zf         
+
+" }}}
+" Movement {{{
+
 " Disable arrow keys in normal, visual and insert modes
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -8,64 +72,95 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
-" Ditch vi
-set nocompatible
+" Move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+" Highlight last inserted text
+nnoremap gV `[v`]
+
+" }}}
+" Leader Shortcuts {{{
+
+let mapleader=","           " Leader is comma
+" Toggle Gundo
+" nnoremap <Leader>u :GundoToggle<CR>
+" Edit vimrc
+nnoremap <Leader>vc :tabe ~/.vimrc<CR>
+" Save session
+nnoremap <Leader>s :mksession<CR>
+" Open ag.vim
+" nnoremap <Leader>a :Ag
+" Open vimrc in a new tab
+map <leader>vc :tabe ~/.vimrc<cr>
+
+" }}}
+" Visual Mode {{{
 
 " Allows to use dot command in visual mode
 vnoremap . :norm.<CR>
 
-" Search highlight
-set hlsearch
-" Disable highlight on space
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+"}}}
+" Misc {{{
 
-" Turn on incremental search with ignore case (except explicit caps)
-set incsearch
-set ignorecase
-set smartcase
+set nocompatible            " Ditch vi
+" jk is <Esc>
+inoremap jk <Esc> 
+" Allows to enter new line without entering insert mode
+nnoremap <Enter> o<ESC>
+nnoremap <S-Enter> O<ESC>
 
-" Enable syntax highlighting
-syntax enable
+" }}}
+" CtrlP settings {{{
+" let g:ctrlp_match_window = 'bottom,order:ttb'
 
-" Show line numbers
-set number
+" let g:ctrlp_switch_buffer = 0
+" let g:ctrlp_working_path_mode = 0
+" let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g \"\"'
 
-" Show relative numbers (useful to see how far to jump to a line)
-set relativenumber
+" }}}
+" Launch Config {{{
 
-" Set tabs to have 4 spaces
-set ts=4
+" Pathogen comes here
+" call pathogen#infect()    " Launch Pathogen
+" call pathogen#runtime_append_all_bundles()
 
-" Indent when moving to the next line while writing code
-set autoindent
+" }}}
+" Autocommands {{{
 
-" Expand tabs into spaces
-set expandtab
+" Wrapped in augroup to ensure autocmd are applied only once
+augroup configgroup
+    " Clear all autocmd for the current group
+    autocmd!
+    " Remove the background of the first column (useful for certain colorscheme)
+    autocmd VimEnter * highlight clear SignColumn
+    " Remove all useless white spaces
+    autocmd BufWritePre *.py,*.md,*.txt :call <SID>StripTrailingWhitespaces()
+    " Set comment pattern for Python files
+    autocmd Filetype python setlocal commentstring=#\ %s
+    " Save fold state when quitting 
+    autocmd BufWinLeave *.py mkview
+    "  Restore on open
+    autocmd BufWinEnter *.py silent loadview
+    " Automatically sources changes in vimrc when file is saved
+    autocmd BufWritePost .vimrc source ~/.vimrc
+augroup END
 
-" When using the >> or << commands, shift lines by 4 spaces
-set shiftwidth=4
+" }}}
+" Custom Functions {{{
 
-" Show a visual line under the cursor's current line 
-" Set cursorline
+" Strips trailing whitespace at the end of files. This
+" is called on buffer write in the autogroup above.
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
 
-" Show the matching part of the pair for [] {} and ()
-set showmatch
+" }}}
 
-" Enable all Python syntax highlighting features
-let python_highlight_all = 1
-
-" Informative status line
-set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
-
-" Open splits right and below
-set splitbelow
-set splitright
-
-" Remap ESC to combination that leaves your fingers on the home row
-inoremap jk <ESC>
-
-" Remap mapleader (Space instead of \)
-let mapleader = "\<Space>"
-
-" Visual autocomplete for command menu
-set wildmenu 
+" Config .vimrc folding
+" vim:foldmethod=marker:foldlevel=0
