@@ -1,14 +1,13 @@
 " Victor Kristof
 
-" Colors {{{
+" COLORS {{{
 
 " colorscheme solarized        " Eyes-friendly colorscheme
 " let python_highlight_all=1   " Enable all Python syntax highlighting features
 syntax on                    " Enable syntax highlighting
 
-
 " }}}
-" Spaces and Tabs {{{
+" SPACES AND TABS {{{
 
 set tabstop=4               " Number of visual spaces per tab
 set softtabstop=4           " Number of spaces in tab when editing
@@ -20,7 +19,7 @@ set textwidth=120           " Break lines when line length increases
 set backspace=indent,eol,start
 
 " }}}
-" UI Config {{{
+" UI CONFIG {{{
 
 set number                  " Show line numbers
 set relativenumber          " Enable relative numbers
@@ -38,7 +37,7 @@ set splitright              " Open split right
 set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
 
 " }}}
-" Searching {{{
+" SEARCHING {{{
 
 set incsearch               " Search as you type
 set hlsearch                " Highlight matches
@@ -46,7 +45,7 @@ set ignorecase              " Ignore case by default
 " Turn off search highlight
 nnoremap <silent> <Leader><Space> :nohlsearch<CR>
 " }}}
-" Folding {{{
+" FOLDING {{{
 
 set foldenable              " Enable folding
 set foldlevelstart=10       " Open most folds by default
@@ -60,7 +59,7 @@ nnoremap <Space> za
 vnoremap <Space> zf         
 
 " }}}
-" Movement {{{
+" MOVEMENT {{{
 
 " Disable arrow keys in normal, visual and insert modes
 noremap <Up> <NOP>
@@ -79,7 +78,7 @@ nnoremap k gk
 nnoremap gV `[v`]
 
 " }}}
-" Leader Shortcuts {{{
+" LEADER SHORTCUTS {{{
 
 let mapleader=","           " Leader is comma
 " Toggle Gundo
@@ -94,13 +93,13 @@ nnoremap <Leader>s :mksession<CR>
 map <leader>vc :tabe ~/.vimrc<cr>
 
 " }}}
-" Visual Mode {{{
+" VISUAL MODE {{{
 
 " Allows to use dot command in visual mode
 vnoremap . :norm.<CR>
 
 "}}}
-" Misc {{{
+" MISC {{{
 
 set nocompatible            " Ditch vi
 " jk is <Esc>
@@ -110,7 +109,7 @@ nnoremap <Enter> o<ESC>
 nnoremap <S-Enter> O<ESC>
 
 " }}}
-" CtrlP settings {{{
+" CTRLP SETTINGS {{{
 " let g:ctrlp_match_window = 'bottom,order:ttb'
 
 " let g:ctrlp_switch_buffer = 0
@@ -118,14 +117,14 @@ nnoremap <S-Enter> O<ESC>
 " let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g \"\"'
 
 " }}}
-" Launch Config {{{
+" LAUNCH CONFIG {{{
 
 " Pathogen comes here
 " call pathogen#infect()    " Launch Pathogen
 " call pathogen#runtime_append_all_bundles()
 
 " }}}
-" Autocommands {{{
+" AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
 augroup configgroup
@@ -146,7 +145,7 @@ augroup configgroup
 augroup END
 
 " }}}
-" Custom Functions {{{
+" CUSTOM FUNCTIONS {{{
 
 " Strips trailing whitespace at the end of files. This
 " is called on buffer write in the autogroup above.
@@ -162,5 +161,5 @@ endfunction
 
 " }}}
 
-" Config .vimrc folding
+" Config .vimrc folding (works with modelines)
 " vim:foldmethod=marker:foldlevel=0

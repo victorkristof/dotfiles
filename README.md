@@ -12,6 +12,6 @@ git clone https://github.com/victorkristof/vim.git
 
 Symlink the `.vimrc` file:
 ````
-ln -s ~/.vim/vimrc ~/.vimrc
+ln -s ~/.vim/.vimrc ~/.vimrc
 ````
 
