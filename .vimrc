@@ -17,9 +17,9 @@ set shiftwidth=4            " Indent lines by 4 spaces
 " Make backspaces more powerfull
 set backspace=indent,eol,start
 " Add blank line above cursor
-nnoremap <CR> o<ESC>
+nnoremap J o<ESC>
 " Add blank line below cursor
-nnoremap J O<ESC>
+nnoremap K O<ESC>
 
 " }}}
 " UI CONFIG {{{
@@ -76,13 +76,13 @@ set foldlevelstart=10       " Open most folds by default
 set foldnestmax=10          " Maximum nested folds
 set foldmethod=indent       " Fold based on indent
 set modelines=1             " Tells vim to check the last line for a modeline
-set foldignore=             " Set foldignore to nothing to fold Python methods starting with a comment (#) and a longer text and it get too long.
+set foldignore=             " Fold Python methods starting with comment (#)
 " Space toggles folds
 nnoremap <Space> za 
 " Space creates folds in visual mode
 vnoremap <Space> zf         
 " Toggles all folds in file
-nnoremap  - :call ToggleAllFolds()<CR>:echo<CR>
+nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
 
 " }}}
 " MOVEMENT {{{
@@ -113,14 +113,12 @@ nnoremap <C-l> <C-w>l
 let mapleader=","           " Leader is comma
 " Toggle Gundo
 " nnoremap <Leader>u :GundoToggle<CR>
-" Edit vimrc
+" Edit vimrc in new tab
 nnoremap <Leader>vc :tabe ~/.vimrc<CR>
 " Save session
 nnoremap <Leader>s :mksession<CR>
 " Open ag.vim
 " nnoremap <Leader>a :Ag
-" Open vimrc in a new tab
-map <leader>vc :tabe ~/.vimrc<cr>
 
 " }}}
 " VISUAL MODE {{{
@@ -176,8 +174,8 @@ augroup END
 " }}}
 " CUSTOM FUNCTIONS {{{
 
-" Strips trailing whitespace at the end of files. This
-" is called on buffer write in the autogroup above.
+" Strips trailing whitespace at the end of files. 
+" This is called on buffer write in the autogroup above.
 function! <SID>StripTrailingWhitespaces()
     " save last search & cursor position
     let _s=@/
