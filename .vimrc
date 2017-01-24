@@ -125,6 +125,9 @@ nnoremap <Leader>s :mksession<CR>
 
 " Allows to use dot command in visual mode
 vnoremap . :norm.<CR>
+" Visual shifting (does not exit visual mode)
+vnoremap < <gv
+vnoremap > >gv
 
 "}}}
 " MISC {{{
