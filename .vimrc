@@ -209,6 +209,11 @@ autocmd bufenter * if (winnr("$") == 1
 " Remap hunk movements
 nmap )h <Plug>GitGutterNextHunk
 nmap (h <Plug>GitGutterPrevHunk
+" Remap hunk text-objects
+omap ih <Plug>GitGutterTextObjectInnerPending
+omap ah <Plug>GitGutterTextObjectOuterPending
+xmap ih <Plug>GitGutterTextObjectInnerVisual
+xmap ah <Plug>GitGutterTextObjectOuterVisual
 
 " }}}
 " AUTOCOMMANDS {{{
