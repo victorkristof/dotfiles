@@ -1,15 +1,42 @@
 " Victor Kristof
                                                                                
+" VIM-PLUG {{{
+
+" I use vim-plug as plugin manager: https://github.com/junegunn/vim-plug
+" You can specify a directory for plugins (.vim/plugged/ by default)
+call plug#begin()
+
+" Plugins come here - make sure you use single quotes
+
+" Using % will match more than one character
+Plug 'matchit.zip'
+" Multiple selection for VIM (SublimeText-like)
+Plug 'terryma/vim-multiple-cursors'
+" Solarized for vim" 
+Plug 'altercation/vim-colors-solarized'
+" NERDtree to get a tree view of your project
+Plug 'scrooloose/nerdtree'
+" Add git flags in NERDtree
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" Add git signs in the left column
+Plug 'airblade/vim-gitgutter'
+
+" Initialize plugin system
+call plug#end()
+
+
+" }}}
 " COLORS {{{
 
-" colorscheme solarized        " Eyes-friendly colorscheme
+syntax enable               " Enable syntax highlighting
+set background=light        " Use light theme
+colorscheme solarized       " Eyes-friendly colorscheme
 " let python_highlight_all=1   " Enable all Python syntax highlighting features
-syntax on                    " Enable syntax highlighting
 
 " }}}
 " SPACES AND TABS {{{
 
-set tabstop=4               " Number of visual spaces per tab
+set tabstop=4               " Number of noremappaces per tab
 set softtabstop=4           " Number of spaces in tab when editing
 set expandtab               " Tab are spaces
 set autoindent              " Indent when moving to the next line while writing
@@ -29,20 +56,24 @@ set relativenumber          " Enable relative numbers
 set showcmd                 " Show command in bottom bar
 set cursorline              " Highlight current line
 filetype indent on          " Load filetype-specific indent files
+filetype plugin on          " Load^fileypte-specific plugins
 set wildmenu                " Visual autocomplete for command menu
 set lazyredraw              " Redraw only when needed (faster macros)
 set ttyfast                 " Faster redraw
 set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
-set cursorline              " Show a visual line under the cursor current line 
 set splitbelow              " Open split below
 set splitright              " Open split right
 set foldcolumn=2            " Display column on the left that shows folds
 set laststatus=2            " Always display statusline
 set wrap linebreak nolist   " Softwrap text longer than window width
 " set textwidth=120           " Break lines when line length increases
+" Set default font in GUI
+set guifont=Menlo\ Regular:h14
 " Display a vertical line at width 80 and 120
 set colorcolumn=80,120
+" Set color of column on the right
+highlight ColorColumn ctermbg=254 guibg=#eee8d5
 " Display a vertical line at width 80 and color background after width 120
 " let &colorcolumn="80,".join(range(120,999),",")
 " Highlight text over 80 characters
@@ -51,8 +82,8 @@ match OverLengthSoft /\%80v.\+/
 " Highlight text over 120 characters
 highlight OverLengthHard ctermfg=124 guibg=#592929
 2match OverLengthHard /\%120v.\+/
-" Set color of column on the right
-highlight ColorColumn ctermbg=231 guibg=#2c2d27
+" Set color of line number background
+highlight CursorLineNr guibg=#eee8d5
 " Informative status line
 set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
 " Increase size of buffer window
@@ -68,21 +99,18 @@ set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+
 " }}}
 " FOLDING {{{
 
-set foldenable              " Enable folding
-set foldlevelstart=10       " Open most folds by default
-set foldnestmax=10          " Maximum nested folds
-set foldmethod=indent       " Fold based on indent
-set modelines=1             " Tells vim to check the last line for a modeline
-set foldignore=             " Fold Python methods starting with comment (#)
-" Space toggles folds
+set foldenable              " Enable folnoremappace toggles folds
 nnoremap <Space> za 
 " Space creates folds in visual mode
 vnoremap <Space> zf         
 " Toggles all folds in file
 nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
+" Change color of folded code
+highlight Folded ctermbg=grey
 
 " }}}
 " MOVEMENT {{{
@@ -145,11 +173,42 @@ inoremap jk <Esc>
 " let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g \"\"'
 
 " }}}
-" LAUNCH CONFIG {{{
+" MULTI-CURSOR SETTINGS {{{
 
-" Pathogen comes here
-" call pathogen#infect()    " Launch Pathogen
-" call pathogen#runtime_append_all_bundles()
+" Replace defaults
+let g:multi_cursor_use_default_mapping=0
+" Do not loose all cursors when escaping from insert mode
+let g:multi_cursor_exit_from_insert_mode=0
+" Do not loos all cursors when escaping from visual mode
+let g:multi_cursor_exit_from_visual_mode=0
+" Turns selection into cursors with Ctrl-m
+nnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
+vnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
+" Change key mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+" }}}
+" NERDTREE {{{
+
+" Toggle NERDtree
+noremap <Leader>t :NERDTreeToggle<CR>
+" Open NERDtree if no file is specified when launching vim
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Close vim if NERDtree is the only open window
+autocmd bufenter * if (winnr("$") == 1 
+    \ && exists("b:NERDTree") 
+    \ && b:NERDTree.isTabTree()) | q | endif
+
+" }}}
+" GITGUTTER {{{
+
+" Remap hunk movements
+nmap )h <Plug>GitGutterNextHunk
+nmap (h <Plug>GitGutterPrevHunk
 
 " }}}
 " AUTOCOMMANDS {{{
@@ -159,11 +218,11 @@ augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
     " Remove the background of the fold column
-    autocmd VimEnter * highlight clear FoldColumn
+    " autocmd VimEnter * highlight clear FoldColumn
     " Remove the background of the sign column
     autocmd VimEnter * highlight clear SignColumn
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.md,*.txt :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.py,*.md,*.txt :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd Filetype python setlocal commentstring=#\ %s
     " Save fold state when quitting 
@@ -177,9 +236,9 @@ augroup END
 " }}}
 " CUSTOM FUNCTIONS {{{
 
-" Strips trailing whitespace at the end of files. 
+" Stnoremappace at the noremapiles. 
 " This is called on buffer write in the autogroup above.
-function! <SID>StripTrailingWhitespaces()
+function! Stnoremappaces()
     " save last search & cursor position
     let _s=@/
     let l = line(".")
