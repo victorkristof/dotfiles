@@ -20,6 +20,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Add git signs in the left column
 Plug 'airblade/vim-gitgutter'
+" Git wrapper so awesome it should be illegal
+Plug 'tpope/vim-fugitive'
 
 " Initialize plugin system
 call plug#end()
