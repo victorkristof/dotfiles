@@ -249,9 +249,9 @@ augroup END
 " }}}
 " CUSTOM FUNCTIONS {{{
 
-" Stnoremappace at the noremapiles. 
+" Strip trailing whitespaces.
 " This is called on buffer write in the autogroup above.
-function! Stnoremappaces()
+function! StripTrailingWhitespaces()
     " save last search & cursor position
     let _s=@/
     let l = line(".")
