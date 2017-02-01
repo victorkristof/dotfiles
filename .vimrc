@@ -162,7 +162,7 @@ vnoremap > >gv
 
 set nocompatible            " Ditch vi
 " jk is <Esc>
-inoremap jk <Esc> 
+inoremap jk <C-[>
 
 " }}}
 " CTRLP SETTINGS {{{
