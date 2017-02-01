@@ -226,6 +226,12 @@ nmap <Leader>hp <Plug>GitGutterPreviewHunk
 nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 
 " }}}
+" FUGITIVE {{{
+
+" Shortcut to Gstatus
+nnoremap <Leader>gs :Gstatus<CR>
+
+" }}}
 " AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
