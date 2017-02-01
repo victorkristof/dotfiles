@@ -230,6 +230,8 @@ nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 
 " Shortcut to Gstatus
 nnoremap <Leader>gs :Gstatus<CR>
+" Shortcut to Gpush
+nnoremap <Leader>gp :Gpush<CR>
 
 " }}}
 " AUTOCOMMANDS {{{
