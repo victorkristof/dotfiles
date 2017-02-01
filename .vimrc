@@ -22,6 +22,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'airblade/vim-gitgutter'
 " Git wrapper so awesome it should be illegal
 Plug 'tpope/vim-fugitive'
+" No-BS Python code folding
+Plug 'tmhedberg/simpylfold'
 
 " Initialize plugin system
 call plug#end()
@@ -234,6 +236,19 @@ nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gp :Gpush<CR>
 
 " }}}
+" SIMPYLFOLD {{{
+
+" Fold doc string
+let g:SimpylFold_fold_docstring = 0
+" Enable preview of docstring
+let g:SimpylFold_docstring_preview = 1
+" Do not fold imports
+let g:SimpylFold_fold_import = 0
+" Fix a bug in certain cases
+autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+" }}}
 " AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
@@ -249,9 +264,9 @@ augroup configgroup
     " Set comment pattern for Python files
     autocmd Filetype python setlocal commentstring=#\ %s
     " Save fold state when quitting 
-    autocmd BufWinLeave *.py mkview
-    "  Restore on open
-    autocmd BufWinEnter *.py silent loadview
+    " autocmd BufWinLeave *.py mkview
+    " Restore on open
+    " autocmd BufWinEnter *.py silent loadview
     " Automatically sources changes in vimrc when file is saved
     autocmd BufWritePost .vimrc source ~/.vimrc
 augroup END
