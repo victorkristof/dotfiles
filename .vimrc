@@ -204,8 +204,9 @@ autocmd bufenter * if (winnr("$") == 1
     \ && b:NERDTree.isTabTree()) | q | endif
 
 " }}}
-" GITGUTTER {{{
+" GIT-GUTTER {{{
 
+set updatetime=250              " Update signs quicker
 " Remap hunk movements
 nmap )h <Plug>GitGutterNextHunk
 nmap (h <Plug>GitGutterPrevHunk
@@ -214,6 +215,13 @@ omap ih <Plug>GitGutterTextObjectInnerPending
 omap ah <Plug>GitGutterTextObjectOuterPending
 xmap ih <Plug>GitGutterTextObjectInnerVisual
 xmap ah <Plug>GitGutterTextObjectOuterVisual
+" Remap hunk stage and revert
+nmap <Leader>hs <Plug>GitGutterStageHunk
+nmap <Leader>hu <Plug>GitGutterUndoHunk
+" Remap preview hunk
+nmap <Leader>hp <Plug>GitGutterPreviewHunk
+" Toggle line highlights
+nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 
 " }}}
 " AUTOCOMMANDS {{{
