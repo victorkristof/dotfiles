@@ -176,19 +176,19 @@ inoremap jk <Esc>
 " MULTI-CURSOR SETTINGS {{{
 
 " Replace defaults
-let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_use_default_mapping=0
 " Do not loose all cursors when escaping from insert mode
-let g:multi_cursor_exit_from_insert_mode=0
+" let g:multi_cursor_exit_from_insert_mode=0
 " Do not loos all cursors when escaping from visual mode
-let g:multi_cursor_exit_from_visual_mode=0
+" let g:multi_cursor_exit_from_visual_mode=0
 " Turns selection into cursors with Ctrl-m
-nnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
-vnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
+" nnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
+" vnoremap <silent> <C-m> :MultipleCursorsFind <C-R>/<CR>
 " Change key mapping
-let g:multi_cursor_next_key='<C-n>'
-let g:multi_cursor_prev_key='<C-p>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
+" let g:multi_cursor_next_key='<C-n>'
+" let g:multi_cursor_prev_key='<C-p>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<Esc>'
 
 " }}}
 " NERDTREE {{{
