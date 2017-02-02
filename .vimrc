@@ -35,7 +35,6 @@ call plug#end()
 syntax enable               " Enable syntax highlighting
 set background=light        " Use light theme
 colorscheme solarized       " Eyes-friendly colorscheme
-" let python_highlight_all=1   " Enable all Python syntax highlighting features
 
 " }}}
 " SPACES AND TABS {{{
@@ -238,7 +237,7 @@ nnoremap <Leader>gp :Gpush<CR>
 " }}}
 " SIMPYLFOLD {{{
 
-" Fold doc string
+" Do not fold doc string
 let g:SimpylFold_fold_docstring = 0
 " Enable preview of docstring
 let g:SimpylFold_docstring_preview = 1
@@ -258,7 +257,7 @@ augroup configgroup
     " Remove the background of the fold column
     " autocmd VimEnter * highlight clear FoldColumn
     " Remove the background of the sign column
-    autocmd VimEnter * highlight clear SignColumn
+    " autocmd VimEnter * highlight clear SignColumn
     " Remove all useless white spaces
     autocmd BufWritePre *.py,*.md,*.txt :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
@@ -269,6 +268,8 @@ augroup configgroup
     " autocmd BufWinEnter *.py silent loadview
     " Automatically sources changes in vimrc when file is saved
     autocmd BufWritePost .vimrc source ~/.vimrc
+    " Enable full highlighting for Python files
+    autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 augroup END
 
 " }}}
