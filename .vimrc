@@ -58,6 +58,7 @@ nnoremap K O<ESC>
 " }}}
 " UI CONFIG {{{
 
+set encoding=utf-8          " Set utf-8 compatible
 set number                  " Show line numbers
 set relativenumber          " Enable relative numbers
 set showcmd                 " Show command in bottom bar
@@ -76,7 +77,7 @@ set laststatus=2            " Always display statusline
 set wrap linebreak nolist   " Softwrap text longer than window width
 " set textwidth=120           " Break lines when line length increases
 " Set default font in GUI
-set guifont=Menlo\ Regular:h14
+set guifont=Menlo\ for\ Powerline:h14
 " Display a vertical line at width 80 and 120
 set colorcolumn=80,120
 " Set color of column on the right
@@ -250,6 +251,11 @@ let g:SimpylFold_fold_import = 0
 " Fix a bug in certain cases
 autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
 autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+" }}}
+" AIRLINE {{{
+
+let g:airline_powerline_fonts=1     " Enhanced symbols
 
 " }}}
 " AUTOCOMMANDS {{{
