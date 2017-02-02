@@ -1,5 +1,5 @@
 " Victor Kristof
-                                                                               
+
 " VIM-PLUG {{{
 
 " I use vim-plug as plugin manager: https://github.com/junegunn/vim-plug
@@ -12,7 +12,7 @@ call plug#begin()
 Plug 'matchit.zip'
 " Multiple selection for VIM (SublimeText-like)
 Plug 'terryma/vim-multiple-cursors'
-" Solarized for vim" 
+" Solarized for vim"
 Plug 'altercation/vim-colors-solarized'
 " NERDtree to get a tree view of your project
 Plug 'scrooloose/nerdtree'
@@ -24,6 +24,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " No-BS Python code folding
 Plug 'tmhedberg/simpylfold'
+" Status bar that is light as air
+Plug 'bling/vim-airline'
+" Themes for airline
+Plug 'vim-airline/vim-airline-themes'
 
 " Initialize plugin system
 call plug#end()
@@ -59,7 +63,7 @@ set relativenumber          " Enable relative numbers
 set showcmd                 " Show command in bottom bar
 set cursorline              " Highlight current line
 filetype indent on          " Load filetype-specific indent files
-filetype plugin on          " Load^fileypte-specific plugins
+filetype plugin on          " Load fileypte-specific plugins
 set wildmenu                " Visual autocomplete for command menu
 set lazyredraw              " Redraw only when needed (faster macros)
 set ttyfast                 " Faster redraw
@@ -107,9 +111,9 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " FOLDING {{{
 
 set foldenable              " Enable folnoremappace toggles folds
-nnoremap <Space> za 
+nnoremap <Space> za
 " Space creates folds in visual mode
-vnoremap <Space> zf         
+vnoremap <Space> zf
 " Toggles all folds in file
 nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
 " Change color of folded code
@@ -202,8 +206,8 @@ noremap <Leader>t :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close vim if NERDtree is the only open window
-autocmd bufenter * if (winnr("$") == 1 
-    \ && exists("b:NERDTree") 
+autocmd bufenter * if (winnr("$") == 1
+    \ && exists("b:NERDTree")
     \ && b:NERDTree.isTabTree()) | q | endif
 
 " }}}
@@ -262,7 +266,7 @@ augroup configgroup
     autocmd BufWritePre *.py,*.md,*.txt :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd Filetype python setlocal commentstring=#\ %s
-    " Save fold state when quitting 
+    " Save fold state when quitting
     " autocmd BufWinLeave *.py mkview
     " Restore on open
     " autocmd BufWinEnter *.py silent loadview
