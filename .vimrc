@@ -28,6 +28,8 @@ Plug 'tmhedberg/simpylfold'
 Plug 'bling/vim-airline'
 " Themes for airline
 Plug 'vim-airline/vim-airline-themes'
+" Fuzzy finder
+Plug 'kien/ctrlp.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -173,12 +175,16 @@ set nocompatible            " Ditch vi
 inoremap jk <C-[>
 
 " }}}
-" CTRLP SETTINGS {{{
-" let g:ctrlp_match_window = 'bottom,order:ttb'
+" CTRLP {{{
 
-" let g:ctrlp_switch_buffer = 0
-" let g:ctrlp_working_path_mode = 0
-" let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g \"\"'
+" Change CtrlP mapping
+let g:ctrlp_map = '<C-Space>'
+" Change order from top to bottom
+let g:ctrlp_match_window = 'bottom,order:ttb'
+" Change working directory during Vim session
+let g:ctrlp_working_path_mode = 0
+" Use Ag to search for files
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " }}}
 " MULTI-CURSOR SETTINGS {{{
