@@ -77,21 +77,20 @@ set splitright              " Open split right
 set foldcolumn=2            " Display column on the left that shows folds
 set laststatus=2            " Always display statusline
 set wrap linebreak nolist   " Softwrap text longer than window width
-" set textwidth=120           " Break lines when line length increases
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
 " Display a vertical line at width 80 and 120
-set colorcolumn=80,120
+set colorcolumn=79,119
 " Set color of column on the right
 highlight ColorColumn ctermbg=254 guibg=#eee8d5
 " Display a vertical line at width 80 and color background after width 120
 " let &colorcolumn="80,".join(range(120,999),",")
 " Highlight text over 80 characters
 highlight OverLengthSoft ctermfg=166 guibg=#592929
-match OverLengthSoft /\%80v.\+/
+match OverLengthSoft /\%79v.\+/
 " Highlight text over 120 characters
 highlight OverLengthHard ctermfg=124 guibg=#592929
-2match OverLengthHard /\%120v.\+/
+2match OverLengthHard /\%119v.\+/
 " Set color of line number background
 highlight CursorLineNr guibg=#eee8d5
 " Informative status line
