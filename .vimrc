@@ -30,10 +30,21 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Fuzzy finder
 Plug 'kien/ctrlp.vim'
+" Intensely orgasmic commenting
+Plug 'scrooloose/nerdcommenter'
+" Syntax checking
+Plug 'scrooloose/syntastic'
+" " Code-completion engine
+" Plug 'valloric/youcompleteme'
+" Autocompletion for Python
+Plug 'davidhalter/jedi-vim'
+" Performs completion with tab
+Plug 'ervandew/supertab'
+" Markdown mode
+Plug 'plasticboy/vim-markdown'
 
 " Initialize plugin system
 call plug#end()
-
 
 " }}}
 " COLORS {{{
@@ -68,8 +79,8 @@ set cursorline              " Highlight current line
 filetype indent on          " Load filetype-specific indent files
 filetype plugin on          " Load fileypte-specific plugins
 set wildmenu                " Visual autocomplete for command menu
-set lazyredraw              " Redraw only when needed (faster macros)
-set ttyfast                 " Faster redraw
+" set lazyredraw              " Redraw only when needed (faster macros)
+" set ttyfast                 " Faster redraw
 set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
@@ -86,10 +97,10 @@ highlight ColorColumn ctermbg=254 guibg=#eee8d5
 " Display a vertical line at width 80 and color background after width 120
 " let &colorcolumn="80,".join(range(120,999),",")
 " Highlight text over 80 characters
-highlight OverLengthSoft ctermfg=166 guibg=#592929
+highlight OverLengthSoft ctermfg=166 guifg=#592929
 match OverLengthSoft /\%79v.\+/
 " Highlight text over 120 characters
-highlight OverLengthHard ctermfg=124 guibg=#592929
+highlight OverLengthHard ctermfg=124 guifg=#592929
 2match OverLengthHard /\%119v.\+/
 " Set color of line number background
 highlight CursorLineNr guibg=#eee8d5
@@ -106,6 +117,7 @@ nnoremap _ <C-w>-
 set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
+set gdefault                " Substitute all occurences by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
@@ -153,7 +165,7 @@ let mapleader=","           " Leader is comma
 " Edit vimrc in new tab
 nnoremap <Leader>vc :tabe ~/.vimrc<CR>
 " Save session
-nnoremap <Leader>s :mksession<CR>
+" nnoremap <Leader>s :mksession<CR>
 " Open ag.vim
 " nnoremap <Leader>a :Ag
 
@@ -169,9 +181,15 @@ vnoremap > >gv
 "}}}
 " MISC {{{
 
+set nobackup                " Disable backup, git can do this work
+set noswapfile              " Disable .swp files
 set nocompatible            " Ditch vi
 " jk is <Esc>
 inoremap jk <C-[>
+" Save the buffer
+nnoremap <C-s> :w<CR>
+" Close the buffer
+nnoremap <C-q> :q<CR>
 
 " }}}
 " CTRLP {{{
@@ -183,7 +201,16 @@ let g:ctrlp_match_window = 'bottom,order:ttb'
 " Change working directory during Vim session
 let g:ctrlp_working_path_mode = 0
 " Use Ag to search for files
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -li --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'
+" let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+" Ag is fast enough that CtrlP doesn't need to cache
+let g:ctrlp_use_caching = 0
 
 " }}}
 " MULTI-CURSOR SETTINGS {{{
@@ -263,28 +290,67 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 let g:airline_powerline_fonts=1     " Enhanced symbols
 
 " }}}
+" NERDCOMMENTER {{{
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comments left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" }}}
+" SYNTASTIC {{{
+
+" Syntastic recommended settings
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" Set the height of the location list
+let g:syntastic_loc_list_height = 5
+
+" }}}
+" JEDI {{{
+
+" Use tabs instead of buffers when going to definition
+let g:jedi#use_tabs_not_buffers = 1
+" Map go to definition command
+let g:jedi#documentation_command = "<Leader>d"
+" Show all usages of element under cursor
+let g:jedi#usages_command = "<leader>n"
+" Disable goto command, default: <leader>d
+let g:jedi#goto_command = "<Leader>g"
+" Disable goto assignments, default: <leader>g
+let g:jedi#goto_assignments_command = ""
+let g:jedi#rename_command = "<leader>r"
+
+" }}}
+" MARKDOWN {{{
+
+" Remove 80 chars delimiter
+autocmd Filetype markdown setlocal colorcolumn=
+autocmd Filetype markdown highlight OverLengthHard NONE
+autocmd Filetype markdown highlight OverLengthSoft NONE
+set conceallevel=2              " Render marked elements inline
+" Highlight JSON
+let g:vim_markdown_json_frontmatter = 1
+
+" }}}
 " AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
 augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
-    " Remove the background of the fold column
-    " autocmd VimEnter * highlight clear FoldColumn
-    " Remove the background of the sign column
-    " autocmd VimEnter * highlight clear SignColumn
     " Remove all useless white spaces
     autocmd BufWritePre *.py,*.md,*.txt :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd Filetype python setlocal commentstring=#\ %s
-    " Save fold state when quitting
-    " autocmd BufWinLeave *.py mkview
-    " Restore on open
-    " autocmd BufWinEnter *.py silent loadview
     " Automatically sources changes in vimrc when file is saved
-    autocmd BufWritePost .vimrc source ~/.vimrc
+    autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
     " Enable full highlighting for Python files
-    autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+    " autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 augroup END
 
 " }}}
@@ -313,5 +379,5 @@ endfunction
 
 " }}}
 
-" Config .vimrc folding (works with modelines)
+" Configure .vimrc folding (works with modelines)
 " vim:foldmethod=marker:foldlevel=0
