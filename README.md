@@ -15,3 +15,14 @@ Symlink the `.vimrc` file:
 ln -s ~/.vim/.vimrc ~/.vimrc
 ````
 
+Install the fonts:
+````
+cd menlo-for-vim/
+open Menlo*
+````
+
+Install the plugins:
+````
+vim
+:PlugInstall
+````
