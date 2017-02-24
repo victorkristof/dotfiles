@@ -331,11 +331,15 @@ let g:jedi#rename_command = "<leader>r"
 " }}}
 " MARKDOWN {{{
 
-" Remove 80 chars delimiter
-autocmd Filetype markdown setlocal colorcolumn=
-autocmd Filetype markdown highlight OverLengthHard NONE
-autocmd Filetype markdown highlight OverLengthSoft NONE
-set conceallevel=2              " Render marked elements inline
+augroup markdown
+    " Remove 80 chars delimiter
+    autocmd Filetype markdown setlocal colorcolumn=
+    autocmd Filetype markdown highlight OverLengthHard NONE
+    autocmd Filetype markdown highlight OverLengthSoft NONE
+    " Render marked elements inline
+    autocmd Filetype markdown set conceallevel=2              
+augroup END
+
 " Highlight JSON
 let g:vim_markdown_json_frontmatter = 1
 
