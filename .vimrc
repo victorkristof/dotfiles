@@ -351,6 +351,8 @@ augroup configgroup
     autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
     " Enable full highlighting for Python files
     " autocmd BufRead,BufNewFile *.py let python_highlight_all=1
+    " Spell checks Git commits
+    autocmd FileType gitcommit setlocal spell
 augroup END
 
 " }}}
