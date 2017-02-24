@@ -33,7 +33,7 @@ Plug 'kien/ctrlp.vim'
 " Intensely orgasmic commenting
 Plug 'scrooloose/nerdcommenter'
 " Syntax checking
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 " " Code-completion engine
 " Plug 'valloric/youcompleteme'
 " Autocompletion for Python
