@@ -58,7 +58,7 @@ colorscheme solarized       " Eyes-friendly colorscheme
 " }}}
 " SPACES AND TABS {{{
 
-set tabstop=4               " Number of noremappaces per tab
+set tabstop=4               " Number of spaces per tab
 set softtabstop=4           " Number of spaces in tab when editing
 set expandtab               " Tab are spaces
 set autoindent              " Indent when moving to the next line while writing
@@ -81,8 +81,8 @@ set cursorline              " Highlight current line
 filetype indent on          " Load filetype-specific indent files
 filetype plugin on          " Load fileypte-specific plugins
 set wildmenu                " Visual autocomplete for command menu
-" set lazyredraw              " Redraw only when needed (faster macros)
-" set ttyfast                 " Faster redraw
+set lazyredraw              " Redraw only when needed (faster macros)
+set ttyfast                 " Faster redraw
 set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
@@ -90,6 +90,7 @@ set splitright              " Open split right
 set foldcolumn=2            " Display column on the left that shows folds
 set laststatus=2            " Always display statusline
 set wrap linebreak nolist   " Softwrap text longer than window width
+set showbreak=↪             " Better line wraps
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
 " Display a vertical line at width 80 and 120
@@ -193,6 +194,8 @@ inoremap jk <C-[>
 nnoremap <C-s> :w<CR>
 " Close the buffer
 nnoremap <C-q> :q<CR>
+" Leave Ex mode for good
+nnoremap Q <Nop>
 
 " }}}
 " CTRLP {{{
