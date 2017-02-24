@@ -42,6 +42,8 @@ Plug 'davidhalter/jedi-vim'
 Plug 'ervandew/supertab'
 " Markdown mode
 Plug 'plasticboy/vim-markdown'
+" Modern plugin to edit LaTeX files
+Plug 'lervag/vimtex'
 
 " Initialize plugin system
 call plug#end()
@@ -91,17 +93,17 @@ set wrap linebreak nolist   " Softwrap text longer than window width
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
 " Display a vertical line at width 80 and 120
-set colorcolumn=79,119
+set colorcolumn=80
 " Set color of column on the right
 highlight ColorColumn ctermbg=254 guibg=#eee8d5
 " Display a vertical line at width 80 and color background after width 120
 " let &colorcolumn="80,".join(range(120,999),",")
 " Highlight text over 80 characters
-highlight OverLengthSoft ctermfg=166 guifg=#592929
-match OverLengthSoft /\%79v.\+/
+" highlight OverLengthSoft ctermfg=166 guifg=#592929
+" match OverLengthSoft /\%79v.\+/
 " Highlight text over 120 characters
-highlight OverLengthHard ctermfg=124 guifg=#592929
-2match OverLengthHard /\%119v.\+/
+" highlight OverLengthHard ctermfg=124 guifg=#592929
+" 2match OverLengthHard /\%119v.\+/
 " Set color of line number background
 highlight CursorLineNr guibg=#eee8d5
 " Informative status line
@@ -160,6 +162,7 @@ nnoremap <C-l> <C-w>l
 " LEADER SHORTCUTS {{{
 
 let mapleader=","           " Leader is comma
+let maplocalleader=";"      " Local leader is comma
 " Toggle Gundo
 " nnoremap <Leader>u :GundoToggle<CR>
 " Edit vimrc in new tab
@@ -337,6 +340,23 @@ set conceallevel=2              " Render marked elements inline
 let g:vim_markdown_json_frontmatter = 1
 
 " }}}
+" LATEX {{{
+
+" Enable folding
+let g:vimtex_fold_enabled=1
+
+augroup latex
+    " Run Lacheck to check syntax when saving file
+    autocmd BufWritePost *.tex :VimtexLacheck
+    " Number of spaces per tab
+    autocmd Filetype tex set tabstop=2
+    " Number of spaces in tab when editing
+    autocmd Filetype tex set softtabstop=2           
+    " Indent lines by 4 spaces
+    autocmd Filetype tex set shiftwidth=2            
+augroup END
+
+" }}}
 " AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
@@ -344,7 +364,7 @@ augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.md,*.txt :call StripTrailingWhitespaces()
+    autocmd BufWritePre *.py,*.md,*.txt,*.tex :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd Filetype python setlocal commentstring=#\ %s
     " Automatically sources changes in vimrc when file is saved
