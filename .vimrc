@@ -326,8 +326,8 @@ nnoremap <Leader>q :Bdelete<CR>
 
 set updatetime=250              " Update signs quicker
 " Remap hunk movements
-nmap )h <Plug>GitGutterNextHunk
-nmap (h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>GitGutterNextHunk
+nmap [h <Plug>GitGutterPrevHunk
 " Remap hunk text-objects
 omap ih <Plug>GitGutterTextObjectInnerPending
 omap ah <Plug>GitGutterTextObjectOuterPending
