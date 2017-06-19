@@ -264,14 +264,10 @@ inoremap <C-l> <C-x><C-l>
 
 let mapleader=","           " Leader is comma
 let maplocalleader=";"      " Local leader is comma
-" Toggle Gundo
-" nnoremap <Leader>u :GundoToggle<CR>
 " Edit vimrc in new tab
 nnoremap <Leader>vc :tabe ~/.vimrc<CR>
-" Save session
-" nnoremap <Leader>s :mksession<CR>
-" Open ag.vim
-" nnoremap <Leader>a :Ag
+" Source vimrc
+nnoremap <Leader>sc :source ~/.vimrc<CR>
 
 " }}}
 " VISUAL MODE {{{
