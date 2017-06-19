@@ -59,6 +59,23 @@ Plug 'junegunn/limelight.vim'
 call plug#end()
 
 " }}}
+" MISC {{{
+
+set nocompatible            " Ditch vi
+" filetype indent on          " Load filetype-specific indent files
+filetype plugin on          " Load fileypte-specific plugins
+set nobackup                " Disable backup, git can do this work
+set noswapfile              " Disable .swp files
+" jk is <Esc>
+inoremap jk <ESC>
+" Save the buffer
+nnoremap <C-s> :w<CR>
+" Close the buffer
+nnoremap <C-q> :q<CR>
+" Leave Ex mode for good
+nnoremap Q <Nop>
+
+" }}}
 " COLORS {{{
 
 syntax enable               " Enable syntax highlighting
