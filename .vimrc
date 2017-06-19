@@ -93,9 +93,9 @@ set shiftwidth=4            " Indent lines by 4 spaces
 " Make backspaces more powerfull
 set backspace=indent,eol,start
 " Add blank line above cursor
-nnoremap J o<ESC>
+nnoremap J o<ESC>k
 " Add blank line below cursor
-nnoremap K O<ESC>
+nnoremap K O<ESC>j
 
 " }}}
 " UI CONFIG {{{
