@@ -289,25 +289,31 @@ let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 
 " }}}
-" CTRLP {{{
+" NETRW {{{
 
-" Change CtrlP mapping
-let g:ctrlp_map = '<C-Space>'
-" Change order from top to bottom
-let g:ctrlp_match_window = 'bottom,order:ttb'
-" Change working directory during Vim session
-let g:ctrlp_working_path_mode = 0
-" Use Ag to search for files
-let g:ctrlp_user_command = 'ag %s -li --nocolor --nogroup --hidden
-      \ --ignore .git
-      \ --ignore .svn
-      \ --ignore .hg
-      \ --ignore .DS_Store
-      \ --ignore "**/*.pyc"
-      \ -g ""'
-" let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-" Ag is fast enough that CtrlP doesn't need to cache
-let g:ctrlp_use_caching = 0
+" Open Netrw
+nnoremap <Leader>t :Lexplore<CR>
+" Tree is default view
+let g:netrw_liststyle = 3
+" Explore window takes 20% of available space
+let g:netrw_winsize = 20
+" Remove the banner
+let g:netrw_banner = 0
+" Open in previous window
+let g:netrw_browse_split = 4
+" Open the split on the right and keep the tree on the left
+let g:netrw_altv = 1
+
+fun! NormalizeWidths()
+  let eadir_pref = &eadirection
+  set eadirection=hor
+  set equalalways! equalalways!
+  let &eadirection = eadir_pref
+endf
+
+" augroup NetrwGroup
+"   autocmd! BufEnter * call NormalizeWidths()
+" augroup END
 
 " }}}
 " MULTI-CURSOR SETTINGS {{{
