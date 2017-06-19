@@ -407,6 +407,15 @@ let g:jedi#goto_command = "<Localleader>g"
 let g:jedi#goto_assignments_command = ""
 let g:jedi#rename_command = "<Localleader>r"
 
+" }}}
+" PANDOC {{{
+
+" Disable fold column
+let g:pandoc#folding#fdc=0
+" Blacklist some conceals
+let g:pandoc#syntax#conceal#blacklist = []
+" Change header conceal style
+" let g:pandoc#syntax#conceal#cchar_overrides = {"atx" : "#"}
 
 " }}}
 " MARKDOWN {{{
