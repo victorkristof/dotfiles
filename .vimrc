@@ -10,40 +10,50 @@ call plug#begin()
 
 " Using % will match more than one character
 Plug 'matchit.zip'
-" Multiple selection for VIM (SublimeText-like)
-Plug 'terryma/vim-multiple-cursors'
-" Solarized for vim"
+" Solarized for vim
 Plug 'altercation/vim-colors-solarized'
-" NERDtree to get a tree view of your project
-Plug 'scrooloose/nerdtree'
-" Add git flags in NERDtree
-Plug 'Xuyuanp/nerdtree-git-plugin'
+" Delete buffers as it should be done
+Plug 'moll/vim-bbye'
+" Combine with netrw to create a delicious salad dressing
+" Plug 'tpope/vim-vinegar'
+" Extends behaviour for f, t, F, and T keys
+Plug 'rhysd/clever-f.vim'
+" Enable repeating of some actions
+Plug 'tpope/vim-repeat'
 " Add git signs in the left column
 Plug 'airblade/vim-gitgutter'
 " Git wrapper so awesome it should be illegal
 Plug 'tpope/vim-fugitive'
+" Surroundings made simple
+Plug 'tpope/vim-surround'
 " No-BS Python code folding
 Plug 'tmhedberg/simpylfold'
+" Pairs of handy bracket mappings
+Plug 'tpope/vim-unimpaired'
 " Status bar that is light as air
 Plug 'bling/vim-airline'
 " Themes for airline
 Plug 'vim-airline/vim-airline-themes'
-" Fuzzy finder
-Plug 'kien/ctrlp.vim'
+" To work with virtualenv
+Plug 'jmcantrell/vim-virtualenv'
 " Intensely orgasmic commenting
 Plug 'scrooloose/nerdcommenter'
-" Syntax checking
-" Plug 'scrooloose/syntastic'
-" " Code-completion engine
-" Plug 'valloric/youcompleteme'
 " Autocompletion for Python
 Plug 'davidhalter/jedi-vim'
 " Performs completion with tab
 Plug 'ervandew/supertab'
-" Markdown mode
-Plug 'plasticboy/vim-markdown'
+" Pandoc integration and utilities
+Plug 'vim-pandoc/vim-pandoc'
+" Pandoc's Markdown syntax
+Plug 'vim-pandoc/vim-pandoc-syntax'
+" Pandoc integration with third-party plugins
+Plug 'vim-pandoc/vim-pandoc-after'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
+" Distraction-free writing
+Plug 'junegunn/goyo.vim'
+" All the world's indeed a stage and we are merely players
+Plug 'junegunn/limelight.vim'
 
 " Initialize plugin system
 call plug#end()
