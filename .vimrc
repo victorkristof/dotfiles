@@ -471,15 +471,19 @@ augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.md,*.txt,*.tex :call StripTrailingWhitespaces()
+    autocmd BufWritePre *.py,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
-    autocmd Filetype python setlocal commentstring=#\ %s
+    autocmd FileType python setlocal commentstring=#\ %s
     " Automatically sources changes in vimrc when file is saved
-    autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
+    " autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
     " Enable full highlighting for Python files
     " autocmd BufRead,BufNewFile *.py let python_highlight_all=1
     " Spell checks Git commits
     autocmd FileType gitcommit setlocal spell
+    " Spell checks textfiles
+    autocmd BufRead,BufNewFile *.txt,*.md,*.tex setlocal spell
+    " Automatically equalise splits when Vim is resised
+    autocmd VimResized * wincmd =
 augroup END
 
 " }}}
