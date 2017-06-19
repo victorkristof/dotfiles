@@ -398,14 +398,15 @@ let g:syntastic_loc_list_height = 5
 " Use tabs instead of buffers when going to definition
 let g:jedi#use_tabs_not_buffers = 1
 " Map go to definition command
-let g:jedi#documentation_command = "<Leader>d"
+let g:jedi#documentation_command = "<Localleader>d"
 " Show all usages of element under cursor
-let g:jedi#usages_command = "<leader>n"
+let g:jedi#usages_command = "<Localleader>n"
 " Disable goto command, default: <leader>d
-let g:jedi#goto_command = "<Leader>g"
+let g:jedi#goto_command = "<Localleader>g"
 " Disable goto assignments, default: <leader>g
 let g:jedi#goto_assignments_command = ""
-let g:jedi#rename_command = "<leader>r"
+let g:jedi#rename_command = "<Localleader>r"
+
 
 " }}}
 " MARKDOWN {{{
