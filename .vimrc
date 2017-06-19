@@ -235,6 +235,29 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
+" Move to next/previous window with Tab and Backspace
+nnoremap <Tab> <C-w>w
+nnoremap <BS> <C-w>W
+
+" }}}
+" {{{ INSERT MODE
+
+" Go to end of line
+inoremap AA <C-[>A
+" Go to beginning of line
+inoremap II <C-[>I
+" Start new line
+inoremap OO <C-[>o
+" Add = at the end of line
+inoremap == <C-[>A<Space>=<Space>
+" Add ( at the end of line
+inoremap (( <C-[>I(
+" Add ) at the end of line
+inoremap )) <C-[>A)<Space>
+" Add : at the end of line
+inoremap :: <C-[>A:<Space>
+" Complete line
+inoremap <C-l> <C-x><C-l>
 
 " }}}
 " LEADER SHORTCUTS {{{
