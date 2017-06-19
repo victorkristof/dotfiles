@@ -439,16 +439,28 @@ augroup END
 
 " Enable folding
 let g:vimtex_fold_enabled=1
+" Default .tex files to tex format
+let g:tex_flavor = 'latex'
+" Diable some warnings 
+let g:vimtex_quickfix_latexlog = {
+      \ 'overfull' : 0,
+      \ 'underfull' : 0,
+      \}
+" Automatically close brackets
+let g:vimtex_complete_close_braces = 1
 
 augroup latex
-    " Run Lacheck to check syntax when saving file
-    autocmd BufWritePost *.tex :VimtexLacheck
+    autocmd!
     " Number of spaces per tab
-    autocmd Filetype tex set tabstop=2
+    autocmd FileType tex setlocal tabstop=2
     " Number of spaces in tab when editing
-    autocmd Filetype tex set softtabstop=2           
+    autocmd FileType tex setlocal softtabstop=2           
     " Indent lines by 4 spaces
-    autocmd Filetype tex set shiftwidth=2            
+    autocmd FileType tex setlocal shiftwidth=2            
+    " Conceal level set to 2
+    autocmd FileType tex setlocal conceallevel=2              
+    " Enable autoformat and paragraph stop on line break (useful for equation)
+    autocmd FileType tex setlocal fo+=wa
 augroup END
 
 " }}}
