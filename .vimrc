@@ -222,6 +222,12 @@ inoremap <Right> <NOP>
 " Move vertically by visual line
 nnoremap j gj
 nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+" Move vertically by visual line unless preceded by a count. If a movement is
+" greater than 5 then automatically add to the jumplist and center screeen.
+nnoremap <expr> j v:count ? (v:count > 5 ? "m'zz" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count > 5 ? "m'zz" . v:count : '') . 'k' : 'gk'
 " Highlight last inserted text
 nnoremap gV `[v`]
 " Facilitate navigation between buffers
