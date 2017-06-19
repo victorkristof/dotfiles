@@ -279,19 +279,14 @@ vnoremap < <gv
 vnoremap > >gv
 
 "}}}
-" MISC {{{
+" CLEVER-F {{{
 
-set nobackup                " Disable backup, git can do this work
-set noswapfile              " Disable .swp files
-set nocompatible            " Ditch vi
-" jk is <Esc>
-inoremap jk <C-[>
-" Save the buffer
-nnoremap <C-s> :w<CR>
-" Close the buffer
-nnoremap <C-q> :q<CR>
-" Leave Ex mode for good
-nnoremap Q <Nop>
+" F always serach backwards, f always search forward
+let g:clever_f_fix_key_direction = 1
+" Search only on cursor line
+let g:clever_f_across_no_line = 1
+" Smart case (fa searches for a and A, fA seraches only for A)
+let g:clever_f_smart_case = 1
 
 " }}}
 " CTRLP {{{
