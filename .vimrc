@@ -137,6 +137,56 @@ nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
 highlight Folded ctermbg=grey
 
 " }}}
+" FORMATTING {{{
+
+" Format comment
+set fo=tcq
+" Format a paragraph according to the text width
+nnoremap gQ m`gqap``
+" Format till the end of the paragraph
+nnoremap g} gq}<C-o>
+" Join all line inside a paragraph
+nnoremap gJ m`vipJ``
+" Format in visual mode
+vnoremap Q gq
+
+" }}}
+" FILES AND BUFFERS {{{
+
+" Set default directory to GitHub
+cd /Users/kristof/GitHub/
+" Visual autocomplete for command menu
+set wildmenu                
+" Don't offer to open certain files/directories
+set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
+set wildignore+=*.pkl,*.npy,*.spy
+set wildignore+=*.pdf,*.psd
+" Start :e **/* 
+nnoremap <Leader>e :e **/*
+" Set ctrl-z as trigger to autocompletion in macros
+set wildcharm=<C-z>
+" List buffers and open prompt
+nnoremap <leader>b :buffer <C-z><S-Tab>
+" List buffers and open prompt, enter will open in split
+nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
+" `gf` opens file under cursor in a new vertical split
+nnoremap gf :vertical wincmd f<CR>
+
+" }}}
+" WINDOWS {{{
+
+" Windows are automatically made the same size
+set equalalways
+" Increase height of window
+nnoremap <C-=> <C-w>+
+" Decrease height of window
+nnoremap <C--> <C-w>-
+" Increase width of window
+nnoremap <C-.> <C-w>>
+" Decrease width of window
+nnoremap <C-,> <C-w><
+
+" }}}
 " MOVEMENT {{{
 
 " Disable arrow keys in normal, visual and insert modes
