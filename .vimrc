@@ -421,16 +421,18 @@ let g:pandoc#syntax#conceal#blacklist = []
 " MARKDOWN {{{
 
 augroup markdown
+    autocmd!
     " Remove 80 chars delimiter
-    autocmd Filetype markdown setlocal colorcolumn=
-    autocmd Filetype markdown highlight OverLengthHard NONE
-    autocmd Filetype markdown highlight OverLengthSoft NONE
+    autocmd FileType markdown setlocal colorcolumn=
+    autocmd FileType markdown setlocal foldlevel=1
+    autocmd FileType markdown highlight OverLengthHard NONE
+    autocmd FileType markdown highlight OverLengthSoft NONE
     " Render marked elements inline
-    autocmd Filetype markdown set conceallevel=2              
+    " autocmd FileType markdown set conceallevel=2
 augroup END
 
 " Highlight JSON
-let g:vim_markdown_json_frontmatter = 1
+" let g:vim_markdown_json_frontmatter = 1
 
 " }}}
 " LATEX {{{
