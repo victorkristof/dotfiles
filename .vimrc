@@ -366,6 +366,10 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 " AIRLINE {{{
 
 let g:airline_powerline_fonts=1     " Enhanced symbols
+let g:airline#extensions#tabline#enabled = 1 " Enables buffer list
+let g:airline#extensions#branch#enabled = 1 " Show the branch name
+let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
+let g:airline#extensions#virtualenv#enabled = 1 " Show virtualenv
 
 " }}}
 " NERDCOMMENTER {{{
