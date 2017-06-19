@@ -78,7 +78,7 @@ nnoremap Q <Nop>
 " }}}
 " COLORS {{{
 
-syntax enable               " Enable syntax highlighting
+syntax on                   " Enable syntax highlighting
 set background=light        " Use light theme
 colorscheme solarized       " Eyes-friendly colorscheme
 
@@ -105,16 +105,11 @@ set number                  " Show line numbers
 set relativenumber          " Enable relative numbers
 set showcmd                 " Show command in bottom bar
 set cursorline              " Highlight current line
-filetype indent on          " Load filetype-specific indent files
-filetype plugin on          " Load fileypte-specific plugins
-set wildmenu                " Visual autocomplete for command menu
 set lazyredraw              " Redraw only when needed (faster macros)
 set ttyfast                 " Faster redraw
-set showmatch               " Highlight matching parenthesis
 set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
 set splitright              " Open split right
-set foldcolumn=2            " Display column on the left that shows folds
 set laststatus=2            " Always display statusline
 set wrap linebreak nolist   " Softwrap text longer than window width
 set showbreak=↪             " Better line wraps
@@ -135,11 +130,7 @@ highlight ColorColumn ctermbg=254 guibg=#eee8d5
 " Set color of line number background
 highlight CursorLineNr guibg=#eee8d5
 " Informative status line
-set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
-" Increase size of buffer window
-nnoremap + <C-w>+
-" Decrease size of buffer window
-nnoremap _ <C-w>-
+" set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
 
 " }}}
 " SEARCHING {{{
@@ -147,6 +138,7 @@ nnoremap _ <C-w>-
 set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
+set infercase               " Infer case for completion
 set gdefault                " Substitute all occurences by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
@@ -154,7 +146,7 @@ nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 " }}}
 " FOLDING {{{
 
-set foldenable              " Enable folnoremappace toggles folds
+set foldenable              " Enable folds
 nnoremap <Space> za
 " Space creates folds in visual mode
 vnoremap <Space> zf
@@ -182,6 +174,8 @@ vnoremap Q gq
 
 " Set default directory to GitHub
 cd /Users/kristof/GitHub/
+" Automatically change directory when editing a file
+set autochdir
 " Visual autocomplete for command menu
 set wildmenu                
 " Don't offer to open certain files/directories
