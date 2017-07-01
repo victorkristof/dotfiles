@@ -173,7 +173,7 @@ vnoremap Q gq
 " FILES AND BUFFERS {{{
 
 " Set default directory to GitHub
-cd /Users/kristof/GitHub/
+cd ~/GitHub/
 " Automatically change directory when editing a file
 set autochdir
 " Visual autocomplete for command menu
