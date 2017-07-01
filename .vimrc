@@ -9,7 +9,7 @@ call plug#begin()
 " Plugins come here - make sure you use single quotes
 
 " Using % will match more than one character
-Plug 'matchit.zip'
+Plug 'vim-scripts/matchit.zip'
 " Solarized for vim
 Plug 'altercation/vim-colors-solarized'
 " Delete buffers as it should be done
