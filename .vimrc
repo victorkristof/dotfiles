@@ -164,7 +164,7 @@ highlight Folded ctermbg=grey
 " FORMATTING {{{
 
 " Format comment
-set fo=tcq
+set formatoptions=tcq
 " Format a paragraph according to the text width
 nnoremap gQ m`gqap``
 " Format till the end of the paragraph
@@ -375,6 +375,7 @@ let g:airline#extensions#tabline#enabled = 1 " Enables buffer list
 let g:airline#extensions#branch#enabled = 1 " Show the branch name
 let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
 let g:airline#extensions#virtualenv#enabled = 1 " Show virtualenv
+let g:airline#extensions#whitespace#enabled = 0 " Disable whitespace check
 
 " }}}
 " NERDCOMMENTER {{{
