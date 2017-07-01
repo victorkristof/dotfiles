@@ -66,6 +66,11 @@ set nocompatible            " Ditch vi
 filetype plugin on          " Load fileypte-specific plugins
 set nobackup                " Disable backup, git can do this work
 set noswapfile              " Disable .swp files
+" Invert ; and :
+nnoremap : ;
+nnoremap ; :
+xnoremap : ;
+xnoremap ; :
 " jk is <Esc>
 inoremap jk <ESC>
 " Save the buffer
