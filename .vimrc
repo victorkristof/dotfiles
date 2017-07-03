@@ -126,20 +126,18 @@ set guifont=Menlo\ for\ Powerline:h14
 set guicursor+=n-v-c:blinkon0
 " Display a vertical line at width 80 and 120
 set colorcolumn=80
-" Set color of column on the right
-highlight ColorColumn ctermbg=254 guibg=#eee8d5
-" Display a vertical line at width 80 and color background after width 120
-" let &colorcolumn="80,".join(range(120,999),",")
-" Highlight text over 80 characters
-" highlight OverLengthSoft ctermfg=166 guifg=#592929
-" match OverLengthSoft /\%79v.\+/
-" Highlight text over 120 characters
-" highlight OverLengthHard ctermfg=124 guifg=#592929
-" 2match OverLengthHard /\%119v.\+/
 " Set color of line number background
-highlight CursorLineNr guibg=#eee8d5
-" Informative status line
-" set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+highlight CursorLineNr ctermbg=7  guibg=#eee8d5
+" Change cursor shape on different mode
+if empty($TMUX)
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7" " Underline in replace mode
+else
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+endif
 
 " }}}
 " SEARCHING {{{
@@ -161,8 +159,8 @@ nnoremap <Space> za
 vnoremap <Space> zf
 " Toggles all folds in file
 nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
-" Change color of folded code
-highlight Folded ctermbg=grey
+" Remove underline in cterm
+highlight Folded cterm=NONE
 
 " }}}
 " FORMATTING {{{
@@ -186,12 +184,12 @@ cd ~/GitHub/
 " Automatically change directory when editing a file
 set autochdir
 " Visual autocomplete for command menu
-set wildmenu                
+set wildmenu
 " Don't offer to open certain files/directories
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
 set wildignore+=*.pdf,*.psd
-" Start :e **/* 
+" Start :e **/*
 nnoremap <Leader>e :e **/*
 " Set ctrl-z as trigger to autocompletion in macros
 set wildcharm=<C-z>
@@ -451,7 +449,7 @@ augroup END
 let g:vimtex_fold_enabled=1
 " Default .tex files to tex format
 let g:tex_flavor = 'latex'
-" Diable some warnings 
+" Diable some warnings
 let g:vimtex_quickfix_latexlog = {
       \ 'overfull' : 0,
       \ 'underfull' : 0,
@@ -464,11 +462,11 @@ augroup latex
     " Number of spaces per tab
     autocmd FileType tex setlocal tabstop=2
     " Number of spaces in tab when editing
-    autocmd FileType tex setlocal softtabstop=2           
+    autocmd FileType tex setlocal softtabstop=2
     " Indent lines by 4 spaces
-    autocmd FileType tex setlocal shiftwidth=2            
+    autocmd FileType tex setlocal shiftwidth=2
     " Conceal level set to 2
-    autocmd FileType tex setlocal conceallevel=2              
+    autocmd FileType tex setlocal conceallevel=2
     " Enable autoformat and paragraph stop on line break (useful for equation)
     autocmd FileType tex setlocal fo+=wa
 augroup END
@@ -485,7 +483,7 @@ augroup configgroup
     " Set comment pattern for Python files
     autocmd FileType python setlocal commentstring=#\ %s
     " Automatically sources changes in vimrc when file is saved
-    " autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
+    " autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw
     " Enable full highlighting for Python files
     " autocmd BufRead,BufNewFile *.py let python_highlight_all=1
     " Spell checks Git commits
