@@ -122,6 +122,8 @@ set wrap linebreak nolist   " Softwrap text longer than window width
 set showbreak=↪             " Better line wraps
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
+" Cursor blinks only in insert mode
+set guicursor+=n-v-c:blinkon0
 " Display a vertical line at width 80 and 120
 set colorcolumn=80
 " Set color of column on the right
