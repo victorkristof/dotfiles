@@ -11,7 +11,8 @@ call plug#begin()
 " Using % will match more than one character
 Plug 'vim-scripts/matchit.zip'
 " Solarized for vim
-Plug 'altercation/vim-colors-solarized'
+Plug 'romainl/flattened'
+" Plug 'altercation/vim-colors-solarized'
 " Delete buffers as it should be done
 Plug 'moll/vim-bbye'
 " Combine with netrw to create a delicious salad dressing
@@ -85,7 +86,8 @@ nnoremap Q <Nop>
 
 syntax on                   " Enable syntax highlighting
 set background=light        " Use light theme
-colorscheme solarized       " Eyes-friendly colorscheme
+" colorscheme solarized       " Eyes-friendly colorscheme
+colorscheme flattened_light
 
 " }}}
 " SPACES AND TABS {{{
