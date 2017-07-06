@@ -195,7 +195,7 @@ cd ~/GitHub/
 " Automatically change directory when editing a file
 " set autochdir
 " Visual autocomplete for command menu
-set wildmenu                
+set wildmenu
 " Configure menu
 set wildmode=list:full
 " Don't offer to open certain files/directories
