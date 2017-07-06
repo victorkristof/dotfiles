@@ -1,4 +1,12 @@
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+# set editing-mode vi
+# set show-mode-in-prompt on
+
+# # vi settings
+# $if mode=vi
+#     set keymap vi-insert
+#     "jk": vi-movement-mode # remap escape
+# $endif
+
+# History configuration
 set show-all-if-ambiguous on
 set completion-ignore-case on
