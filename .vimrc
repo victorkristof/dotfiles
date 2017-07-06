@@ -117,8 +117,8 @@ set ttyfast                 " Faster redraw
 set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
 set splitright              " Open split right
-set laststatus=2            " Always display statusline
-set wrap linebreak nolist   " Softwrap text longer than window width
+set laststatus=2            " Always display status line
+set wrap linebreak nolist   " Soft wrap text longer than window width
 set showbreak=↪             " Better line wraps
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
@@ -146,7 +146,7 @@ set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
 set infercase               " Infer case for completion
-set gdefault                " Substitute all occurences by default
+set gdefault                " Substitute all occurrences by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
@@ -419,7 +419,7 @@ let g:jedi#rename_command = "<Localleader>r"
 " PANDOC {{{
 
 " Disable fold column
-let g:pandoc#folding#fdc=0
+let g:pandoc#folding#fdc = 0
 " Blacklist some conceals
 let g:pandoc#syntax#conceal#blacklist = []
 " Change header conceal style
