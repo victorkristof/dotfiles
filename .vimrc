@@ -138,6 +138,8 @@ highlight ColorColumn ctermbg=254 guibg=#eee8d5
 highlight CursorLineNr guibg=#eee8d5
 " Informative status line
 " set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
+" Disable cursor blinking in macvim
+set guicursor+=n-v-c:blinkon0
 
 " }}}
 " SEARCHING {{{
