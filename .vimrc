@@ -151,6 +151,11 @@ set gdefault                " Substitute all occurrences by default
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
 
 " }}}
+" SPELLING {{{
+
+nnoremap <Leader>f 1z=      " Fix spelling error
+
+" }}}
 " FOLDING {{{
 
 set foldenable              " Enable folds
