@@ -439,7 +439,7 @@ let g:jedi#rename_command = "<Localleader>r"
 " Disable fold column
 let g:pandoc#folding#fdc = 0
 " Blacklist some conceals
-let g:pandoc#syntax#conceal#blacklist = []
+let g:pandoc#syntax#conceal#blacklist = ["codeblock_start", "codeblock_delim"]
 " Change header conceal style
 " let g:pandoc#syntax#conceal#cchar_overrides = {"atx" : "#"}
 " Remove background from conceals
