@@ -54,6 +54,8 @@ Plug 'lervag/vimtex'
 Plug 'junegunn/goyo.vim'
 " All the world's indeed a stage and we are merely players
 Plug 'junegunn/limelight.vim'
+" Seamless navigation between tmux panes and vim splits
+Plug 'christoomey/vim-tmux-navigator' 
 
 " Initialize plugin system
 call plug#end()
