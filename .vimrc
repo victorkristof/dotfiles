@@ -499,7 +499,7 @@ augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
+    autocmd BufWritePre *.py,*.php,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
     autocmd FileType vim :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd FileType python setlocal commentstring=#\ %s
