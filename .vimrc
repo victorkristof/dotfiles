@@ -184,9 +184,11 @@ vnoremap Q gq
 " Set default directory to GitHub
 cd ~/GitHub/
 " Automatically change directory when editing a file
-set autochdir
+" set autochdir
 " Visual autocomplete for command menu
 set wildmenu                
+" Configure menu
+set wildmode=list:full
 " Don't offer to open certain files/directories
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
