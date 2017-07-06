@@ -2,7 +2,7 @@
 
 " VIM-PLUG {{{
 
-" I use vim-plug as plugin manager: https://github.com/junegunn/vim-plug
+" Initialise VimPlug (https://github.com/junegunn/vim-plug)
 " You can specify a directory for plugins (.vim/plugged/ by default)
 call plug#begin()
 
@@ -11,8 +11,8 @@ call plug#begin()
 " Using % will match more than one character
 Plug 'vim-scripts/matchit.zip'
 " Solarized for vim
+Plug 'altercation/vim-colors-solarized'
 Plug 'romainl/flattened'
-" Plug 'altercation/vim-colors-solarized'
 " Delete buffers as it should be done
 Plug 'moll/vim-bbye'
 " Combine with netrw to create a delicious salad dressing
