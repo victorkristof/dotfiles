@@ -231,21 +231,21 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 " Move vertically by visual line
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+" nnoremap j gj
+" nnoremap k gk
+" nnoremap gj j
+" nnoremap gk k
 " Move vertically by visual line unless preceded by a count. If a movement is
-" greater than 5 then automatically add to the jumplist and center screeen.
-nnoremap <expr> j v:count ? (v:count > 5 ? "m'zz" . v:count : '') . 'j' : 'gj'
-nnoremap <expr> k v:count ? (v:count > 5 ? "m'zz" . v:count : '') . 'k' : 'gk'
+" greater than 5 then automatically add to the jumplist and center screen.
+nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
 " Highlight last inserted text
 nnoremap gV `[v`]
 " Facilitate navigation between buffers
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+" nnoremap <C-j> <C-w>j
+" nnoremap <C-k> <C-w>k
+" nnoremap <C-h> <C-w>h
+" nnoremap <C-l> <C-w>l
 " Move to next/previous window with Tab and Backspace
 nnoremap <Tab> <C-w>w
 nnoremap <BS> <C-w>W
