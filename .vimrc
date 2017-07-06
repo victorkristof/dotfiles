@@ -371,6 +371,8 @@ nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 " Shortcut to Gpush
 nnoremap <Leader>gp :Gpush<CR>
+" Shortcupt to Gcommit
+nnoremap <Leader>gc :Gcommit<CR>
 
 " }}}
 " SIMPYLFOLD {{{
