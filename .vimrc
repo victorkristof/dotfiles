@@ -164,8 +164,8 @@ nnoremap <Space> za
 vnoremap <Space> zf
 " Toggles all folds in file
 nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
-" Remove underline in cterm
-highlight Folded cterm=NONE
+" Remove underline in cterm and bold in gui
+highlight Folded cterm=bold gui=bold
 
 " }}}
 " FORMATTING {{{
@@ -429,6 +429,8 @@ let g:pandoc#folding#fdc = 0
 let g:pandoc#syntax#conceal#blacklist = []
 " Change header conceal style
 " let g:pandoc#syntax#conceal#cchar_overrides = {"atx" : "#"}
+" Remove background from conceals
+highlight Conceal cterm=NONE ctermbg=NONE ctermfg=4 guibg=NONE guifg=#268bd2 gui=NONE
 
 " }}}
 " MARKDOWN {{{
