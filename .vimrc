@@ -2,7 +2,7 @@
 
 " VIM-PLUG {{{
 
-" I use vim-plug as plugin manager: https://github.com/junegunn/vim-plug
+" Initialise VimPlug (https://github.com/junegunn/vim-plug)
 " You can specify a directory for plugins (.vim/plugged/ by default)
 call plug#begin()
 
@@ -12,6 +12,7 @@ call plug#begin()
 Plug 'vim-scripts/matchit.zip'
 " Solarized for vim
 Plug 'altercation/vim-colors-solarized'
+Plug 'romainl/flattened'
 " Delete buffers as it should be done
 Plug 'moll/vim-bbye'
 " Combine with netrw to create a delicious salad dressing
@@ -87,7 +88,8 @@ nnoremap Q <Nop>
 
 syntax on                   " Enable syntax highlighting
 set background=light        " Use light theme
-colorscheme solarized       " Eyes-friendly colorscheme
+" colorscheme solarized       " Eyes-friendly colorscheme
+colorscheme flattened_light
 
 " }}}
 " SPACES AND TABS {{{
@@ -117,29 +119,31 @@ set ttyfast                 " Faster redraw
 set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
 set splitright              " Open split right
-set laststatus=2            " Always display statusline
-set wrap linebreak nolist   " Softwrap text longer than window width
+set laststatus=2            " Always display status line
+set wrap linebreak nolist   " Soft wrap text longer than window width
 set showbreak=↪             " Better line wraps
 " Set default font in GUI
 set guifont=Menlo\ for\ Powerline:h14
+" Cursor blinks only in insert mode
+set guicursor+=n-v-c:blinkon0
 " Display a vertical line at width 80 and 120
 set colorcolumn=80
-" Set color of column on the right
-highlight ColorColumn ctermbg=254 guibg=#eee8d5
-" Display a vertical line at width 80 and color background after width 120
-" let &colorcolumn="80,".join(range(120,999),",")
-" Highlight text over 80 characters
-" highlight OverLengthSoft ctermfg=166 guifg=#592929
-" match OverLengthSoft /\%79v.\+/
-" Highlight text over 120 characters
-" highlight OverLengthHard ctermfg=124 guifg=#592929
-" 2match OverLengthHard /\%119v.\+/
 " Set color of line number background
-highlight CursorLineNr guibg=#eee8d5
 " Informative status line
 " set statusline=%F%m%r%h%w\ [%Y\ %{&ff}]\ [%l/%L\ (%p%%)]
 " Disable cursor blinking in macvim
 set guicursor+=n-v-c:blinkon0
+highlight CursorLineNr ctermbg=7  guibg=#eee8d5
+" Change cursor shape on different mode
+if empty($TMUX)
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
+  let &t_SR = "\<Esc>]50;CursorShape=2\x7" " Underline in replace mode
+else
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+endif
 
 " }}}
 " SEARCHING {{{
@@ -148,9 +152,14 @@ set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
 set infercase               " Infer case for completion
-set gdefault                " Substitute all occurences by default
+set gdefault                " Substitute all occurrences by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+
+" }}}
+" SPELLING {{{
+
+nnoremap <Leader>f 1z=      " Fix spelling error
 
 " }}}
 " FOLDING {{{
@@ -161,8 +170,8 @@ nnoremap <Space> za
 vnoremap <Space> zf
 " Toggles all folds in file
 nnoremap - :call ToggleAllFolds()<CR>:echo<CR>
-" Change color of folded code
-highlight Folded ctermbg=grey
+" Remove underline in cterm and bold in gui
+highlight Folded cterm=bold gui=bold
 
 " }}}
 " FORMATTING {{{
@@ -193,7 +202,7 @@ set wildmode=list:full
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
 set wildignore+=*.pdf,*.psd
-" Start :e **/* 
+" Start :e **/*
 nnoremap <Leader>e :e **/*
 " Set ctrl-z as trigger to autocompletion in macros
 set wildcharm=<C-z>
@@ -300,6 +309,17 @@ let g:clever_f_across_no_line = 1
 let g:clever_f_smart_case = 1
 
 " }}}
+" SUPERTAB {{{
+
+" Supertab tries to infer what to complete
+let g:SuperTabDefaultCompletionType = "context"
+" Should work with omnifunc and omnicompletefunc functions
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+let g:SuperTabContextDiscoverDiscovery =
+    \ ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
+
+"}}}
 " NETRW {{{
 
 " Open Netrw
@@ -359,6 +379,8 @@ nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 nnoremap <Leader>gs :Gstatus<CR>
 " Shortcut to Gpush
 nnoremap <Leader>gp :Gpush<CR>
+" Shortcupt to Gcommit
+nnoremap <Leader>gc :Gcommit<CR>
 
 " }}}
 " SIMPYLFOLD {{{
@@ -376,12 +398,12 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 " }}}
 " AIRLINE {{{
 
-let g:airline_powerline_fonts=1     " Enhanced symbols
+let g:airline_powerline_fonts = 1     " Enhanced symbols
 let g:airline#extensions#tabline#enabled = 1 " Enables buffer list
 let g:airline#extensions#branch#enabled = 1 " Show the branch name
 let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
 let g:airline#extensions#virtualenv#enabled = 1 " Show virtualenv
-let g:airline#extensions#whitespace#enabled = 0 " Disable whitespace check
+let g:airline#extensions#whitespace#enabled = 1 " Disable whitespace check
 
 " }}}
 " NERDCOMMENTER {{{
@@ -423,11 +445,13 @@ let g:jedi#rename_command = "<Localleader>r"
 " PANDOC {{{
 
 " Disable fold column
-let g:pandoc#folding#fdc=0
+let g:pandoc#folding#fdc = 0
 " Blacklist some conceals
-let g:pandoc#syntax#conceal#blacklist = []
+let g:pandoc#syntax#conceal#blacklist = ["codeblock_start", "codeblock_delim"]
 " Change header conceal style
 " let g:pandoc#syntax#conceal#cchar_overrides = {"atx" : "#"}
+" Remove background from conceals
+highlight Conceal cterm=NONE ctermbg=NONE ctermfg=4 guibg=NONE guifg=#268bd2 gui=NONE
 
 " }}}
 " MARKDOWN {{{
@@ -453,7 +477,7 @@ augroup END
 let g:vimtex_fold_enabled=1
 " Default .tex files to tex format
 let g:tex_flavor = 'latex'
-" Diable some warnings 
+" Diable some warnings
 let g:vimtex_quickfix_latexlog = {
       \ 'overfull' : 0,
       \ 'underfull' : 0,
@@ -466,11 +490,11 @@ augroup latex
     " Number of spaces per tab
     autocmd FileType tex setlocal tabstop=2
     " Number of spaces in tab when editing
-    autocmd FileType tex setlocal softtabstop=2           
+    autocmd FileType tex setlocal softtabstop=2
     " Indent lines by 4 spaces
-    autocmd FileType tex setlocal shiftwidth=2            
+    autocmd FileType tex setlocal shiftwidth=2
     " Conceal level set to 2
-    autocmd FileType tex setlocal conceallevel=2              
+    autocmd FileType tex setlocal conceallevel=2
     " Enable autoformat and paragraph stop on line break (useful for equation)
     autocmd FileType tex setlocal fo+=wa
 augroup END
@@ -483,11 +507,12 @@ augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
+    autocmd BufWritePre *.py,*.php,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
+    autocmd FileType vim :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd FileType python setlocal commentstring=#\ %s
     " Automatically sources changes in vimrc when file is saved
-    " autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw 
+    " autocmd BufWritePost .vimrc,vimrc source % | AirlineRefresh | redraw
     " Enable full highlighting for Python files
     " autocmd BufRead,BufNewFile *.py let python_highlight_all=1
     " Spell checks Git commits
