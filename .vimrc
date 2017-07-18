@@ -585,9 +585,10 @@ let g:tmuxline_preset = {
 augroup configgroup
     " Clear all autocmd for the current group
     autocmd!
+    " Save file when leaving insert mode
+    autocmd InsertLeave *.* :write
     " Remove all useless white spaces
-    autocmd BufWritePre *.py,*.php,*.md,*.txt,*.tex,.bib :call StripTrailingWhitespaces()
-    autocmd FileType vim :call StripTrailingWhitespaces()
+    autocmd BufWritePre * :call StripTrailingWhitespaces()
     " Set comment pattern for Python files
     autocmd FileType python setlocal commentstring=#\ %s
     " Automatically sources changes in vimrc when file is saved
