@@ -180,8 +180,8 @@ highlight Folded cterm=bold gui=bold
 " }}}
 " FORMATTING {{{
 
-" Format comment
-set formatoptions=tcq
+" Format text (automatically according to textwidth)
+set formatoptions=tqwan1j
 " Format a paragraph according to the text width
 nnoremap gQ m`gqap``
 " Format till the end of the paragraph
@@ -201,7 +201,7 @@ cd ~/GitHub/
 " Visual autocomplete for command menu
 set wildmenu
 " Configure menu
-set wildmode=list:full
+" set wildmode=list:full
 " Don't offer to open certain files/directories
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
@@ -292,7 +292,7 @@ inoremap <C-p> <C-r>"
 " LEADER SHORTCUTS {{{
 
 let mapleader=","           " Leader is comma
-let maplocalleader=";"      " Local leader is comma
+let maplocalleader='\'      " Local leader is backslash
 " Edit vimrc in new tab
 nnoremap <Leader>vc :tabe ~/.dotfiles/.vimrc<CR>
 " Source vimrc
