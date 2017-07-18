@@ -480,10 +480,21 @@ let g:jedi#rename_command = "<Localleader>r"
 let g:pandoc#folding#fdc = 0
 " Blacklist some conceals
 let g:pandoc#syntax#conceal#blacklist = ["codeblock_start", "codeblock_delim"]
+" <localleader># transforms the current line into a ## header
+let g:pandoc#keyboard#sections#header_style = '##'
+" Conceal urls
+let g:pandoc#syntax#conceal#urls = 0
 " Change header conceal style
 " let g:pandoc#syntax#conceal#cchar_overrides = {"atx" : "#"}
 " Remove background from conceals
 highlight Conceal cterm=NONE ctermbg=NONE ctermfg=4 guibg=NONE guifg=#268bd2 gui=NONE
+hi pandocEmphasis cterm=italic ctermfg=11 gui=NONE guifg=#657b83 gui=NONE
+
+augroup pandoc
+    autocmd!
+    " Enable autoformat and paragraph stop on line break
+    autocmd FileType pandoc setlocal formatoptions=tqwan1j
+augroup END
 
 " }}}
 " MARKDOWN {{{
