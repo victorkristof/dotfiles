@@ -51,12 +51,10 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc-after'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
-" Distraction-free writing
-Plug 'junegunn/goyo.vim'
-" All the world's indeed a stage and we are merely players
-Plug 'junegunn/limelight.vim'
 " Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-navigator'
+" Simple tmux status line generator
+Plug 'edkolev/tmuxline.vim'
 
 " Initialize plugin system
 call plug#end()
