@@ -413,10 +413,29 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 
 let g:airline_powerline_fonts = 1     " Enhanced symbols
 let g:airline#extensions#tabline#enabled = 1 " Enables buffer list
+let g:airline#extensions#tabline#tab_nr_type = 1 " Show tab number
+let g:airline#extensions#tabline#show_close_button = 0 " Remove close button
 let g:airline#extensions#branch#enabled = 1 " Show the branch name
 let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
-let g:airline#extensions#virtualenv#enabled = 1 " Show virtualenv
-let g:airline#extensions#whitespace#enabled = 1 " Disable whitespace check
+let g:airline#extensions#hunks#non_zero_only = 1 " Enable showing only non-zeros
+let g:airline#extensions#virtualenv#enabled = 0 " Disable virtualenv
+let g:airline#extensions#whitespace#enabled = 1 " Enable whitespace check
+let g:airline#extensions#wordcount#filetypes = '\(pandoc|markdown\)'
+let g:airline#extensions#tmuxline#enabled = 0 " Disable as custom theme
+
+" Setup airline
+function! AirlineInit()
+  let g:airline_section_b = airline#section#create_left(['%-0.25{getcwd()}'])
+  " Add parenthesis around virtualenv name to match terminal display
+  let g:virtualenv_stl_format = '(%n)'
+  let g:airline_section_x = airline#section#create(
+              \['tagbar', ' ', 'filetype', ' %{virtualenv#statusline()}'])
+  let g:airline_section_y = airline#section#create(['hunks', 'branch'])
+  " Remove ugly L/N symbol
+  let g:airline_symbols.maxlinenr = ''
+  let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ' %3p%%'])
+endfunction
+autocmd User AirlineAfterInit call AirlineInit()
 
 " }}}
 " NERDCOMMENTER {{{
