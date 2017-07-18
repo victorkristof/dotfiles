@@ -5,7 +5,7 @@ alias ..="cd .."
 alias ll="ls -AGFhlp"
 alias activate="source venv/bin/activate"
 alias nb="jupyter notebook"
-alias vim="mvim"
+alias v="mvim -v"
 alias rm="trash"
 
 # Sets term colors for vim to work with Solarised in tmux
