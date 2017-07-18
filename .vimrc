@@ -80,6 +80,10 @@ nnoremap <C-s> :w<CR>
 nnoremap <C-q> :q<CR>
 " Leave Ex mode for good
 nnoremap Q <Nop>
+" Y behaves like C and D
+nnoremap Y y$
+
+" }}}
 
 " }}}
 " COLORS {{{
@@ -153,6 +157,8 @@ set infercase               " Infer case for completion
 set gdefault                " Substitute all occurrences by default
 " Turn off search highlight
 nnoremap <silent> <ESC><ESC> :nohlsearch<CR>
+" Replace visual selection
+vnoremap <Leader>r y:%s/<C-r>=escape(@",'\$')<CR>/
 
 " }}}
 " SPELLING {{{
@@ -205,7 +211,8 @@ nnoremap <Leader>e :e **/*
 " Set ctrl-z as trigger to autocompletion in macros
 set wildcharm=<C-z>
 " List buffers and open prompt
-nnoremap <leader>b :buffer <C-z><S-Tab>
+" nnoremap <leader>b :buffer <C-z><S-Tab>
+nnoremap <leader>b :buffer **/*
 " List buffers and open prompt, enter will open in split
 nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
 " `gf` opens file under cursor in a new vertical split
@@ -267,7 +274,7 @@ inoremap II <C-[>I
 " Start new line
 inoremap OO <C-[>o
 " Add = at the end of line
-inoremap == <C-[>A<Space>=<Space>
+" inoremap == <C-[>A<Space>=<Space>
 " Add ( at the end of line
 inoremap (( <C-[>I(
 " Add ) at the end of line
@@ -276,6 +283,10 @@ inoremap )) <C-[>A)<Space>
 inoremap :: <C-[>A:<Space>
 " Complete line
 inoremap <C-l> <C-x><C-l>
+" Insert current day
+inoremap <C-d> <C-r>=strftime('%d-%m-%Y')<CR>
+" Put yank register
+inoremap <C-p> <C-r>"
 
 " }}}
 " LEADER SHORTCUTS {{{
@@ -283,7 +294,7 @@ inoremap <C-l> <C-x><C-l>
 let mapleader=","           " Leader is comma
 let maplocalleader=";"      " Local leader is comma
 " Edit vimrc in new tab
-nnoremap <Leader>vc :tabe ~/.vimrc<CR>
+nnoremap <Leader>vc :tabe ~/.dotfiles/.vimrc<CR>
 " Source vimrc
 nnoremap <Leader>sc :source ~/.vimrc<CR>
 
