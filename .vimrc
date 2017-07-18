@@ -534,12 +534,22 @@ augroup latex
     autocmd FileType tex setlocal tabstop=2
     " Number of spaces in tab when editing
     autocmd FileType tex setlocal softtabstop=2
-    " Indent lines by 4 spaces
+    " Indent lines by 2 spaces
     autocmd FileType tex setlocal shiftwidth=2
     " Conceal level set to 2
-    autocmd FileType tex setlocal conceallevel=2
+    autocmd FileType tex setlocal conceallevel=0
     " Enable autoformat and paragraph stop on line break (useful for equation)
     autocmd FileType tex setlocal fo+=wa
+    " Insert latex vector easily{{{
+    autocmd FileType tex nnoremap <Localleader>v i$mathbf{}$<Left><Left>
+    autocmd FileType tex inoremap <C-v> $mathbf{}$<Left><Left>
+    autocmd FileType tex xnoremap <C-v> c\mathbf{<C-r>"}<Space>
+    " Italics
+    autocmd FileType tex nnoremap <localleader>i i\textit{}<Left>
+    autocmd FileType tex inoremap <C-i> \textit{}<Left>
+    autocmd FileType tex xnoremap <C-i> c\textit{<C-r>"}<Space>
+augroup END
+
 augroup END
 
 " }}}
