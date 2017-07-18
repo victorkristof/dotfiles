@@ -323,10 +323,10 @@ let g:clever_f_smart_case = 1
 " Supertab tries to infer what to complete
 let g:SuperTabDefaultCompletionType = "context"
 " Should work with omnifunc and omnicompletefunc functions
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
-let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
-let g:SuperTabContextDiscoverDiscovery =
-    \ ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
+" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+" let g:SuperTabContextTextOmniPrecedence = ['&omnifunc', '&completefunc']
+" let g:SuperTabContextDiscoverDiscovery =
+"     \ ["&completefunc:<c-x><c-u>", "&omnifunc:<c-x><c-o>"]
 
 "}}}
 " NETRW {{{
