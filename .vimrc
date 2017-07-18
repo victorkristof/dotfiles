@@ -606,6 +606,14 @@ augroup END
 " }}}
 " CUSTOM FUNCTIONS {{{
 
+
+function! ReturnHighlightTerm(group, term)
+   " Store output of group to variable
+   let output = execute('hi ' . a:group)
+   " Find the term we're looking for
+   return matchstr(output, a:term.'=\zs\S*')
+endfunction
+
 " Strip trailing whitespaces.
 " This is called on buffer write in the autogroup above.
 function! StripTrailingWhitespaces()
