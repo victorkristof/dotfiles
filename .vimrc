@@ -84,6 +84,58 @@ nnoremap Q <Nop>
 nnoremap Y y$
 
 " }}}
+" JOURNAL {{{
+
+" Bring up journal (with capital if problems with mark)
+nnoremap <CR>J :tabe ~/Documents/research/journal.md<CR>
+nnoremap <CR><CR> :tabnew<CR>`J
+" Bring up reading list
+nnoremap <CR>R :tabe ~/Documents/research/reading-list.md<CR>
+nnoremap <CR>r :tabnew<CR>`R
+" Bring up ideas file
+nnoremap <CR>I :tabe ~/Documents/research/ideas.md<CR>
+nnoremap <CR>i :tabnew<CR>`I
+" Bring up snippets
+nnoremap <CR>S :tabe ~/Documents/research/snippets.md<CR>
+nnoremap <CR>s :tabnew<CR>`S
+" Bring up learn file
+nnoremap <CR>L :tabe ~/Documents/research/learn.md<CR>
+nnoremap <CR>l :tabnew<CR>`L
+" Bring up blog file
+nnoremap <CR>B :tabe ~/Documents/research/blog.md<CR>
+nnoremap <CR>b :tabnew<CR>`B
+
+
+augroup specialfiles
+    autocmd!
+    " Add new day
+    autocmd BufWinEnter journal.md nnoremap <buffer> <Leader>nd i## <C-r>=strftime('%d-%m-%Y')<CR><CR><CR><CR><Up><C-[>
+    " Add 'learned today'
+    autocmd BufWinEnter journal.md nnoremap <buffer> <Leader>lt i### Learned today<CR><CR>
+    " Add new entry
+    autocmd BufRead journal.md nnoremap <buffer> <Leader>ne o#### <CR><CR><CR><C-[>3kA
+    " Add new tags for entry
+    autocmd BufRead journal.md nnoremap <buffer> <Leader>nt iTags: []<Left>
+    " Set mark when leaving files
+    autocmd BufLeave journal.md :normal mJ
+    autocmd BufLeave reading-list.md :normal mR
+    autocmd BufLeave ideas.md :normal mI
+    autocmd BufLeave snippets.md :normal mS
+    autocmd BufLeave learn.md :normal mL
+    autocmd BufLeave blog.md :normal mB
+    " Persistent folds
+    autocmd BufLeave ~/Documents/research/*.md mkview
+    autocmd BufEnter ~/Documents/research/*.md silent loadview
+    " Check document in the list: transfer it to the 'Read' section with " date
+    " Add a mark in 'r' register at '## Read' line
+    autocmd BufRead reading-list.md :call setpos("'r", [0, search("## Read"), 0, 0])
+    autocmd BufRead reading-list.md nnoremap <buffer> <C-x> m'dd'rjp0lli<C-r>=strftime('%d-%m-%Y')<CR>: <C-[>''
+    " Add new link to list
+    autocmd BufRead reading-list.md nnoremap <buffer> <Leader>nl o- [](<C-r>*)<C-[>03li
+    " autocmd BufRead reading-list.md nnoremap <Leader>nl o- <<C-r>*>
+    " Add new Mendeley entry
+    autocmd BufRead reading-list.md nnoremap <buffer> <Leader>nm o- [Mendeley]:<Space>
+augroup end
 
 " }}}
 " COLORS {{{
