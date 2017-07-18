@@ -550,6 +550,18 @@ augroup latex
     autocmd FileType tex xnoremap <C-i> c\textit{<C-r>"}<Space>
 augroup END
 
+" }}}
+" HTML & CSS {{{
+
+augroup html
+    " Disable collumn at 80 characters
+    autocmd FileType html setlocal colorcolumn=
+    " Number of spaces per tab
+    autocmd FileType html setlocal tabstop=2
+    " Number of spaces in tab when editing
+    autocmd FileType html setlocal softtabstop=2
+    " Indent lines by 2 spaces
+    autocmd FileType html setlocal shiftwidth=2
 augroup END
 
 " }}}
