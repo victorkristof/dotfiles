@@ -565,6 +565,20 @@ augroup html
 augroup END
 
 " }}}
+" TMUXLINE {{{
+
+" Configure tmux statusline
+" Add the status text (charing, discharging, charged)
+" \, '#(pmset -g batt | grep -Eo "(charging|charged|discharging)")'],
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'win'  : ['#F', '#W'],
+      \'cwin' : ['#F', '#W'],
+      \'y'    : '#(pmset -g batt | grep -Eo "(100|[0-9][0-9]|[0-9])%%")',
+      \'z'    : '%a. %R',
+      \'options' : {'status-justify' : 'left'}}
+
+" }}}
 " AUTOCOMMANDS {{{
 
 " Wrapped in augroup to ensure autocmd are applied only once
