@@ -3,6 +3,9 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
+# Add access to utils everywhere
+export PYTHONPATH=$PYTHONPATH:$HOME/GitHub/utils
+
 # Enable colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
