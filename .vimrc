@@ -728,6 +728,12 @@ function! ToggleAllFolds()
 endfunction
 
 " }}}
+" TEMP {{{
+" A buffer for configuration to try
+
+
+
+" }}}
 
 " Configure .vimrc folding (works with modelines)
 " vim:foldmethod=marker:foldlevel=0
