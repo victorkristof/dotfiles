@@ -7,6 +7,9 @@
 #     "jk": vi-movement-mode # remap escape
 # $endif
 
+# Remove delay after escape
+set keyseq-timeout 0
+
 # History configuration
 set show-all-if-ambiguous on
 set completion-ignore-case on
