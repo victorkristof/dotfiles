@@ -203,7 +203,9 @@ set showbreak=↪             " Better line wraps
 set listchars=tab:▸\ ,eol:¬,space:•,nbsp:~
 
 " Set default font in GUI
-set guifont=Menlo\ for\ Powerline:h14
+" To install: brew cask install font-sourcecodepro-nerd-font-mono
+" set guifont=Menlo\ for\ Powerline:h14
+set guifont=SauceCodePro\ Nerd\ Font:h14
 " Cursor blinks only in insert mode
 set guicursor+=n-v-c:blinkon0
 " Display a vertical line at width 80 and 120
@@ -211,8 +213,8 @@ set colorcolumn=80
 " Set background of cursor line number to be the same as column
 highlight CursorLineNr ctermbg=7 guibg=#eee8d5
 " Set background of gutter to the same color as column
-highlight Error ctermbg=7 guibg=#eee8d5
-highlight WarningMsg ctermbg=7 guibg=#eee8d5
+highlight Error ctermbg=7 ctermfg=1 guibg=#eee8d5
+highlight WarningMsg ctermbg=7 ctermfg=3 guibg=#eee8d5
 " Change cursor shape on different mode
 if empty($TMUX)
   let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
@@ -487,6 +489,8 @@ autocmd User AirlineAfterInit call AirlineInit()
 " }}}
 " SYNTASTIC {{{
 
+" Symbols
+let airline#extensions#syntastic#warning_symbol = '⚑'
 " Syntastic recommended settings
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -516,9 +520,16 @@ let g:jedi#max_doc_height = 50
 " FLAKE8 {{{
 
 " NOTE: requires flake8 package => pip install flake8
+" No :h documentation, check on github: https://github.com/nvie/vim-flake8
 
 " Show signs
 let g:flake8_show_in_gutter=1
+" Configure signs
+let g:flake8_error_marker=''
+let g:flake8_warning_marker=''
+let g:flake8_pyflake_marker=''
+let g:flake8_complexity_marker=''
+let g:flake8_naming_marker=''
 
 " Use colors defined in the colorscheme
 highlight link Flake8_Error      Error

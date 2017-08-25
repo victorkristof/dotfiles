@@ -45,6 +45,12 @@ cd menlo-for-vim/
 open Menlo*
 ````
 
+Or now, to include the Font Awesome patched font:
+````
+brew tap caskroom/fonts  # only once
+brew cask install font-sourcecodepro-nerd-font-mono
+````
+
 Install the plugins:
 ````
 vim
