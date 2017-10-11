@@ -59,6 +59,8 @@ Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-pandoc/vim-pandoc-after'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
+" Speed up updating folds
+Plug 'konfekt/fastfold'
 " Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-navigator'
 " Simple tmux status line generator
@@ -67,6 +69,8 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'gregsexton/matchtag'
 " Ghetto HTML mappings
 Plug 'tpope/vim-ragtag'
+" Filter and align texts
+Plug 'godlygeek/tabular'
 " Text object for HTML attributes
 Plug 'victorkristof/vim-textobj-xmlattr'
 
@@ -86,6 +90,8 @@ set undodir=~/.vim/undo/,.
 " Remap ; to :
 nnoremap ; :
 xnoremap ; :
+nnoremap é :
+xnoremap é :
 " Fix delay when exiting visual and command mode with <ESC>
 set ttimeoutlen=1
 " jk is <Esc>
@@ -136,7 +142,7 @@ augroup specialfiles
     " Add 'learned today'
     autocmd BufWinEnter journal.md nnoremap <buffer> <Localleader>lt i### Learned today<CR><CR>
     " Add new entry
-    autocmd BufRead journal.md nnoremap <buffer> <Localleader>ne o#### <CR><CR><CR><C-[>3kA
+    autocmd BufRead journal.md nnoremap <buffer> <Localleader>ne o### <CR><CR><CR><C-[>3kA
     " Add new tags for entry
     autocmd BufRead journal.md nnoremap <buffer> <Localleader>nt iTags: []<Left>
     " Set mark when leaving files
@@ -199,6 +205,7 @@ set splitright              " Open split right
 set laststatus=2            " Always display status line
 set wrap linebreak nolist   " Soft wrap text longer than window width
 set showbreak=↪             " Better line wraps
+set scrolloff=2             " Gives 2 lines of context above and bellow cursor
 " Show characters with set list
 set listchars=tab:▸\ ,eol:¬,space:•,nbsp:~
 
@@ -232,6 +239,7 @@ endif
 set incsearch               " Search as you type
 set hlsearch                " Highlight matches
 set ignorecase              " Ignore case by default
+set smartcase               " Smart case: search with upper case
 set infercase               " Infer case for completion
 set gdefault                " Substitute all occurrences by default
 " Turn off search highlight
@@ -244,7 +252,14 @@ vnoremap / y/<C-r>"<CR>N
 " }}}
 " SPELLING {{{
 
-nnoremap <Leader>f 1z=      " Fix spelling error
+" Fix spelling error
+nnoremap <Leader>fs 1z=
+" Fix last spelling error and come back to position
+nnoremap <Leader>fl [s1z=<C-o>
+" Fix next spelling error and come back to position
+nnoremap <Leader>fn ]s1z=<C-o>
+" Fix last spelling error from insert mode
+inoremap <C-f> <C-[>[s1z=<C-o>a
 
 " }}}
 " FOLDING {{{
@@ -285,8 +300,10 @@ set wildmenu
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
 set wildignore+=*.pdf,*.psd
-" Start :e **/*
+" Edit new file in current window
 nnoremap <Leader>e :e **/*
+" Edit new file in vertical split buffer
+nnoremap <leader>E :vs <C-z><S-Tab>
 " Set ctrl-z as trigger to autocompletion in macros
 set wildcharm=<C-z>
 " List buffers and open prompt
@@ -329,8 +346,8 @@ inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 " Move vertically by visual line unless preceded by a count. If a movement is
 " greater than 5 then automatically add to the jumplist and center screen.
-nnoremap <expr> j v:count ? (v:count > 5 ? "m'" . v:count : '') . 'j' : 'gj'
-nnoremap <expr> k v:count ? (v:count > 5 ? "m'" . v:count : '') . 'k' : 'gk'
+nnoremap <expr> j v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'j' : 'gj'
+nnoremap <expr> k v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'k' : 'gk'
 " Highlight last inserted text
 nnoremap gV `[v`]
 " Switch between alternate buffers
@@ -346,11 +363,11 @@ inoremap II <C-[>I
 " Start new line
 inoremap OO <C-[>o
 " Add ( at the end of line
-inoremap (( <C-[>I(
+" inoremap (( <C-[>I(
 " Add ) at the end of line
-inoremap )) <C-[>A)<Space>
+" inoremap )) <C-[>A)<Space>
 " Add : at the end of line
-inoremap :: <C-[>A:<Space>
+" inoremap :: <C-[>A:<Space>
 " Insert current day
 inoremap <C-d> <C-r>=strftime('%d-%m-%Y')<CR>
 " Put yank register
@@ -469,7 +486,8 @@ let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
 let g:airline#extensions#hunks#non_zero_only = 1 " Enable showing only non-zeros
 let g:airline#extensions#virtualenv#enabled = 0 " Disable virtualenv
 let g:airline#extensions#whitespace#enabled = 1 " Enable whitespace check
-let g:airline#extensions#wordcount#filetypes = '\(pandoc|markdown\)'
+let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#wordcount#filetypes = '\vhelp|markdown|pandoc|rst|org|text|asciidoc|tex|mail'
 let g:airline#extensions#tmuxline#enabled = 0 " Disable as custom theme
 
 " Setup airline
@@ -502,6 +520,13 @@ let g:syntastic_loc_list_height = 5
 " }}}
 " JEDI {{{
 
+" Disable auto configuration to disable documentation preview window (in python
+" augroup)
+let g:jedi#auto_vim_configuration = 0
+" Disable window showing arguments of current function
+let g:jedi#show_call_signatures = 0
+" Open new split for 'go to'
+let g:jedi#use_splits_not_buffers = "right"
 " Use tabs instead of buffers when going to definition
 let g:jedi#use_tabs_not_buffers = 1
 " Map go to definition command
@@ -525,18 +550,18 @@ let g:jedi#max_doc_height = 50
 " Show signs
 let g:flake8_show_in_gutter=1
 " Configure signs
+let g:flake8_pyflake_marker=''
 let g:flake8_error_marker=''
 let g:flake8_warning_marker=''
-let g:flake8_pyflake_marker=''
 let g:flake8_complexity_marker=''
 let g:flake8_naming_marker=''
 
 " Use colors defined in the colorscheme
-highlight link Flake8_Error      Error
+highlight link Flake8_PyFlake    Error
+highlight link Flake8_Error      WarningMsg
 highlight link Flake8_Warning    WarningMsg
 highlight link Flake8_Complexity WarningMsg
 highlight link Flake8_Naming     WarningMsg
-highlight link Flake8_PyFlake    WarningMsg
 
 augroup flake8
     autocmd!
@@ -549,18 +574,36 @@ augroup END
 
 " Highlight all syntax
 let g:python_highlight_all = 1
+let g:python_highlight_operators = 0
 
 augroup python
     autocmd!
+    " Disable docstring preview window for jedi-vim
+    autocmd FileType python setlocal completeopt=menuone,longest
     " Remove automatic formatting in Python
     autocmd FileType python setlocal formatoptions-=a
     " Syntax setting
+    " Functions in blue
+    autocmd FileType python
+        \ syn match pythonInlineFunction '[a-zA-Z_][a-zA-Z0-9_]*\ze('
+        \ | hi def link pythonInlineFunction Function
+    " Special types in bold orange
+    autocmd FileType python hi pythonNone cterm=bold ctermfg=3 gui=bold guifg=#b58900
+    autocmd FileType python hi pythonBoolean cterm=bold ctermfg=3 gui=bold guifg=#b58900
     " Keywords in bold
-    autocmd FileType python hi Statement term=bold cterm=bold gui=bold
+    autocmd FileType python hi pythonStatement cterm=bold ctermfg=2 gui=bold guifg=#859900
+    autocmd FileType python hi pythonRepeat cterm=bold ctermfg=2 gui=bold guifg=#859900
+    autocmd FileType python hi pythonConditional cterm=bold ctermfg=2 gui=bold guifg=#859900
+    autocmd FileType python hi pythonException cterm=bold ctermfg=2 gui=bold guifg=#859900
+    autocmd FileType python hi pythonOperator cterm=bold ctermfg=2 gui=bold guifg=#859900
     " Import in bold
-    autocmd FileType python hi pythonImport cterm=bold gui=bold term=bold ctermfg=9 guifg=#cb4b16
+    autocmd FileType python hi pythonImport cterm=bold ctermfg=9 gui=bold guifg=#cb4b16
     " Decorator in violet
     autocmd FileType python hi pythonDecorator ctermfg=13 guifg=#6c71c4
+    autocmd FileType python hi pythonDottedName ctermfg=13 guifg=#6c71c4
+    " Self and cls in violet and italics
+    autocmd FileType python hi pythonClassVar ctermfg=13 guifg=#6c71c4 cterm=italic gui=italic
+
 augroup END
 
 
@@ -605,7 +648,7 @@ augroup END
 " LATEX {{{
 
 " Enable folding
-let g:vimtex_fold_enabled=1
+let g:vimtex_fold_enabled = 1
 " Default .tex files to tex format
 let g:tex_flavor = 'latex'
 " Diable some warnings
@@ -614,7 +657,7 @@ let g:vimtex_quickfix_latexlog = {
       \ 'underfull' : 0,
       \}
 " Automatically close brackets
-let g:vimtex_complete_close_braces = 1
+" let g:vimtex_complete_close_braces = 1
 
 augroup latex
     autocmd!
@@ -731,6 +774,8 @@ endfunction
 " TEMP {{{
 " A buffer for configuration to try
 
+" Map <CR> to <CR><Space> to still be able to valide quickfix entries
+nnoremap <CR><Space> <CR>
 
 
 " }}}
