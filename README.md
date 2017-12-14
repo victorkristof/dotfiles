@@ -51,6 +51,13 @@ brew tap caskroom/fonts  # only once
 brew cask install font-sourcecodepro-nerd-font-mono
 ````
 
+Install VimPlug:
+
+````
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+````
+
 Install the plugins:
 ````
 vim
