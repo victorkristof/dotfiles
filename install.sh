@@ -13,8 +13,10 @@ source ~/.inputrc
 # Tmux
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 
-# Vim
+# Sqlite
+ln -s ~/dotfiles/.sqliterc ~/.sqliterc
 
+# Vim
 mkdir ~/.vim
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 
