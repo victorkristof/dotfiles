@@ -61,6 +61,8 @@ Plug 'vim-pandoc/vim-pandoc-after'
 Plug 'lervag/vimtex'
 " Speed up updating folds
 Plug 'konfekt/fastfold'
+" Look up words on online Thesaurus
+Plug 'beloglazov/vim-online-thesaurus'
 " Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-navigator'
 " Simple tmux status line generator
@@ -253,9 +255,9 @@ vnoremap / y/<C-r>"<CR>N
 " SPELLING {{{
 
 " Fix spelling error
-nnoremap <Leader>fs 1z=
-" Fix last spelling error and come back to position
-nnoremap <Leader>fl [s1z=<C-o>
+nnoremap <Leader>ff 1z=
+" Fix previous spelling error and come back to position
+nnoremap <Leader>fp [s1z=<C-o>
 " Fix next spelling error and come back to position
 nnoremap <Leader>fn ]s1z=<C-o>
 " Fix last spelling error from insert mode
@@ -670,7 +672,9 @@ augroup latex
     " Conceal level set to 2
     autocmd FileType tex setlocal conceallevel=0
     " Enable autoformat and paragraph stop on line break (useful for equation)
-    autocmd BufRead *.tex setlocal fo+=a
+    " autocmd BufRead *.tex setlocal fo+=a
+    " Disable colorcolumn
+    autocmd FileType tex setlocal colorcolumn=
     " Insert math environment
     autocmd FileType tex nnoremap <buffer> <Localleader>m i$$<Left>
     " autocmd FileType tex inoremap <C-l>m $$<Left>
