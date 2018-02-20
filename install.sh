@@ -12,6 +12,8 @@ source ~/.inputrc
 
 # Tmux
 ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
+# Install tmux plugin manager
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Sqlite
 ln -s ~/dotfiles/.sqliterc ~/.sqliterc
