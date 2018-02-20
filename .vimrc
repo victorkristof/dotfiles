@@ -51,12 +51,14 @@ Plug 'nvie/vim-flake8'
 Plug 'tmhedberg/simpylfold'
 " Light-weight tab-completion
 Plug 'ajh17/vimcompletesme'
+" Markdown
+Plug 'SidOfc/mkdx'
 " Pandoc integration and utilities
-Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-pandoc'
 " Pandoc's Markdown syntax
-Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
 " Pandoc integration with third-party plugins
-Plug 'vim-pandoc/vim-pandoc-after'
+" Plug 'vim-pandoc/vim-pandoc-after'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
 " Speed up updating folds
@@ -75,6 +77,10 @@ Plug 'tpope/vim-ragtag'
 Plug 'godlygeek/tabular'
 " Text object for HTML attributes
 Plug 'victorkristof/vim-textobj-xmlattr'
+" Restore focus event
+Plug 'tmux-plugins/vim-tmux-focus-events'
+" Continuously updated session files
+Plug 'tpope/vim-obsession'
 
 " Initialize plugin system
 call plug#end()
@@ -491,6 +497,7 @@ let g:airline#extensions#whitespace#enabled = 1 " Enable whitespace check
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#wordcount#filetypes = '\vhelp|markdown|pandoc|rst|org|text|asciidoc|tex|mail'
 let g:airline#extensions#tmuxline#enabled = 0 " Disable as custom theme
+let g:airline#extensions#obsession#enabled = 1 " Enable vim-obsession marker
 
 " Setup airline
 function! AirlineInit()
@@ -643,6 +650,14 @@ augroup markdown
     " autocmd FileType markdown set conceallevel=2
 augroup END
 
+let g:mkdx#map_prefix = '<localleader>'
+nmap <localleader>X <Plug>(mkdx-checkbox-next)
+vmap <localleader>X <Plug>(mkdx-checkbox-next)
+nmap <localleader>x <Plug>(mkdx-checkbox-prev)
+vmap <localleader>x <Plug>(mkdx-checkbox-prev)
+
+nnoremap <localleader>b bi**<Esc>ea**
+
 " Highlight JSON
 " let g:vim_markdown_json_frontmatter = 1
 
@@ -732,6 +747,7 @@ augroup configgroup
     autocmd!
     " Save file when leaving insert mode
     autocmd InsertLeave *.* :w
+    " Save file when losing focus
     autocmd FocusLost * :wa
     " Remove all useless white spaces
     autocmd BufWritePre * :call StripTrailingWhitespaces()
