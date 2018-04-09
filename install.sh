@@ -11,7 +11,14 @@ ln -s ~/dotfiles/.inputrc ~/.inputrc
 source ~/.inputrc
 
 # Tmux
-ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
+# Install conditionally on macOS or Ubuntu
+if [ "$(uname)" == "Darwin" ]; then
+    ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
+elif [ "$(uname)" == "Linux" ]; then
+    # elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    ln -s ~/dotfiles/tmux-ubuntu.conf ~/.tmux.conf
+fi
+cp ~/dotfiles/tmux-status-line.conf ~/.tmux/tmux-status-line.conf
 # Install tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -20,6 +27,7 @@ ln -s ~/dotfiles/.sqliterc ~/.sqliterc
 
 # Vim
 mkdir ~/.vim
+mkdir ~/.vim/undo
 ln -s ~/dotfiles/.vimrc ~/.vimrc
 
 # Install VimPlug
