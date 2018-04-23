@@ -1,6 +1,6 @@
 # System
 alias dd="cd /Users/kristof/Desktop"
-alias gd="cd /Users/kristof/GitHub"
+alias rd="cd /Users/kristof/GitHub"
 alias ..="cd .."
 alias ll="ls -AGFhlp"
 alias l="ls -GFhlp"
@@ -16,6 +16,8 @@ alias nbn="jupyter notebook --no-browser"
 alias s="git status"
 alias ga="git add"
 alias gc="git commit"
+alias gd="git diff"
+alias gl="git log"
 
 # Platform-dependent aliases
 if [ "$(uname)" == "Darwin" ]; then
