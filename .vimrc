@@ -369,7 +369,11 @@ inoremap AA <C-[>A
 " Go to beginning of line
 inoremap II <C-[>I
 " Start new line
-inoremap OO <C-[>o
+inoremap <C-j> <C-[>o
+
+
+
+
 " Add ( at the end of line
 " inoremap (( <C-[>I(
 " Add ) at the end of line
@@ -656,7 +660,9 @@ vmap <localleader>X <Plug>(mkdx-checkbox-next)
 nmap <localleader>x <Plug>(mkdx-checkbox-prev)
 vmap <localleader>x <Plug>(mkdx-checkbox-prev)
 
-nnoremap <localleader>b bi**<Esc>ea**
+nmap <localleader>i <Plug>(mkdx-text-italic-n)
+vmap <localleader>i <Plug>(mkdx-text-italic-v)
+
 
 " Highlight JSON
 " let g:vim_markdown_json_frontmatter = 1
