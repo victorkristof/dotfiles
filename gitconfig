@@ -1,0 +1,46 @@
+[user]
+	name = Victor Kristof
+	email = victor.kristof@epfl.ch
+[core]
+	excludesfile = /Users/kristof/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	last = log -1 HEAD
+    sl = stash list
+    sa = stash apply
+    sp = stash pop
+    ss = stash save
+    log = log --name-status
+[push]
+	default = simple
+[credential]
+	helper = osxkeychain
+[pull]
+	rebase = true
+[http]
+	postBuffer = 524288000
+[color]
+    ui = true
+[color "branch"]
+    current = blue bold
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = blue bold
+    old = red
+    new = green
+[color "status"]
+    added = green bold
+    changed = yellow
+    untracked = red
