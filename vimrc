@@ -40,7 +40,7 @@ Plug 'jmcantrell/vim-virtualenv'
 " Comment stuff out
 Plug 'tpope/vim-commentary'
 " Autocompletion for Python
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim'
 " Python syntax highlighting
 Plug 'vim-python/python-syntax'
 " Python indent style complying with PEP8
@@ -64,7 +64,7 @@ Plug 'lervag/vimtex'
 " Speed up updating folds
 Plug 'konfekt/fastfold'
 " Look up words on online Thesaurus
-Plug 'beloglazov/vim-online-thesaurus'
+Plug 'ron89/thesaurus_query.vim'
 " Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-navigator'
 " Simple tmux status line generator
@@ -89,6 +89,8 @@ call plug#end()
 " MISC {{{
 
 set nocompatible            " Ditch vi
+set hidden                  " Allows to switch buffer when modified
+" set autowrite
 " filetype indent on          " Load filetype-specific indent files
 filetype plugin on          " Load fileypte-specific plugins
 set nobackup                " Disable backup, git can do this work
@@ -115,11 +117,13 @@ nnoremap Y y$
 let mapleader=","           " Leader is comma
 let maplocalleader='\'      " Local leader is backslash
 " Edit vimrc in new tab
-nnoremap <Leader>vc :tabe ~/.dotfiles/.vimrc<CR>
+nnoremap <Leader>vc :tabe ~/.dotfiles/vimrc<CR>
 " Source vimrc and reload current buffer, syntax is lost otherwise
 nnoremap <Leader>sc :source ~/.vimrc<CR>:e<CR>
 " Paste from clipboard
 nnoremap <Leader>p :r !pbpaste<CR>
+" Make
+nnoremap <Leader>mk :!make<CR>
 
 " }}}
 " JOURNAL {{{
@@ -195,6 +199,10 @@ set backspace=indent,eol,start
 nnoremap J o<ESC>k
 " Add blank line below cursor
 nnoremap K O<ESC>j
+" Add one space on the left side of the cursor.
+nnoremap H i <ESC>l
+" Add one space on the right side of the cursor.
+nnoremap L a <ESC>h
 
 " }}}
 " UI CONFIG {{{
@@ -223,8 +231,6 @@ set listchars=tab:▸\ ,eol:¬,space:•,nbsp:~
 set guifont=SauceCodePro\ Nerd\ Font:h14
 " Cursor blinks only in insert mode
 set guicursor+=n-v-c:blinkon0
-" Display a vertical line at width 80 and 120
-set colorcolumn=80
 " Set background of cursor line number to be the same as column
 highlight CursorLineNr ctermbg=7 guibg=#eee8d5
 " Set background of gutter to the same color as column
@@ -284,8 +290,12 @@ highlight Folded cterm=bold gui=bold
 " }}}
 " FORMATTING {{{
 
-" Format text (automatically according to textwidth)
-set formatoptions=tqwn1j
+" Set text width to 80 by default for all files.
+set textwidth=0
+" Color three columns after textwidth.
+set colorcolumn=+1,+2,+3
+" Format text (according to textwidth)
+set formatoptions=tcqwn1j
 " Format a paragraph according to the text width
 nnoremap gQ m`gqip``
 " Format till the end of the paragraph
@@ -311,7 +321,7 @@ set wildignore+=*.pdf,*.psd
 " Edit new file in current window
 nnoremap <Leader>e :e **/*
 " Edit new file in vertical split buffer
-nnoremap <leader>E :vs <C-z><S-Tab>
+nnoremap <leader>E :vs **/*
 " Set ctrl-z as trigger to autocompletion in macros
 set wildcharm=<C-z>
 " List buffers and open prompt
@@ -320,7 +330,7 @@ nnoremap <leader>b :buffer <C-z><S-Tab>
 " List buffers and open prompt, enter will open in split
 nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
 " `gf` opens file under cursor in a new vertical split
-nnoremap gf :vertical wincmd f<CR>
+" nnoremap gf :vertical wincmd f<CR>
 " Reload current file (useful when debugging new setting in vimrc)
 nnoremap <Leader>r :e %<CR>
 
@@ -329,6 +339,8 @@ nnoremap <Leader>r :e %<CR>
 
 " Windows are automatically made the same size
 set equalalways
+" Close quickfix window.
+nnoremap <C-q> :ccl<CR>
 " These mappings don't work:
 " https://vi.stackexchange.com/questions/8856/mapping-ctrl-with-equal-sign
 " " Increase height of window
@@ -417,8 +429,8 @@ map gS <Plug>Sneak_,
 " }}}
 " VIMCOMPLETESME {{{
 
-" Cycle backward
-let g:vcm_direction = 'p'
+" Cycle forward
+let g:vcm_direction = 'n'
 
 "}}}
 " NETRW {{{
@@ -593,8 +605,10 @@ augroup python
     autocmd!
     " Disable docstring preview window for jedi-vim
     autocmd FileType python setlocal completeopt=menuone,longest
+    " Set 80 chars delimiter
+    autocmd FileType python setlocal textwidth=79
     " Remove automatic formatting in Python
-    autocmd FileType python setlocal formatoptions-=a
+    autocmd FileType python setlocal formatoptions-=t
     " Syntax setting
     " Functions in blue
     autocmd FileType python
@@ -618,7 +632,6 @@ augroup python
     autocmd FileType python hi pythonClassVar ctermfg=13 guifg=#6c71c4 cterm=italic gui=italic
 
 augroup END
-
 
 " }}}
 " PANDOC {{{
@@ -645,8 +658,11 @@ augroup END
 
 augroup markdown
     autocmd!
-    " Remove 80 chars delimiter
-    " autocmd FileType markdown setlocal colorcolumn=
+    " Set 80 chars delimiter
+    autocmd FileType markdown setlocal textwidth=80
+    autocmd FileType markdown setlocal colorcolumn=+1,+2,+3
+    " Enable autoformat and paragraph stop on line break
+    autocmd FileType markdown setlocal formatoptions+=aw
     autocmd FileType markdown setlocal foldlevel=1
     autocmd FileType markdown highlight OverLengthHard NONE
     autocmd FileType markdown highlight OverLengthSoft NONE
@@ -722,11 +738,11 @@ augroup html
     " Disable column at 80 characters
     autocmd FileType html,htmldjango setlocal colorcolumn=
     " Number of spaces per tab
-    autocmd FileType html,htmldjango setlocal tabstop=2
+    autocmd FileType html,htmldjango,css,scss setlocal tabstop=2
     " Number of spaces in tab when editing
-    autocmd FileType html,htmldjango setlocal softtabstop=2
+    autocmd FileType html,htmldjango,css,scss setlocal softtabstop=2
     " Indent lines by 2 spaces
-    autocmd FileType html,htmldjango setlocal shiftwidth=2
+    autocmd FileType html,htmldjango,css,scss setlocal shiftwidth=2
     " Fold current tag
     autocmd FileType html,htmldjango nnoremap <buffer> <Localleader>ft Vatzf
 augroup END
