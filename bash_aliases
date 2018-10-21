@@ -4,6 +4,7 @@ alias rd="cd /Users/kristof/GitHub"
 alias ..="cd .."
 alias ll="ls -AGFhlp"
 alias l="ls -GFhlp"
+alias vv="vim ~/Documents/research/journal.md"
 
 # Virutalenv
 alias activate="source venv/bin/activate"
@@ -18,6 +19,7 @@ alias ga="git add"
 alias gc="git commit"
 alias gd="git diff"
 alias gl="git log"
+alias gu="git unstage"
 
 # Platform-dependent aliases
 if [ "$(uname)" == "Darwin" ]; then
