@@ -44,3 +44,7 @@
     added = green bold
     changed = yellow
     untracked = red
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
