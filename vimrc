@@ -19,8 +19,10 @@ Plug 'moll/vim-bbye'
 " Plug 'tpope/vim-vinegar'
 " Create your own text objects
 Plug 'kana/vim-textobj-user'
+" Extended f, F, t and T key mappings for Vim.
+Plug 'rhysd/clever-f.vim'
 " The missing motion for vim
-Plug 'justinmk/vim-sneak'
+" Plug 'justinmk/vim-sneak'
 " Enable repeating of some actions
 Plug 'tpope/vim-repeat'
 " Add git signs in the left column
@@ -81,6 +83,10 @@ Plug 'victorkristof/vim-textobj-xmlattr'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 " Continuously updated session files
 Plug 'tpope/vim-obsession'
+" The ultimate snippets solution for Vim.
+Plug 'sirver/ultisnips'
+" Default snippets.
+Plug 'honza/vim-snippets'
 
 " Initialize plugin system
 call plug#end()
@@ -110,6 +116,8 @@ inoremap jk <ESC>
 nnoremap Q <Nop>
 " Y behaves like C and D
 nnoremap Y y$
+" In visual mode, $ reaches end of line without the line break.
+vnoremap $ $h
 
 " }}}
 " LEADER SHORTCUTS {{{
@@ -154,7 +162,7 @@ augroup specialfiles
     " Add 'learned today'
     autocmd BufWinEnter journal.md nnoremap <buffer> <Localleader>lt i### Learned today<CR><CR>
     " Add new entry
-    autocmd BufRead journal.md nnoremap <buffer> <Localleader>ne o### <CR><CR><CR><C-[>3kA
+    autocmd BufRead journal.md nnoremap <buffer> <Localleader>ne ggji<CR><CR><Up>## [<C-r>=strftime('%d-%m-%Y')<CR>]<Space>
     " Add new tags for entry
     autocmd BufRead journal.md nnoremap <buffer> <Localleader>nt iTags: []<Left>
     " Set mark when leaving files
@@ -274,6 +282,7 @@ nnoremap <Leader>fp [s1z=<C-o>
 nnoremap <Leader>fn ]s1z=<C-o>
 " Fix last spelling error from insert mode
 inoremap <C-f> <C-[>[s1z=<C-o>a
+" inoremap <C-f> <C-g>u<Esc>[s1z=`]a<C-g>u
 
 " }}}
 " FOLDING {{{
@@ -381,11 +390,7 @@ inoremap AA <C-[>A
 " Go to beginning of line
 inoremap II <C-[>I
 " Start new line
-inoremap <C-j> <C-[>o
-
-
-
-
+inoremap OO <C-[>o
 " Add ( at the end of line
 " inoremap (( <C-[>I(
 " Add ) at the end of line
@@ -393,9 +398,10 @@ inoremap <C-j> <C-[>o
 " Add : at the end of line
 " inoremap :: <C-[>A:<Space>
 " Insert current day
-inoremap <C-d> <C-r>=strftime('%d-%m-%Y')<CR>
+" inoremap <C-d> <C-r>=strftime('%d-%m-%Y')<CR>
 " Put yank register
 inoremap <C-p> <C-r>"
+inoremap <C-n> <C-x><C-n>
 
 " }}}
 " VISUAL MODE {{{
@@ -407,21 +413,29 @@ vnoremap < <gv
 vnoremap > >gv
 
 "}}}
+" CLEVER-F {{{
+
+" Fix direction of search.
+let g:clever_f_fix_key_direction = 1
+" Set highlight color.
+let g:clever_f_mark_char_color = "Search"
+
+" }}}
 " SNEAK {{{
 
 " Use s to continue search, as clever-f
-let g:sneak#s_next = 1
+" let g:sneak#s_next = 1
 " s and S always go forward and backward, respectively
-let g:sneak#absolute_dir = 1
+" let g:sneak#absolute_dir = 1
 " Enable label mode (try it first...)
 " let g:sneak#label = 1
 " Remap to use f and t
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
+" map f <Plug>Sneak_f
+" map F <Plug>Sneak_F
+" map t <Plug>Sneak_t
+" map T <Plug>Sneak_T
 " Remap previous to free \ for localleader
-map gS <Plug>Sneak_,
+" map gS <Plug>Sneak_,
 
 " Change color
 " hi Sneak guifg=black guibg=red ctermfg=red ctermbg=none cterm=underline,bold gui=underline
@@ -430,7 +444,7 @@ map gS <Plug>Sneak_,
 " VIMCOMPLETESME {{{
 
 " Cycle forward
-let g:vcm_direction = 'n'
+" let g:vcm_direction = 'n'
 
 "}}}
 " NETRW {{{
@@ -459,18 +473,18 @@ nnoremap <Leader>q :Bdelete<CR>
 
 set updatetime=250              " Update signs quicker
 " Remap hunk movements
-nmap ]h <Plug>GitGutterNextHunk
-nmap [h <Plug>GitGutterPrevHunk
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 " Remap hunk text-objects
-omap ih <Plug>GitGutterTextObjectInnerPending
-omap ah <Plug>GitGutterTextObjectOuterPending
-xmap ih <Plug>GitGutterTextObjectInnerVisual
-xmap ah <Plug>GitGutterTextObjectOuterVisual
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 " Remap hunk stage and revert
-nmap <Leader>hs <Plug>GitGutterStageHunk
-nmap <Leader>hu <Plug>GitGutterUndoHunk
+nmap <Leader>hs <Plug>(GitGutterStageHunk)
+nmap <Leader>hu <Plug>(GitGutterUndoHunk)
 " Remap preview hunk
-nmap <Leader>hp <Plug>GitGutterPreviewHunk
+nmap <Leader>hp <Plug>(GitGutterPreviewHunk)
 " Toggle line highlights
 nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
 
@@ -603,6 +617,8 @@ let g:python_highlight_operators = 0
 
 augroup python
     autocmd!
+    " Execute current file.
+    autocmd FileType python nnoremap <Localleader>p :!python %<CR>
     " Disable docstring preview window for jedi-vim
     autocmd FileType python setlocal completeopt=menuone,longest
     " Set 80 chars delimiter
@@ -700,31 +716,31 @@ let g:vimtex_quickfix_latexlog = {
 
 augroup latex
     autocmd!
-    " Number of spaces per tab
-    autocmd FileType tex setlocal tabstop=2
-    " Number of spaces in tab when editing
-    autocmd FileType tex setlocal softtabstop=2
-    " Indent lines by 2 spaces
-    autocmd FileType tex setlocal shiftwidth=2
-    " Conceal level set to 2
+    " Number of spaces per tab.
+    autocmd FileType tex,bib setlocal tabstop=2
+    " Number of spaces in tab when editing.
+    autocmd FileType tex,bib setlocal softtabstop=2
+    " Indent lines by 2 spaces.
+    autocmd FileType tex,bib setlocal shiftwidth=2
+    " Conceal level set to 0.
     autocmd FileType tex setlocal conceallevel=0
     " Enable autoformat and paragraph stop on line break (useful for equation)
     " autocmd BufRead *.tex setlocal fo+=a
-    " Disable colorcolumn
+    " Disable colorcolumn.
     autocmd FileType tex setlocal colorcolumn=
-    " Insert math environment
-    autocmd FileType tex nnoremap <buffer> <Localleader>m i$$<Left>
+    " Insert math environment.
+    " autocmd FileType tex nnoremap <buffer> <Localleader>m i$$<Left>
     " autocmd FileType tex inoremap <C-l>m $$<Left>
-    autocmd FileType tex xnoremap <buffer> <Localleader>m c$<C-r>"$<C-[>
-    " Insert latex vector easily
-    autocmd FileType tex nnoremap <buffer> <Localleader>v i$\vect{}$<Left><Left>
-    autocmd FileType tex inoremap <C-l>v \vect{
-    autocmd FileType tex xnoremap <buffer> <Localleader>v c\vect{<C-r>"}<C-[>
-    " Italics
+    " autocmd FileType tex xnoremap <buffer> <Localleader>m c$<C-r>"$<C-[>
+    " Insert latex vector easily.
+    " autocmd FileType tex nnoremap <buffer> <Localleader>v i$\vect{}$<Left><Left>
+    " autocmd FileType tex inoremap <C-l>v \vect{
+    " autocmd FileType tex xnoremap <buffer> <Localleader>v c\vect{<C-r>"}<C-[>
+    " Italics.
     autocmd FileType tex nnoremap <buffer> <Localleader>i i\textit{}<Left>
     autocmd FileType tex inoremap <C-l>i \textit{
     autocmd FileType tex xnoremap <buffer> <Localleader>i c\textit{<C-r>"}<C-[>
-    " Bold
+    " Bold.
     autocmd FileType tex nnoremap <buffer> <Localleader>b b\textbf{}<Left>
     autocmd FileType tex inoremap <C-l>b \textbf{
     autocmd FileType tex xnoremap <buffer> <Localleader>b c\textbf{<C-r>"}<C-[>
@@ -746,6 +762,22 @@ augroup html
     " Fold current tag
     autocmd FileType html,htmldjango nnoremap <buffer> <Localleader>ft Vatzf
 augroup END
+
+" }}}
+" ULTISNIPS {{{
+
+" Set expand trigger.
+let g:UltiSnipsExpandTrigger = "<C-t>"
+" Show snippets list.
+let g:UltiSnipsListSnippets = "<C-l>"
+" Next tabstop.
+" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+" Previous tabstop.
+" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+" UtliSnipsEdit opens in vertical window.
+let g:UltiSnipsEditSplit = "vertical"
+" Set directories.
+let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/ultisnips', 'ultisnips']
 
 " }}}
 " TMUXLINE {{{

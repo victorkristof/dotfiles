@@ -74,8 +74,8 @@ set laststatus=2            " Always display status line
 set wrap linebreak nolist   " Soft wrap text longer than window width
 set scrolloff=2             " Gives 2 lines of context above and bellow cursor
 
-" Cursor blinks only in insert mode
-set guicursor+=n-v-c:blinkon0
+" Highlight cursuorline.
+highlight CursorLine   cterm=NONE ctermbg=lightgrey ctermfg=NONE
 
 " }}}
 " SEARCHING {{{
