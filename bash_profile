@@ -17,7 +17,43 @@ export PREDIKON_DB="sqlite:////Users/kristof/GitHub/predikon/v2/data/db/predikon
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
+# Bat config file
 export BAT_CONFIG_PATH="/Users/kristof/.batrc"
+
+# fzf
+export FZF_DEFAULT_COMMAND="fd --follow --hidden --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info --preview='bat --color=always {}' "
+# fzf colors:
+# - fg      Text
+# - bg      Background
+# - hl      Highlighted substrings
+# - fg+     Text (current line)
+# - bg+     Background (current line)
+# - gutter  Gutter on the left (defaults to bg+)
+# - hl+     Highlighted substrings (current line)
+# - info    Info
+# - border  Border of the preview window and horizontal separators (--border)
+# - prompt  Prompt
+# - pointer Pointer to the current line
+# - marker  Multi-select marker
+# - spinner Streaming input indicator
+# - header  Header
+FZF_DEFAULT_OPTS+="--color=light,bg+:7,fg+:11,hl:5,hl+:5,info:4,border:11,prompt:11,pointer:5,marker:5,spinner:4,header:4 "
+FZF_DEFAULT_OPTS+="--bind=ctrl-r:toggle-preview "
+FZF_DEFAULT_OPTS+="--bind=ctrl-e:preview-down "
+FZF_DEFAULT_OPTS+="--bind=ctrl-y:preview-up "
+FZF_DEFAULT_OPTS+="--bind=ctrl-f:preview-page-down "
+FZF_DEFAULT_OPTS+="--bind=ctrl-b:preview-page-up "
+FZF_DEFAULT_OPTS+="--bind=ctrl-g:abort "
+FZF_DEFAULT_OPTS+="--bind=ctrl-k:kill-line "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-v:execute(mvim -v {})' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-o:execute(open {})' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-c:execute(cd {})' "
+export FZF_DEFAULT_OPTS="$(echo $FZF_DEFAULT_OPTS)"
+
+# Editor
+export EDITOR="mvim -v"
 
 # iTerm shell integration
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
