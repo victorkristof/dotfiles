@@ -23,7 +23,8 @@ export BAT_CONFIG_PATH="/Users/kristof/.batrc"
 # fzf
 export FZF_DEFAULT_COMMAND="fd --follow --hidden --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info --preview='bat --color=always {}' "
+FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info "
+# FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info --preview='bat --color=always {}' "
 # fzf colors:
 # - fg      Text
 # - bg      Background

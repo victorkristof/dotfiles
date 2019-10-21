@@ -11,7 +11,7 @@ alias cp="cp -i"
 alias mv="mv -i"
 alias env="env | sort | bat"
 # Define function to use the selected entry in fzf.
-alias f="fzf --height 100% --bind 'enter:execute(mvim -v {})+abort'"
+alias f="fzf --height 100% --preview 'bat --color=always {}' --header 'ENTER to open file in Vim' --bind 'enter:execute(mvim -v {})+abort'"
 
 # Virutalenv
 alias activate="source venv/bin/activate"
@@ -30,6 +30,29 @@ alias gdt="git difftool"
 alias gl="git log"
 alias gu="git unstage"
 
+# Try some of the shortcuts here (for fish shel, so needs to adapt).
+# function gbr --description "Git browse commits"
+#     set -l log_line_to_hash "echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+#     set -l view_commit "$log_line_to_hash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy | less -R'"
+#     set -l copy_commit_hash "$log_line_to_hash | xclip"
+#     set -l git_checkout "$log_line_to_hash | xargs -I % sh -c 'git checkout %'"
+#     set -l open_cmd "open"
+
+#     if test (uname) = Linux
+#         set open_cmd "xdg-open"
+#     end
+
+#     set github_open "$log_line_to_hash | xargs -I % sh -c '$open_cmd https://github.\$(git config remote.origin.url | cut -f2 -d. | tr \':\' /)/commit/%'"
+
+#     git log --color=always --format='%C(auto)%h%d %s %C(green)%C(bold)%cr% C(blue)%an' | \
+#         fzf --no-sort --reverse --tiebreak=index --no-multi --ansi \
+#             --preview="$view_commit" \
+#             --header="ENTER to view, CTRL-Y to copy hash, CTRL-O to open on GitHub, CTRL-X to checkout, CTRL-C to exit" \
+#             --bind "enter:execute:$view_commit" \
+#             --bind "ctrl-y:execute:$copy_commit_hash" \
+#             --bind "ctrl-x:execute:$git_checkout" \
+#             --bind "ctrl-o:execute:$github_open"
+# end
 # Browse log using fzf.
 function g() {
 
@@ -77,9 +100,9 @@ function g() {
 function v() {
     local query="$@"
     if [ $# -eq 0 ]; then
-        local files=($(fd --type file --hidden --follow --exclude .git --exclude *.ipynb | fzf --query="$query" --multi --preview='bat --color=always {}'))
+        local files=($(fd --type file --hidden --follow --exclude .git --exclude *.ipynb | fzf --multi))
     else
-        local files=($(fd --type file --hidden --follow --exclude .git --exclude *.ipynb | fzf --query="$query" --multi --select-1 --exit-0 --preview='bat --color=always {}'))
+        local files=($(fd --type file --hidden --follow --exclude .git --exclude *.ipynb | fzf --query="$query" --multi --select-1 --exit-0))
     fi
     [[ -n "$files" ]] && mvim -v "${files[@]}"
 }
@@ -95,9 +118,9 @@ function o() {
 function c() {
     local query="$@"
     if [ $# -eq 0 ]; then
-        local dir=$(fd --type d --hidden --exclude .git 2> /dev/null | fzf --query="$query" +m --preview='')
+        local dir=$(fd --type d --hidden --exclude .git 2> /dev/null | fzf --query="$query" +m)
     else
-        local dir=$(fd --type d --hidden --exclude .git 2> /dev/null | fzf --query="$query" +m --select-1 --exit-0 --preview='')
+        local dir=$(fd --type d --hidden --exclude .git 2> /dev/null | fzf --query="$query" +m --select-1 --exit-0)
     fi
     cd "$dir"
 }
