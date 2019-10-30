@@ -41,16 +41,17 @@ FZF_DEFAULT_OPTS="--height 20% --border --layout=reverse --inline-info "
 # - spinner Streaming input indicator
 # - header  Header
 FZF_DEFAULT_OPTS+="--color=light,bg+:7,fg+:11,hl:5,hl+:5,info:4,border:11,prompt:11,pointer:5,marker:5,spinner:4,header:4 "
-FZF_DEFAULT_OPTS+="--bind=ctrl-r:toggle-preview "
+FZF_DEFAULT_OPTS+="--bind=ctrl-t:toggle-preview "
 FZF_DEFAULT_OPTS+="--bind=ctrl-e:preview-down "
 FZF_DEFAULT_OPTS+="--bind=ctrl-y:preview-up "
 FZF_DEFAULT_OPTS+="--bind=ctrl-f:preview-page-down "
 FZF_DEFAULT_OPTS+="--bind=ctrl-b:preview-page-up "
 FZF_DEFAULT_OPTS+="--bind=ctrl-g:abort "
 FZF_DEFAULT_OPTS+="--bind=ctrl-k:kill-line "
-FZF_DEFAULT_OPTS+="--bind 'ctrl-v:execute(mvim -v {})' "
-FZF_DEFAULT_OPTS+="--bind 'ctrl-o:execute(open {})' "
-FZF_DEFAULT_OPTS+="--bind 'ctrl-c:execute(cd {})' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-v:execute(mvim -v {})+abort' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-o:execute(open {})+abort' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-c:execute(cd {})+abort' "
+FZF_DEFAULT_OPTS+="--bind 'ctrl-r:execute(open -R {})+abort' "
 export FZF_DEFAULT_OPTS="$(echo $FZF_DEFAULT_OPTS)"
 
 # Editor

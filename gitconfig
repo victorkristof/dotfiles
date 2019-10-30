@@ -3,6 +3,7 @@
 	email = victor.kristof@epfl.ch
 [core]
 	excludesfile = /Users/kristof/.gitignore_global
+	editor = mvim -v
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
