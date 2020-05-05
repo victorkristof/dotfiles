@@ -15,7 +15,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Setup prompt
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # Enable fancy autocompletion for scp
 # if [ -f /usr/local/etc/bash_completion ]; then
