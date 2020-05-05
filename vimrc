@@ -505,6 +505,7 @@ nnoremap <Leader>gw :Gwrite<CR>
 " }}}
 " SIMPYLFOLD {{{
 
+" This is a test.
 " Do not fold doc string
 let g:SimpylFold_fold_docstring = 0
 " Enable preview of docstring

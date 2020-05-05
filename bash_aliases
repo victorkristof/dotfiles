@@ -15,6 +15,7 @@ alias show="open -R"
 # alias f="fzf --height 100% --preview 'if file -i {}; then file -b {}; else bat --color=always {}; fi' --header 'ENTER to open file in Vim' --bind 'enter:execute(mvim -v {})+abort'"
 # alias f="fzf --height 100% --preview 'bat --color=always {}' --header 'ENTER to open file in Vim' --bind 'enter:execute(_open {})+abort'"
 alias f="_open"
+alias ff="cd && _open"
 
 # Virutalenv
 alias activate="source venv/bin/activate"
@@ -24,7 +25,7 @@ alias nb="jupyter notebook"
 alias nbn="jupyter notebook --no-browser"
 
 # Git
-alias gst="git status"
+alias ss="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gca="git commit --amend"
@@ -109,7 +110,8 @@ function s {
 
     # Set header.
     local header="$(git status | head -2)"
-    header+=$'\nENTER to open in Vim, CTRL-A to stage, CTRL-U to unstage, CTRL-D to diff'
+    header+=$'\nENTER to open in Vim, CTRL-A to stage, CTRL-U to unstage'
+    header+=$'\nCTRL-D to diff, CTRL-C to commit, CTRL-X to add to gitignore'
     local files=($(git -c color.status=always status --short \
       | fzf --no-sort --reverse \
       --ansi \
@@ -120,7 +122,9 @@ function s {
       --header="$header" \
       --bind "ctrl-a:execute(git add {+2} && echo 'ADD')+abort" \
       --bind "ctrl-u:execute(git reset -- {+2} > /dev/null 2>&1 && echo 'UNSTAGE')+abort" \
-      --bind "ctrl-d:execute(echo {+2} | xargs -o git difftool)"
+      --bind "ctrl-d:execute(echo {+2} | xargs -o git difftool)" \
+      --bind "ctrl-c:execute(echo 'COMMIT')+abort" \
+      --bind "ctrl-x:execute(echo {+2} >> .gitignore && echo \"Ignore {+2}.\")+abort" \
     ))
 
     # If no files selected, do nothing.
@@ -128,6 +132,9 @@ function s {
     # If add or unstage, print git status.
     if [ "$(echo ${files[@]})" = "ADD" ] || [ "$(echo ${files[@]})" = "UNSTAGE" ]; then
         git status && return
+    # Run git commit.
+    elif [ "$(echo ${files[@]})" = "COMMIT" ]; then
+        git commit
     fi
     # If more than one files, open them in Vim (if they exist).
     if [ ${#files[@]} -gt 0 ]; then
