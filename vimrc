@@ -12,23 +12,16 @@ call plug#begin()
 Plug 'vim-scripts/matchit.zip'
 " Solarized for vim
 Plug 'altercation/vim-colors-solarized'
-" Plug 'romainl/flattened'
 " Delete buffers as it should be done
 Plug 'moll/vim-bbye'
-" Combine with netrw to create a delicious salad dressing
-" Plug 'tpope/vim-vinegar'
 " Create your own text objects
 Plug 'kana/vim-textobj-user'
 " Extended f, F, t and T key mappings for Vim.
 Plug 'rhysd/clever-f.vim'
-" The missing motion for vim
-" Plug 'justinmk/vim-sneak'
 " Enable repeating of some actions
 Plug 'tpope/vim-repeat'
 " Add git signs in the left column
 Plug 'airblade/vim-gitgutter'
-" Git wrapper so awesome it should be illegal
-Plug 'tpope/vim-fugitive'
 " Surroundings made simple
 Plug 'tpope/vim-surround'
 " Pairs of handy bracket mappings
@@ -41,8 +34,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'jmcantrell/vim-virtualenv'
 " Comment stuff out
 Plug 'tpope/vim-commentary'
-" Autocompletion for Python
-" Plug 'davidhalter/jedi-vim'
 " Python syntax highlighting
 Plug 'vim-python/python-syntax'
 " Python indent style complying with PEP8
@@ -55,12 +46,6 @@ Plug 'tmhedberg/simpylfold'
 Plug 'ajh17/vimcompletesme'
 " Markdown
 Plug 'SidOfc/mkdx'
-" Pandoc integration and utilities
-" Plug 'vim-pandoc/vim-pandoc'
-" Pandoc's Markdown syntax
-" Plug 'vim-pandoc/vim-pandoc-syntax'
-" Pandoc integration with third-party plugins
-" Plug 'vim-pandoc/vim-pandoc-after'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
 " Speed up updating folds
@@ -81,12 +66,8 @@ Plug 'godlygeek/tabular'
 Plug 'victorkristof/vim-textobj-xmlattr'
 " Restore focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
-" Continuously updated session files
-Plug 'tpope/vim-obsession'
 " The ultimate snippets solution for Vim.
 Plug 'sirver/ultisnips'
-" Default snippets.
-Plug 'honza/vim-snippets'
 
 " Initialize plugin system
 call plug#end()
@@ -96,8 +77,6 @@ call plug#end()
 
 set nocompatible            " Ditch vi
 set hidden                  " Allows to switch buffer when modified
-" set autowrite
-" filetype indent on          " Load filetype-specific indent files
 filetype plugin on          " Load fileypte-specific plugins
 set nobackup                " Disable backup, git can do this work
 set noswapfile              " Disable .swp files
@@ -113,7 +92,7 @@ set ttimeoutlen=1
 " jk is <Esc>
 inoremap jk <ESC>
 " Leave Ex mode for good
-nnoremap Q <Nop>
+" nnoremap Q <Nop>
 " Y behaves like C and D
 nnoremap Y y$
 " In visual mode, $ reaches end of line without the line break.
@@ -132,7 +111,6 @@ nnoremap <Leader>sc :source ~/.vimrc<CR>:e<CR>
 nnoremap <Leader>p :r !pbpaste<CR>
 " Make
 nnoremap <Leader>mk :!make<CR>
-
 " }}}
 " JOURNAL {{{
 
@@ -157,14 +135,8 @@ nnoremap <CR>b :tabnew<CR>`B
 
 augroup specialfiles
     autocmd!
-    " Add new day
-    autocmd BufWinEnter journal.md nnoremap <buffer> <Localleader>nd i<CR>## <C-r>=strftime('%d-%m-%Y')<CR><CR><CR><CR><Up><C-[>
-    " Add 'learned today'
-    autocmd BufWinEnter journal.md nnoremap <buffer> <Localleader>lt i### Learned today<CR><CR>
     " Add new entry
     autocmd BufRead journal.md nnoremap <buffer> <Localleader>ne ggji<CR><CR><Up>## [<C-r>=strftime('%d-%m-%Y')<CR>]<Space>
-    " Add new tags for entry
-    autocmd BufRead journal.md nnoremap <buffer> <Localleader>nt iTags: []<Left>
     " Set mark when leaving files
     autocmd BufLeave journal.md :normal mJ
     autocmd BufLeave reading-list.md :normal mR
@@ -172,18 +144,12 @@ augroup specialfiles
     autocmd BufLeave snippets.md :normal mS
     autocmd BufLeave learn.md :normal mL
     autocmd BufLeave blog.md :normal mB
-    " Persistent folds
-    autocmd FileType pandoc setlocal viewoptions-=options
-    autocmd BufLeave ~/Documents/research/*.md mkview
-    autocmd BufEnter ~/Documents/research/*.md silent loadview
     " Check document in the list: transfer it to the 'Read' section with " date
     " Add a mark in 'r' register at '## Read' line
     autocmd BufRead reading-list.md :call setpos("'r", [0, search("## Read"), 0, 0])
     autocmd BufRead reading-list.md nnoremap <buffer> <C-x> m'dd'rjp0lli<C-r>=strftime('%d-%m-%Y')<CR>: <C-[>''
     " Add new link to list
     autocmd BufRead reading-list.md nnoremap <buffer> <Localleader>nl o- [](<C-r>*)<C-[>03li
-    " Add new Mendeley entry
-    autocmd BufRead reading-list.md nnoremap <buffer> <Localleader>nm o- [Mendeley]:<Space>
 augroup end
 
 " }}}
@@ -201,16 +167,16 @@ set shiftwidth=4            " Indent lines by 4 spaces
 set softtabstop=4           " Number of spaces in tab when editing
 set expandtab               " Tab are spaces
 set autoindent              " Indent when moving to the next line while writing
-" Make backspaces more powerfull
+" Make backspaces more powerful
 set backspace=indent,eol,start
 " Add blank line above cursor
 nnoremap J o<ESC>k
 " Add blank line below cursor
 nnoremap K O<ESC>j
 " Add one space on the left side of the cursor.
-nnoremap H i <ESC>l
+" nnoremap H i <ESC>l
 " Add one space on the right side of the cursor.
-nnoremap L a <ESC>h
+" nnoremap L a <ESC>h
 
 " }}}
 " UI CONFIG {{{
@@ -227,9 +193,10 @@ set mouse=a                 " Enable the mouse
 set splitbelow              " Open split below
 set splitright              " Open split right
 set laststatus=2            " Always display status line
-set wrap linebreak nolist   " Soft wrap text longer than window width
+set wrap linebreak          " Soft wrap text longer than window width
 set showbreak=↪             " Better line wraps
 set scrolloff=2             " Gives 2 lines of context above and bellow cursor
+set nolist                  " Show invisible characters
 " Show characters with set list
 set listchars=tab:▸\ ,eol:¬,space:•,nbsp:~
 
@@ -237,13 +204,13 @@ set listchars=tab:▸\ ,eol:¬,space:•,nbsp:~
 " To install: brew cask install font-sourcecodepro-nerd-font-mono
 " set guifont=Menlo\ for\ Powerline:h14
 set guifont=SauceCodePro\ Nerd\ Font:h14
-" Cursor blinks only in insert mode
-set guicursor+=n-v-c:blinkon0
+
 " Set background of cursor line number to be the same as column
-highlight CursorLineNr ctermbg=7 guibg=#eee8d5
+highlight CursorLineNr cterm=bold ctermbg=7 guibg=#eee8d5
 " Set background of gutter to the same color as column
 highlight Error ctermbg=7 ctermfg=1 guibg=#eee8d5
 highlight WarningMsg ctermbg=7 ctermfg=3 guibg=#eee8d5
+
 " Change cursor shape on different mode
 if empty($TMUX)
   let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
@@ -281,8 +248,11 @@ nnoremap <Leader>fp [s1z=<C-o>
 " Fix next spelling error and come back to position
 nnoremap <Leader>fn ]s1z=<C-o>
 " Fix last spelling error from insert mode
-inoremap <C-f> <C-[>[s1z=<C-o>a
-" inoremap <C-f> <C-g>u<Esc>[s1z=`]a<C-g>u
+" inoremap <C-f> <C-[>[s1z=<C-o>a
+inoremap <C-f> <C-g>u<Esc>[s1z=`]a<C-g>u
+" Set Thesaurus file in English
+" Source: https://github.com/vim/vim/issues/629#issuecomment-443293282
+set thesaurus=~/.vim/thesaurus/english.txt
 
 " }}}
 " FOLDING {{{
@@ -299,26 +269,16 @@ highlight Folded cterm=bold gui=bold
 " }}}
 " FORMATTING {{{
 
-" Set text width to 80 by default for all files.
-set textwidth=0
 " Color three columns after textwidth.
 set colorcolumn=+1,+2,+3
 " Format text (according to textwidth)
-set formatoptions=tcqwn1j
-" Format a paragraph according to the text width
-nnoremap gQ m`gqip``
-" Format till the end of the paragraph
-nnoremap g} gq}<C-o>
-" Join all line inside a paragraph
-nnoremap gJ m`vipJ``
-" Format in visual mode
-vnoremap q gq
-" Indent whole file
-nnoremap g= gg=G``
+set formatoptions=cqn1j
 
 " }}}
 " FILES AND BUFFERS {{{
 
+" Switch between alternate buffers (this is one of my killer mapping)
+nnoremap <Tab> <C-^>
 " Automatically reload files when changed from outside vim
 set autoread
 " Visual autocomplete for command menu
@@ -335,13 +295,8 @@ nnoremap <leader>E :vs **/*
 set wildcharm=<C-z>
 " List buffers and open prompt
 nnoremap <leader>b :buffer <C-z><S-Tab>
-" nnoremap <leader>b :buffer **/*
 " List buffers and open prompt, enter will open in split
 nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
-" `gf` opens file under cursor in a new vertical split
-" nnoremap gf :vertical wincmd f<CR>
-" Reload current file (useful when debugging new setting in vimrc)
-nnoremap <Leader>r :e %<CR>
 
 " }}}
 " WINDOWS {{{
@@ -350,16 +305,6 @@ nnoremap <Leader>r :e %<CR>
 set equalalways
 " Close quickfix window.
 nnoremap <C-q> :ccl<CR>
-" These mappings don't work:
-" https://vi.stackexchange.com/questions/8856/mapping-ctrl-with-equal-sign
-" " Increase height of window
-" nnoremap <C-+> <C-w>+
-" " Decrease height of window
-" nnoremap <C--> <C-w>-
-" " Increase width of window
-" nnoremap <C-.> <C-w>>
-" " Decrease width of window
-" nnoremap <C-,> <C-w><
 
 " }}}
 " MOVEMENT {{{
@@ -377,10 +322,6 @@ inoremap <Right> <NOP>
 " greater than 5 then automatically add to the jumplist and center screen.
 nnoremap <expr> j v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'j' : 'gj'
 nnoremap <expr> k v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'k' : 'gk'
-" Highlight last inserted text
-nnoremap gV `[v`]
-" Switch between alternate buffers
-nnoremap <Tab> <C-^>
 
 " }}}
 " {{{ INSERT MODE
@@ -391,17 +332,8 @@ inoremap AA <C-[>A
 inoremap II <C-[>I
 " Start new line
 inoremap OO <C-[>o
-" Add ( at the end of line
-" inoremap (( <C-[>I(
-" Add ) at the end of line
-" inoremap )) <C-[>A)<Space>
-" Add : at the end of line
-" inoremap :: <C-[>A:<Space>
-" Insert current day
-" inoremap <C-d> <C-r>=strftime('%d-%m-%Y')<CR>
 " Put yank register
 inoremap <C-p> <C-r>"
-inoremap <C-n> <C-x><C-n>
 
 " }}}
 " VISUAL MODE {{{
@@ -417,36 +349,18 @@ vnoremap > >gv
 
 " Fix direction of search.
 let g:clever_f_fix_key_direction = 1
+" Search on current line only.
+let g:clever_f_across_no_line = 1
+" Clever case ('fa' matches 'a' and 'A')
+let g:clever_f_smart_case = 1
 " Set highlight color.
 let g:clever_f_mark_char_color = "Search"
+" Show characters to which you can jump.
+let g:clever_f_mark_direct = 1
+" Set color of characters to which you can jump.
+let g:clever_f_mark_direct_color = "Search"
 
 " }}}
-" SNEAK {{{
-
-" Use s to continue search, as clever-f
-" let g:sneak#s_next = 1
-" s and S always go forward and backward, respectively
-" let g:sneak#absolute_dir = 1
-" Enable label mode (try it first...)
-" let g:sneak#label = 1
-" Remap to use f and t
-" map f <Plug>Sneak_f
-" map F <Plug>Sneak_F
-" map t <Plug>Sneak_t
-" map T <Plug>Sneak_T
-" Remap previous to free \ for localleader
-" map gS <Plug>Sneak_,
-
-" Change color
-" hi Sneak guifg=black guibg=red ctermfg=red ctermbg=none cterm=underline,bold gui=underline
-
-" }}}
-" VIMCOMPLETESME {{{
-
-" Cycle forward
-" let g:vcm_direction = 'n'
-
-"}}}
 " NETRW {{{
 
 " Open Netrw
@@ -471,41 +385,17 @@ nnoremap <Leader>q :Bdelete<CR>
 " }}}
 " GIT-GUTTER {{{
 
-set updatetime=250              " Update signs quicker
+" Update signs quicker, as recommended by plugin author
+set updatetime=100
 " Remap hunk movements
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
-" Remap hunk text-objects
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-" Remap hunk stage and revert
-nmap <Leader>hs <Plug>(GitGutterStageHunk)
-nmap <Leader>hu <Plug>(GitGutterUndoHunk)
-" Remap preview hunk
-nmap <Leader>hp <Plug>(GitGutterPreviewHunk)
-" Toggle line highlights
-nmap <Leader>ht :GitGutterLineHighlightsToggle<CR>
-
-" }}}
-" FUGITIVE {{{
-
-" Shortcut to Gstatus
-nnoremap <Leader>gs :Gstatus<CR>
-" Shortcupt to Gcommit
-nnoremap <Leader>gc :Gcommit<CR>
-" Shortcut to Gpush
-nnoremap <Leader>gp :Gpush<CR>
-" Shortcut for Gpull
-nnoremap <Leader>gl :Gpull<CR>
-" Shortcut for Gwrite
-nnoremap <Leader>gw :Gwrite<CR>
+" Match line number column background
+highlight! link SignColumn LineNr
 
 " }}}
 " SIMPYLFOLD {{{
 
-" This is a test.
 " Do not fold doc string
 let g:SimpylFold_fold_docstring = 0
 " Enable preview of docstring
@@ -525,10 +415,9 @@ let g:airline#extensions#hunks#enabled = 1 " Show summary of hunk changes
 let g:airline#extensions#hunks#non_zero_only = 1 " Enable showing only non-zeros
 let g:airline#extensions#virtualenv#enabled = 0 " Disable virtualenv
 let g:airline#extensions#whitespace#enabled = 1 " Enable whitespace check
-let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#wordcount#enabled = 1  " Enable word count
 let g:airline#extensions#wordcount#filetypes = '\vhelp|markdown|pandoc|rst|org|text|asciidoc|tex|mail'
 let g:airline#extensions#tmuxline#enabled = 0 " Disable as custom theme
-let g:airline#extensions#obsession#enabled = 1 " Enable vim-obsession marker
 
 " Setup airline
 function! AirlineInit()
@@ -543,43 +432,6 @@ function! AirlineInit()
   let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', ' %3p%%'])
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
-
-" }}}
-" SYNTASTIC {{{
-
-" Symbols
-let airline#extensions#syntastic#warning_symbol = '⚑'
-" Syntastic recommended settings
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-" Set the height of the location list
-let g:syntastic_loc_list_height = 5
-
-" }}}
-" JEDI {{{
-
-" Disable auto configuration to disable documentation preview window (in python
-" augroup)
-let g:jedi#auto_vim_configuration = 0
-" Disable window showing arguments of current function
-let g:jedi#show_call_signatures = 0
-" Open new split for 'go to'
-let g:jedi#use_splits_not_buffers = "right"
-" Use tabs instead of buffers when going to definition
-let g:jedi#use_tabs_not_buffers = 1
-" Map go to definition command
-let g:jedi#documentation_command = "<Localleader>d"
-" Show all usages of element under cursor
-let g:jedi#usages_command = "<Localleader>u"
-" Disable goto command, default: <leader>d
-let g:jedi#goto_command = "<Localleader>g"
-" Disable goto assignments, default: <leader>g
-let g:jedi#goto_assignments_command = "<Localleader>a"
-let g:jedi#rename_command = "<Localleader>r"
-" Configure height of documentation preview window
-let g:jedi#max_doc_height = 50
 
 " }}}
 " FLAKE8 {{{
@@ -618,16 +470,9 @@ let g:python_highlight_operators = 0
 
 augroup python
     autocmd!
-    " Execute current file.
-    autocmd FileType python nnoremap <Localleader>p :!python %<CR>
-    " Disable docstring preview window for jedi-vim
-    autocmd FileType python setlocal completeopt=menuone,longest
-    " Set 80 chars delimiter
+    " Set 79 chars delimiter
     autocmd FileType python setlocal textwidth=79
-    " Remove automatic formatting in Python
-    autocmd FileType python setlocal formatoptions-=t
-    " Syntax setting
-    " Functions in blue
+    " Highlight functions in blue
     autocmd FileType python
         \ syn match pythonInlineFunction '[a-zA-Z_][a-zA-Z0-9_]*\ze('
         \ | hi def link pythonInlineFunction Function
@@ -647,58 +492,29 @@ augroup python
     autocmd FileType python hi pythonDottedName ctermfg=13 guifg=#6c71c4
     " Self and cls in violet and italics
     autocmd FileType python hi pythonClassVar ctermfg=13 guifg=#6c71c4 cterm=italic gui=italic
-
-augroup END
-
-" }}}
-" PANDOC {{{
-
-" Disable fold column
-let g:pandoc#folding#fdc = 0
-" Blacklist some conceals
-let g:pandoc#syntax#conceal#blacklist = ["codeblock_start", "codeblock_delim"]
-" <localleader># transforms the current line into a ## header
-let g:pandoc#keyboard#sections#header_style = '##'
-" Conceal urls
-let g:pandoc#syntax#conceal#urls = 0
-
-augroup pandoc
-    autocmd!
-    " Enable autoformat and paragraph stop on line break
-    autocmd FileType pandoc setlocal formatoptions+=aw
-    " Create codeblock
-    autocmd FileType pandoc nnoremap <buffer> <Localleader>cb o```<CR>```<C-[>O
 augroup END
 
 " }}}
 " MARKDOWN {{{
 
-augroup markdown
-    autocmd!
-    " Set 80 chars delimiter
-    autocmd FileType markdown setlocal textwidth=80
-    autocmd FileType markdown setlocal colorcolumn=+1,+2,+3
-    " Enable autoformat and paragraph stop on line break
-    autocmd FileType markdown setlocal formatoptions+=aw
-    autocmd FileType markdown setlocal foldlevel=1
-    autocmd FileType markdown highlight OverLengthHard NONE
-    autocmd FileType markdown highlight OverLengthSoft NONE
-    " Render marked elements inline
-    " autocmd FileType markdown set conceallevel=2
-augroup END
-
 let g:mkdx#map_prefix = '<localleader>'
-nmap <localleader>X <Plug>(mkdx-checkbox-next)
-vmap <localleader>X <Plug>(mkdx-checkbox-next)
-nmap <localleader>x <Plug>(mkdx-checkbox-prev)
-vmap <localleader>x <Plug>(mkdx-checkbox-prev)
+" Strike with ~
+let g:mkdx#settings = { 'tokens': { 'strike' : '~' } }
+" Remap inline code formattig
+nmap <localleader>c <Plug>(mkdx-mapping-wrap-text-in-backticks)
+vmap <localleader>c <Plug>(mkdx-mapping-wrap-text-in-backticks)
+" Remap toggle quote
+nmap <localleader>q <Plug>(mkdx-toggle-quote-n)
+vmap <localleader>q <Plug>(mkdx-toggle-quote-v)
 
+" Remap checkbox ticking
+nmap <localleader>x <Plug>(mkdx-checkbox-next)
+vmap <localleader>x <Plug>(mkdx-checkbox-next)
+nmap <localleader>X <Plug>(mkdx-checkbox-prev)
+vmap <localleader>X <Plug>(mkdx-checkbox-prev)
+" Remap italic
 nmap <localleader>i <Plug>(mkdx-text-italic-n)
 vmap <localleader>i <Plug>(mkdx-text-italic-v)
-
-
-" Highlight JSON
-" let g:vim_markdown_json_frontmatter = 1
 
 " }}}
 " LATEX {{{
@@ -712,8 +528,6 @@ let g:vimtex_quickfix_latexlog = {
       \ 'overfull' : 0,
       \ 'underfull' : 0,
       \}
-" Automatically close brackets
-" let g:vimtex_complete_close_braces = 1
 
 augroup latex
     autocmd!
@@ -725,26 +539,16 @@ augroup latex
     autocmd FileType tex,bib setlocal shiftwidth=2
     " Conceal level set to 0.
     autocmd FileType tex setlocal conceallevel=0
-    " Enable autoformat and paragraph stop on line break (useful for equation)
-    " autocmd BufRead *.tex setlocal fo+=a
     " Disable colorcolumn.
-    autocmd FileType tex setlocal colorcolumn=
-    " Insert math environment.
-    " autocmd FileType tex nnoremap <buffer> <Localleader>m i$$<Left>
-    " autocmd FileType tex inoremap <C-l>m $$<Left>
-    " autocmd FileType tex xnoremap <buffer> <Localleader>m c$<C-r>"$<C-[>
-    " Insert latex vector easily.
-    " autocmd FileType tex nnoremap <buffer> <Localleader>v i$\vect{}$<Left><Left>
-    " autocmd FileType tex inoremap <C-l>v \vect{
-    " autocmd FileType tex xnoremap <buffer> <Localleader>v c\vect{<C-r>"}<C-[>
+    " autocmd FileType tex setlocal colorcolumn=
     " Italics.
-    autocmd FileType tex nnoremap <buffer> <Localleader>i i\textit{}<Left>
-    autocmd FileType tex inoremap <C-l>i \textit{
-    autocmd FileType tex xnoremap <buffer> <Localleader>i c\textit{<C-r>"}<C-[>
+    " autocmd FileType tex nnoremap <buffer> <Localleader>i i\textit{}<Left>
+    " autocmd FileType tex inoremap <C-l>i \textit{
+    " autocmd FileType tex xnoremap <buffer> <Localleader>i c\textit{<C-r>"}<C-[>
     " Bold.
-    autocmd FileType tex nnoremap <buffer> <Localleader>b b\textbf{}<Left>
-    autocmd FileType tex inoremap <C-l>b \textbf{
-    autocmd FileType tex xnoremap <buffer> <Localleader>b c\textbf{<C-r>"}<C-[>
+    " autocmd FileType tex nnoremap <buffer> <Localleader>b b\textbf{}<Left>
+    " autocmd FileType tex inoremap <C-l>b \textbf{
+    " autocmd FileType tex xnoremap <buffer> <Localleader>b c\textbf{<C-r>"}<C-[>
 augroup END
 
 " }}}
@@ -753,15 +557,13 @@ augroup END
 augroup html
     autocmd!
     " Disable column at 80 characters
-    autocmd FileType html,htmldjango setlocal colorcolumn=
+    " autocmd FileType html,htmldjango setlocal colorcolumn=
     " Number of spaces per tab
     autocmd FileType html,htmldjango,css,scss setlocal tabstop=2
     " Number of spaces in tab when editing
     autocmd FileType html,htmldjango,css,scss setlocal softtabstop=2
     " Indent lines by 2 spaces
     autocmd FileType html,htmldjango,css,scss setlocal shiftwidth=2
-    " Fold current tag
-    autocmd FileType html,htmldjango nnoremap <buffer> <Localleader>ft Vatzf
 augroup END
 
 " }}}
@@ -771,10 +573,6 @@ augroup END
 let g:UltiSnipsExpandTrigger = "<C-t>"
 " Show snippets list.
 let g:UltiSnipsListSnippets = "<C-l>"
-" Next tabstop.
-" let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-" Previous tabstop.
-" let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 " UtliSnipsEdit opens in vertical window.
 let g:UltiSnipsEditSplit = "vertical"
 " Set directories.
@@ -803,7 +601,7 @@ augroup configgroup
     " Save file when leaving insert mode
     autocmd InsertLeave *.* :w
     " Save file when losing focus
-    autocmd FocusLost * :wa
+    " autocmd FocusLost * :wa
     " Remove all useless white spaces
     autocmd BufWritePre * :call StripTrailingWhitespaces()
     " Spell checks Git commits
@@ -844,14 +642,6 @@ function! ToggleAllFolds()
         set foldlevel=99
     endif
 endfunction
-
-" }}}
-" TEMP {{{
-" A buffer for configuration to try
-
-" Map <CR> to <CR><Space> to still be able to valide quickfix entries
-nnoremap <CR><Space> <CR>
-
 
 " }}}
 
