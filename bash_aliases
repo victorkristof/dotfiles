@@ -53,7 +53,8 @@ export -f _preview
 
 function _open {
     local files
-    files=($(fzf --height 100% --preview '_preview {}' --header 'ENTER to open file or directory'))
+    local query="$@"
+    files=($(fzf --height 100% --query="$query" --preview '_preview {}' --header 'ENTER to open file or directory'))
     # If no files selected, do nothing.
     [ ${#files[@]} -eq 0 ] && return
     # If more than one files, open them in Vim.
