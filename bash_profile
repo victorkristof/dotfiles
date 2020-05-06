@@ -3,6 +3,11 @@ if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi
 
+# Load Zettelkasten config.
+if [ -f ~/.zettelkasten_config ]; then
+   source ~/.zettelkasten_config
+fi
+
 # User install (Homebrew) program have priority
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 

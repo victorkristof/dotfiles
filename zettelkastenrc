@@ -1,0 +1,63 @@
+# Preview function for notes highlighting lines.
+function _preview_note_line {
+    local file
+    local line
+    file=$(echo "$@" | cut -d : -f 1)
+    line=$(echo "$@" | cut -d : -f 2)
+    bat --color=always --highlight-line $line $file
+}
+# Make it accessible to fzf preview.
+export -f _preview_note_line
+
+# Preview function for notes.
+function _preview_note {
+    local file
+    file=$(echo "$@" | cut -d : -f 1)
+    bat --color=always $file
+}
+# Make it accessible to fzf preview.
+export -f _preview_note
+
+# Browse notes filtering on their *content*.
+function _browse_notes_content {
+    local out
+    local file
+    local line
+    # Fetch all lines that start with a non-blank character in all notes
+    out="$(ag --color --color-match=0 --nobreak --noheading --md "^\S" | fzf -0 -1 --exact --ansi --height 100% --preview '_preview_note_line {}' --header 'ENTER to open note in Vim')"
+    file="$(echo $out | cut -d : -f 1)"
+    line="$(echo $out | cut -d : -f 2)"
+    # If no files selected, do nothing.
+    [ -z "$file" ] && return
+    # Otherwise open the file at the given line.
+    mvim -v $file +$line
+}
+export -f _browse_notes_content
+
+# Browse notes by title.
+function _browse_notes {
+    local file
+    file=($(ag --color --color-match=0 --nobreak --noheading --nonumber --md "^# " | fzf -0 -1 --exact --ansi --height 100% --preview '_preview_note {}' --header 'ENTER to open note in Vim' | cut -d : -f 1))
+    # If no files selected, do nothing.
+    [ -z "$file" ] && return
+    # If more than one files, open them in Vim.
+    mvim -v $file
+}
+export -f _browse_notes
+
+# Create a new note with the current date as the filename
+# and with a H1 markdown title using the argument.
+# Usage: z "First note"
+# If no arguments are provided, open an interface to browse the notes.
+function z {
+    if [ $# -eq 0 ]; then
+        _browse_notes
+    else
+        local filename="`date +"%Y%m%d%H%M"`.md"
+        echo $"# $@" > $filename
+        vim $filename
+    fi
+}
+
+# Browse notes by content.
+alias zz="_browse_notes_content"
