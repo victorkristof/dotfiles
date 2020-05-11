@@ -10,6 +10,8 @@ fi
 
 # User install (Homebrew) program have priority
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+# Add Python executables to path.
+export PATH=/Users/kristof/Library/Python/3.7/bin:$PATH
 
 # Set URL for databases
 # export SOCCERWAY_DB_URL="sqlite:////Users/kristof/GitHub/kickoff.ai/kickoff-sci/data/sw-with-clubs-2018-05-18.db"
