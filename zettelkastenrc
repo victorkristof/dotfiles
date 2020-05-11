@@ -24,7 +24,7 @@ function _browse_notes_content {
     local file
     local line
     # Fetch all lines that start with a non-blank character in all notes
-    out="$(ag --color --color-match=0 --nobreak --noheading --md "^\S" | fzf -0 -1 --exact --ansi --height 100% --preview '_preview_note_line {}' --header 'ENTER to open note in Vim')"
+    out="$(ag --color --color-match=0 --nobreak --noheading --md "^\S" | sort | fzf -0 -1 --exact --tac --ansi --height 100% --preview '_preview_note_line {}' --header 'ENTER to open note in Vim')"
     file="$(echo $out | cut -d : -f 1)"
     line="$(echo $out | cut -d : -f 2)"
     # If no files selected, do nothing.
@@ -37,13 +37,21 @@ export -f _browse_notes_content
 # Browse notes by title.
 function _browse_notes {
     local file
-    file=($(ag --color --color-match=0 --nobreak --noheading --nonumber --md "^# " | fzf -0 -1 --exact --ansi --height 100% --preview '_preview_note {}' --header 'ENTER to open note in Vim' | cut -d : -f 1))
+    file=($(ag --color --color-match=0 --nobreak --noheading --nonumber --md "^# " | sort | fzf -0 -1 --exact --tac --ansi --height 100% --preview '_preview_note {}' --header 'ENTER to open note in Vim' | cut -d : -f 1))
     # If no files selected, do nothing.
     [ -z "$file" ] && return
     # If more than one files, open them in Vim.
     mvim -v $file
 }
 export -f _browse_notes
+
+# Render template.
+function render_template {
+  eval "echo \"$(cat $1)\""
+}
+export -f render_template
+
+
 
 # Create a new note with the current date as the filename
 # and with a H1 markdown title using the argument.
@@ -53,9 +61,12 @@ function z {
     if [ $# -eq 0 ]; then
         _browse_notes
     else
+        local date="`date +"%Y-%m-%d %H:%M"`"
         local filename="`date +"%Y%m%d%H%M"`.md"
-        echo $"# $@" > $filename
-        vim $filename
+        local title="$@"
+        echo "Created new note \"$title\" in $filename."
+        render_template template.tpl > $filename
+        mvim -v $filename
     fi
 }
 
