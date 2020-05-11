@@ -34,3 +34,9 @@ bind '"\e[B": history-search-forward'  # Search forward on down arrow
 export HISTCONTROL=ignoreboth          # Don't save duplicates
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+# Set cd binding to Alt-O
+bind '"\eo": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
+# Overwrite Alt-C binding to get readline mapping for capitalize word.
+bind '"\ec": capitalize-word'
