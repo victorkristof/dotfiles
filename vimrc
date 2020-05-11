@@ -14,8 +14,6 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'altercation/vim-colors-solarized'
 " Delete buffers as it should be done
 Plug 'moll/vim-bbye'
-" Create your own text objects
-Plug 'kana/vim-textobj-user'
 " Extended f, F, t and T key mappings for Vim.
 Plug 'rhysd/clever-f.vim'
 " Enable repeating of some actions
@@ -47,9 +45,9 @@ Plug 'SidOfc/mkdx'
 " Modern plugin to edit LaTeX files
 Plug 'lervag/vimtex'
 " Speed up updating folds
-Plug 'konfekt/fastfold'
+" Plug 'konfekt/fastfold'
 " Look up words on online Thesaurus
-Plug 'ron89/thesaurus_query.vim'
+" Plug 'ron89/thesaurus_query.vim'
 " Seamless navigation between tmux panes and vim splits
 Plug 'christoomey/vim-tmux-navigator'
 " Simple tmux status line generator
@@ -57,11 +55,19 @@ Plug 'edkolev/tmuxline.vim'
 " MatchParen for HTML tags
 Plug 'gregsexton/matchtag'
 " Ghetto HTML mappings
-Plug 'tpope/vim-ragtag'
+" Plug 'tpope/vim-ragtag'
 " Filter and align texts
 Plug 'godlygeek/tabular'
+" Create your own text objects
+Plug 'kana/vim-textobj-user'
 " Text object for HTML attributes
 Plug 'victorkristof/vim-textobj-xmlattr'
+" Text object for comment
+Plug 'glts/vim-textobj-comment'
+" Text object for key-value
+Plug 'vimtaku/vim-textobj-keyvalue'
+" Text object for parameters (including swapping and movements)
+Plug 'andrewradev/sideways.vim'
 " Restore focus event
 Plug 'tmux-plugins/vim-tmux-focus-events'
 " The ultimate snippets solution for Vim.
@@ -70,7 +76,11 @@ Plug 'sirver/ultisnips'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Easily search for, substitute, and abbreviate multiple variants of a word.
-Plug 'tpope/vim-abolish'
+" Plug 'tpope/vim-abolish'
+" A very simple plugin that makes hlsearch more useful.
+Plug 'romainl/vim-cool'
+" Readline-style insertion.
+Plug 'tpope/vim-rsi'
 
 " Initialize plugin system
 call plug#end()
@@ -90,12 +100,14 @@ nnoremap ; :
 xnoremap ; :
 nnoremap é :
 xnoremap é :
+" Repeat last edit n times
+nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 " Fix delay when exiting visual and command mode with <ESC>
 set ttimeoutlen=1
 " jk is <Esc>
 inoremap jk <ESC>
-" Leave Ex mode for good
-" nnoremap Q <Nop>
+" Replace Ex mode by formatting (as in Vim 5.0). Ex mode is accessed via gQ
+nnoremap Q gq
 " Y behaves like C and D
 nnoremap Y y$
 " In visual mode, $ reaches end of line without the line break.
@@ -107,9 +119,9 @@ vnoremap $ $h
 let mapleader=","           " Leader is comma
 let maplocalleader='\'      " Local leader is backslash
 " Edit vimrc in new tab
-nnoremap <Leader>vc :tabe ~/.dotfiles/vimrc<CR>
+nnoremap <Leader>vc :tabe ~/.vim/vimrc<CR>
 " Source vimrc and reload current buffer, syntax is lost otherwise
-nnoremap <Leader>sc :source ~/.vimrc<CR>:e<CR>
+nnoremap <Leader>sc :source ~/.vim/vimrc<CR>:e<CR>
 " Paste from clipboard
 nnoremap <Leader>p :r !pbpaste<CR>
 " Make
@@ -177,10 +189,10 @@ augroup zettelkasten
     autocmd BufRead */zettelkasten/* syn match ZettelkastenHeader '\v^(Date|Tags|References|Source):'
     autocmd BufRead */zettelkasten/* hi ZettelkastenHeader cterm=bold gui=bold
     " Set path to make gf and search from both Zettelkasten systems.
-    autocmd BufRead */zettelkasten/* set path+=/Users/kristof/Documents/zettelkasten/**
-    autocmd BufRead */zettelkasten/* set path+=/Users/victor/Documents/zettelkasten/**
+    autocmd BufRead */zettelkasten/* setlocal path+=/Users/kristof/Documents/zettelkasten/**
+    autocmd BufRead */zettelkasten/* setlocal path+=/Users/victor/Documents/zettelkasten/**
     " Set filetype for zettelkasten config.
-    autocmd BufRead .zettelkastenrc set filetype=bash
+    autocmd BufRead .zettelkastenrc setlocal filetype=bash
 augroup end
 
 " }}}
@@ -201,9 +213,9 @@ set autoindent              " Indent when moving to the next line while writing
 " Make backspaces more powerful
 set backspace=indent,eol,start
 " Add blank line above cursor
-nnoremap J o<ESC>k
+" nnoremap J o<ESC>k
 " Add blank line below cursor
-nnoremap K O<ESC>j
+" nnoremap K O<ESC>j
 " Add one space on the left side of the cursor.
 " nnoremap H i <ESC>l
 " Add one space on the right side of the cursor.
@@ -268,10 +280,16 @@ nnoremap <silent> <BS> :nohlsearch<CR>
 vnoremap <Leader>r y:%s/\(<C-r>=escape(@",'\$')<CR>\)/
 " Search for selected term
 vnoremap / y/<C-r>"<CR>N
+" Show number of matches in the command-line (vim-cool plugin)
+let g:CoolTotalMatches = 1
 
 " }}}
 " SPELLING {{{
 
+" Turnon French spelllang.
+nnoremap <Leader>sfr :set spelllang=fr<CR>
+" Turnon English spelllang.
+nnoremap <Leader>sen :set spelllang=en<CR>
 " Fix spelling error
 nnoremap <Leader>ff 1z=
 " Fix previous spelling error and come back to position
@@ -280,7 +298,7 @@ nnoremap <Leader>fp [s1z=<C-o>
 nnoremap <Leader>fn ]s1z=<C-o>
 " Fix last spelling error from insert mode
 " inoremap <C-f> <C-[>[s1z=<C-o>a
-inoremap <C-f> <C-g>u<Esc>[s1z=`]a<C-g>u
+inoremap <C-z> <C-g>u<Esc>[s1z=`]a<C-g>u
 " Set Thesaurus file in English
 " Source: https://github.com/vim/vim/issues/629#issuecomment-443293282
 set thesaurus=~/.vim/thesaurus/english.txt
@@ -310,6 +328,13 @@ set formatoptions=cqn1j
 
 " Switch between alternate buffers (this is one of my killer mappings)
 nnoremap <Tab> <C-^>
+" Open the alternate buffer in a vertical split.
+nnoremap <Leader><Tab> :vs #<CR>
+" Command suggested in .vimrc_example to see the changes in a buffer since the
+" file was loaded.
+command! DiffOrig
+        \ vert new | set bt=nofile | r ++edit # | 0d_
+        \ | diffthis | wincmd p | diffthis
 " Automatically reload files when changed from outside vim
 set autoread
 " Visual autocomplete for command menu
@@ -355,6 +380,21 @@ nnoremap <expr> j v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'j' : 'gj'
 nnoremap <expr> k v:count ? (v:count >= 5 ? "m'" . v:count : '') . 'k' : 'gk'
 
 " }}}
+" TEXT OBJECTS {{{
+
+" Line text objects.
+xnoremap il g_o^
+onoremap il :<C-u>normal vil<CR>
+xnoremap al $o0
+onoremap al :<C-u>normal val<CR>
+" Argument text objects.
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
+
+
+" }}}
 " {{{ INSERT MODE
 
 " Go to end of line
@@ -363,7 +403,8 @@ inoremap AA <C-[>A
 inoremap II <C-[>I
 " Start new line
 inoremap OO <C-[>o
-
+" Break undo sequence before deleting until the end of the line.
+inoremap <C-U> <C-G>u<C-U>
 " }}}
 " VISUAL MODE {{{
 
@@ -374,15 +415,29 @@ vnoremap < <gv
 vnoremap > >gv
 
 "}}}
-" VIMCOMPLETESME {{{
+" GREP {{{
 
-" Enables to enter the selection rather than inserting a new line.
-" Note: for this mapping to work in Markdown, you must disable mkdx.enter.
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Set grep program.
+set grepprg=ag\ --vimgrep
+set grepformat=%f:%l:%c:%m
+
+"}}}
+" COMPLETION {{{
+
 " Start at the end of the completion menu, do not automatically complete.
 set completeopt+=longest
 
-"}}}
+" }}}
+" SIDEWAYS {{{
+
+" Mappings to swap arguments.
+nnoremap <silent> g< :SidewaysLeft<cr>
+nnoremap <silent> g> :SidewaysRight<cr>
+" Mappings for argument movements.
+nnoremap <silent> [a :SidewaysJumpLeft<cr>
+nnoremap <silent> ]a :SidewaysJumpRight<cr>
+
+" }}}
 " CLEVER-F {{{
 
 " Fix direction of search.
@@ -397,22 +452,6 @@ let g:clever_f_mark_char_color = "Search"
 let g:clever_f_mark_direct = 1
 " Set color of characters to which you can jump.
 let g:clever_f_mark_direct_color = "Search"
-
-" }}}
-" NETRW {{{
-
-" Open Netrw
-nnoremap <Leader>t :Lexplore<CR>
-" Tree is default view
-let g:netrw_liststyle = 3
-" Explore window takes 20% of available space
-let g:netrw_winsize = 20
-" Remove the banner
-let g:netrw_banner = 0
-" Open in previous window
-let g:netrw_browse_split = 4
-" Open the split on the right and keep the tree on the left
-let g:netrw_altv = 1
 
 " }}}
 " BBYE {{{
@@ -555,7 +594,7 @@ augroup markdown
     autocmd FileType markdown ab eg e.g.,
     autocmd FileType markdown ab ie i.e.,
     " Highlight Wiki-like URLs: [[path/or/url/...]]
-    autocmd FileType markdown syn match markdownWikiURL '\[\[\zs[^]]*\ze\]\]'
+    autocmd FileType markdown syn match markdownWikiURL '\[\[\zs[^]]\{-}\ze\]\]'
     autocmd FileType markdown hi link markdownWikiURL markdownUrl
 augroup END
 
@@ -600,8 +639,9 @@ augroup END
 " }}}
 " ULTISNIPS {{{
 
+
 " Set expand trigger.
-let g:UltiSnipsExpandTrigger = '<C-j>'
+let g:UltiSnipsExpandTrigger = '<C-]>'
 " Show snippets list.
 let g:UltiSnipsListSnippets = '<C-l>'
 " UtliSnipsEdit opens in vertical window.
