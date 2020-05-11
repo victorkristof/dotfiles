@@ -40,8 +40,6 @@ Plug 'vim-python/python-syntax'
 Plug 'hynek/vim-python-pep8-indent'
 " Python syntax checking
 Plug 'nvie/vim-flake8'
-" No-BS Python code folding
-Plug 'tmhedberg/simpylfold'
 " Light-weight tab-completion
 Plug 'ajh17/vimcompletesme'
 " Markdown
@@ -68,6 +66,11 @@ Plug 'victorkristof/vim-textobj-xmlattr'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 " The ultimate snippets solution for Vim.
 Plug 'sirver/ultisnips'
+" Fuzzy-finder.
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" Easily search for, substitute, and abbreviate multiple variants of a word.
+Plug 'tpope/vim-abolish'
 
 " Initialize plugin system
 call plug#end()
@@ -115,23 +118,23 @@ nnoremap <Leader>mk :!make<CR>
 " JOURNAL {{{
 
 " Bring up journal (with capital if problems with mark)
-nnoremap <CR>J :tabe ~/Documents/research/journal.md<CR>
-nnoremap <CR><CR> :tabnew<CR>`J
+nnoremap <leader>J :tabe ~/Documents/research/journal.md<CR>
+nnoremap <leader>j :tabnew<CR>`J
 " Bring up reading list
-nnoremap <CR>R :tabe ~/Documents/research/reading-list.md<CR>
-nnoremap <CR>r :tabnew<CR>`R
+nnoremap <leader><leader>R :tabe ~/Documents/research/reading-list.md<CR>
+nnoremap <leader><leader>r :tabnew<CR>`R
 " Bring up ideas file
-nnoremap <CR>i :tabe ~/Documents/research/ideas.md<CR>
+nnoremap <leader><leader>i :tabe ~/Documents/research/ideas.md<CR>
 " nnoremap <CR>i :tabnew<CR>`I
 " Bring up snippets
-nnoremap <CR>S :tabe ~/Documents/research/snippets.md<CR>
-nnoremap <CR>s :tabnew<CR>`S
+nnoremap <leader><leader>S :tabe ~/Documents/research/snippets.md<CR>
+nnoremap <leader><leader>s :tabnew<CR>`S
 " Bring up learn file
-nnoremap <CR>L :tabe ~/Documents/research/learn.md<CR>
-nnoremap <CR>l :tabnew<CR>`L
+nnoremap <leader><leader>L :tabe ~/Documents/research/learn.md<CR>
+nnoremap <leader><leader>l :tabnew<CR>`L
 " Bring up blog file
-nnoremap <CR>B :tabe ~/Documents/research/blog.md<CR>
-nnoremap <CR>b :tabnew<CR>`B
+nnoremap <leader><leader>B :tabe ~/Documents/research/blog.md<CR>
+nnoremap <leader><leader>b :tabnew<CR>`B
 
 augroup specialfiles
     autocmd!
@@ -150,6 +153,34 @@ augroup specialfiles
     autocmd BufRead reading-list.md nnoremap <buffer> <C-x> m'dd'rjp0lli<C-r>=strftime('%d-%m-%Y')<CR>: <C-[>''
     " Add new link to list
     autocmd BufRead reading-list.md nnoremap <buffer> <Localleader>nl o- [](<C-r>*)<C-[>03li
+augroup end
+
+" }}}
+" ZETTELKASTEN {{{
+
+" Set template for new notes.
+" let g:zettel_template = [{"template" : "~/Documents/zettelkasten/template.tpl"}]
+
+" Set filename
+" let g:zettel_format = "%Y%m%d%H%M"
+
+augroup zettelkasten
+    autocmd!
+    " Add source link (assume the link is copied in the pasteboard).
+    autocmd BufRead */zettelkasten/reference-notes/* nnoremap <buffer> <Localleader>ns gg:call search("Source:")<CR>A <C-R>*
+    autocmd BufRead */zettelkasten/slip-box/* nnoremap <buffer> <Localleader>nr gg:call search("References:")<CR>o<Tab>-
+    autocmd BufRead */zettelkasten/* nnoremap <buffer> <Localleader>nt gg:call search("Tags:")<CR>A #
+    " Highlight tags.
+    autocmd BufRead */zettelkasten/* syn match ZettelkastenTags '#[a-zA-Z0-9-]\+\ze'
+    autocmd BufRead */zettelkasten/* hi ZettelkastenTags cterm=bold ctermfg=4 gui=bold guifg=Blue
+    " Highlight header.
+    autocmd BufRead */zettelkasten/* syn match ZettelkastenHeader '\v^(Date|Tags|References|Source):'
+    autocmd BufRead */zettelkasten/* hi ZettelkastenHeader cterm=bold gui=bold
+    " Set path to make gf and search from both Zettelkasten systems.
+    autocmd BufRead */zettelkasten/* set path+=/Users/kristof/Documents/zettelkasten/**
+    autocmd BufRead */zettelkasten/* set path+=/Users/victor/Documents/zettelkasten/**
+    " Set filetype for zettelkasten config.
+    autocmd BufRead .zettelkastenrc set filetype=bash
 augroup end
 
 " }}}
@@ -277,7 +308,7 @@ set formatoptions=cqn1j
 " }}}
 " FILES AND BUFFERS {{{
 
-" Switch between alternate buffers (this is one of my killer mapping)
+" Switch between alternate buffers (this is one of my killer mappings)
 nnoremap <Tab> <C-^>
 " Automatically reload files when changed from outside vim
 set autoread
@@ -288,15 +319,15 @@ set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico
 set wildignore+=*.pkl,*.npy,*.spy
 set wildignore+=*.pdf,*.psd
 " Edit new file in current window
-nnoremap <Leader>e :e **/*
+nnoremap <Leader>e :Files<CR>
 " Edit new file in vertical split buffer
-nnoremap <leader>E :vs **/*
+" nnoremap <leader>E :vs **/*
 " Set ctrl-z as trigger to autocompletion in macros
-set wildcharm=<C-z>
+" set wildcharm=<C-z>
 " List buffers and open prompt
-nnoremap <leader>b :buffer <C-z><S-Tab>
+nnoremap <leader>b :Buffers<CR>
 " List buffers and open prompt, enter will open in split
-nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
+" nnoremap <leader>B :vert :sbuffer <C-z><S-Tab>
 
 " }}}
 " WINDOWS {{{
@@ -332,8 +363,6 @@ inoremap AA <C-[>A
 inoremap II <C-[>I
 " Start new line
 inoremap OO <C-[>o
-" Put yank register
-inoremap <C-p> <C-r>"
 
 " }}}
 " VISUAL MODE {{{
@@ -343,6 +372,15 @@ vnoremap . :norm.<CR>
 " Visual shifting (does not exit visual mode)
 vnoremap < <gv
 vnoremap > >gv
+
+"}}}
+" VIMCOMPLETESME {{{
+
+" Enables to enter the selection rather than inserting a new line.
+" Note: for this mapping to work in Markdown, you must disable mkdx.enter.
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Start at the end of the completion menu, do not automatically complete.
+set completeopt+=longest
 
 "}}}
 " CLEVER-F {{{
@@ -392,16 +430,6 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 " Match line number column background
 highlight! link SignColumn LineNr
-
-" }}}
-" SIMPYLFOLD {{{
-
-" Do not fold doc string
-let g:SimpylFold_fold_docstring = 0
-" Enable preview of docstring
-let g:SimpylFold_docstring_preview = 0
-" " Do not fold imports
-let g:SimpylFold_fold_import = 0
 
 " }}}
 " AIRLINE {{{
@@ -497,16 +525,21 @@ augroup END
 " }}}
 " MARKDOWN {{{
 
+" Map prefix to localleader
 let g:mkdx#map_prefix = '<localleader>'
 " Strike with ~
-let g:mkdx#settings = { 'tokens': { 'strike' : '~' } }
+" let g:mkdx#settings = { 'tokens': { 'strike': '~' } }
+" Disable complete link to make VimCompletesMe work correctly.
+let g:mkdx#settings = { 'links': { 'fragment': { 'complete': 0 } } }
 " Remap inline code formattig
 nmap <localleader>c <Plug>(mkdx-mapping-wrap-text-in-backticks)
 vmap <localleader>c <Plug>(mkdx-mapping-wrap-text-in-backticks)
 " Remap toggle quote
 nmap <localleader>q <Plug>(mkdx-toggle-quote-n)
 vmap <localleader>q <Plug>(mkdx-toggle-quote-v)
-
+" Remap wrap text in link
+nmap <localleader>nl <Plug>(mkdx-wrap-link-n)
+vmap <localleader>nl <Plug>(mkdx-wrap-link-v)
 " Remap checkbox ticking
 nmap <localleader>x <Plug>(mkdx-checkbox-next)
 vmap <localleader>x <Plug>(mkdx-checkbox-next)
@@ -516,11 +549,19 @@ vmap <localleader>X <Plug>(mkdx-checkbox-prev)
 nmap <localleader>i <Plug>(mkdx-text-italic-n)
 vmap <localleader>i <Plug>(mkdx-text-italic-v)
 
+augroup markdown
+    autocmd!
+    " Abbreviations
+    autocmd FileType markdown ab eg e.g.,
+    autocmd FileType markdown ab ie i.e.,
+    " Highlight Wiki-like URLs: [[path/or/url/...]]
+    autocmd FileType markdown syn match markdownWikiURL '\[\[\zs[^]]*\ze\]\]'
+    autocmd FileType markdown hi link markdownWikiURL markdownUrl
+augroup END
+
 " }}}
 " LATEX {{{
 
-" Enable folding
-let g:vimtex_fold_enabled = 1
 " Default .tex files to tex format
 let g:tex_flavor = 'latex'
 " Diable some warnings
@@ -539,16 +580,6 @@ augroup latex
     autocmd FileType tex,bib setlocal shiftwidth=2
     " Conceal level set to 0.
     autocmd FileType tex setlocal conceallevel=0
-    " Disable colorcolumn.
-    " autocmd FileType tex setlocal colorcolumn=
-    " Italics.
-    " autocmd FileType tex nnoremap <buffer> <Localleader>i i\textit{}<Left>
-    " autocmd FileType tex inoremap <C-l>i \textit{
-    " autocmd FileType tex xnoremap <buffer> <Localleader>i c\textit{<C-r>"}<C-[>
-    " Bold.
-    " autocmd FileType tex nnoremap <buffer> <Localleader>b b\textbf{}<Left>
-    " autocmd FileType tex inoremap <C-l>b \textbf{
-    " autocmd FileType tex xnoremap <buffer> <Localleader>b c\textbf{<C-r>"}<C-[>
 augroup END
 
 " }}}
@@ -570,11 +601,11 @@ augroup END
 " ULTISNIPS {{{
 
 " Set expand trigger.
-let g:UltiSnipsExpandTrigger = "<C-t>"
+let g:UltiSnipsExpandTrigger = '<C-j>'
 " Show snippets list.
-let g:UltiSnipsListSnippets = "<C-l>"
+let g:UltiSnipsListSnippets = '<C-l>'
 " UtliSnipsEdit opens in vertical window.
-let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsEditSplit = 'vertical'
 " Set directories.
 let g:UltiSnipsSnippetDirectories = [$HOME . '/.vim/ultisnips', 'ultisnips']
 
@@ -598,10 +629,6 @@ let g:tmuxline_preset = {
 " Wrapped in augroup to ensure autocmd are applied only once
 augroup configgroup
     autocmd!
-    " Save file when leaving insert mode
-    autocmd InsertLeave *.* :w
-    " Save file when losing focus
-    " autocmd FocusLost * :wa
     " Remove all useless white spaces
     autocmd BufWritePre * :call StripTrailingWhitespaces()
     " Spell checks Git commits
