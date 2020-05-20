@@ -4,8 +4,8 @@ if [ -f ~/.bashrc ]; then
 fi
 
 # Load Zettelkasten config.
-if [ -f ~/.zettelkasten_config ]; then
-   source ~/.zettelkasten_config
+if [ -f ~/.zettelkastenrc ]; then
+   source ~/.zettelkastenrc
 fi
 
 # User install (Homebrew) program have priority
